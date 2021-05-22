@@ -20,8 +20,10 @@ import org.frcteam2910.common.math.Rotation2;
 import org.frcteam2910.common.math.Vector2;
 import org.frcteam2910.common.robot.UpdateManager;
 import org.frcteam2910.common.robot.drivers.Mk3SwerveModule;
+import org.frcteam2910.common.robot.drivers.NavX;
 import org.frcteam2910.common.robot.drivers.Pigeon;
 import org.frcteam2910.common.util.HolonomicDriveSignal;
+import edu.wpi.first.wpilibj.SPI;
 
 
 public class DrivetrainSubsystem implements Subsystem, UpdateManager.Updatable {
@@ -41,7 +43,7 @@ public class DrivetrainSubsystem implements Subsystem, UpdateManager.Updatable {
 
     private final Object sensorLock = new Object();
     @GuardedBy("sensorLock")
-    private Gyroscope gyroscope = new Pigeon(Constants.PIGEON_PORT);
+    Gyroscope gyroscope = new NavX(SPI.Port.kMXP);
 
     private final Object kinematicsLock = new Object();
     @GuardedBy("kinematicsLock")
@@ -182,6 +184,17 @@ public class DrivetrainSubsystem implements Subsystem, UpdateManager.Updatable {
                     gyroscope.getUnadjustedAngle().rotateBy(angle.inverse())
             );
         }
+    }
+
+    public double getGyroAngle(){
+        double angle = 0;
+        
+
+        synchronized (sensorLock) {
+            angle = gyroscope.getAngle().toDegrees();
+        }
+        return angle;
+
     }
 
     public void resetWheelAngles() {

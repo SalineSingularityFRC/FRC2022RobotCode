@@ -6,6 +6,7 @@ import org.frcteam2910.mk3.subsystems.*;
 import org.frcteam2910.common.math.Rotation2;
 import org.frcteam2910.common.robot.input.Axis;
 import org.frcteam2910.common.robot.input.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class RobotContainer {
     private final XboxController primaryController = new XboxController(Constants.PRIMARY_CONTROLLER_PORT);
@@ -48,5 +49,9 @@ public class RobotContainer {
 
     public XboxController getPrimaryController() {
         return primaryController;
+    }
+
+    public double getGyroAngle(){
+        return drivetrainSubsystem.getGyroAngle();
     }
 }
