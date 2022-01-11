@@ -64,7 +64,7 @@ public class DrivetrainSubsystem implements Subsystem, UpdateManager.Updatable {
 
     public DrivetrainSubsystem() {
         synchronized (sensorLock) {
-            gyroscope.setInverted(false);
+            gyroscope.setInverted(true);
         }
 
         TalonFX frontLeftSteeringMotor = new TalonFX(Constants.DRIVETRAIN_FRONT_LEFT_ANGLE_MOTOR);
