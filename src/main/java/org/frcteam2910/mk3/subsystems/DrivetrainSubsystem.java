@@ -5,6 +5,8 @@ import com.ctre.phoenix.sensors.CANCoder;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.SPI.Port;
+//import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
@@ -20,7 +22,8 @@ import org.frcteam2910.common.math.Rotation2;
 import org.frcteam2910.common.math.Vector2;
 import org.frcteam2910.common.robot.UpdateManager;
 import org.frcteam2910.common.robot.drivers.Mk3SwerveModule;
-import org.frcteam2910.common.robot.drivers.Pigeon;
+import org.frcteam2910.common.robot.drivers.NavX;
+//import org.frcteam2910.common.robot.drivers.Pigeon;
 import org.frcteam2910.common.util.HolonomicDriveSignal;
 
 
@@ -41,7 +44,8 @@ public class DrivetrainSubsystem implements Subsystem, UpdateManager.Updatable {
 
     private final Object sensorLock = new Object();
     @GuardedBy("sensorLock")
-    private Gyroscope gyroscope = new Pigeon(Constants.PIGEON_PORT);
+    //private Gyroscope gyroscope = new Pigeon(Constants.PIGEON_PORT);
+    Gyroscope gyroscope = new NavX(Port.kMXP);
 
     private final Object kinematicsLock = new Object();
     @GuardedBy("kinematicsLock")
@@ -62,7 +66,7 @@ public class DrivetrainSubsystem implements Subsystem, UpdateManager.Updatable {
 
     public DrivetrainSubsystem() {
         synchronized (sensorLock) {
-            gyroscope.setInverted(false);
+            gyroscope.setInverted(true);
         }
 
         TalonFX frontLeftSteeringMotor = new TalonFX(Constants.DRIVETRAIN_FRONT_LEFT_ANGLE_MOTOR);
