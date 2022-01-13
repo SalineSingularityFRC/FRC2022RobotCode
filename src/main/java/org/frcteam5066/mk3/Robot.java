@@ -1,8 +1,8 @@
-package org.frcteam2910.mk3;
+package org.frcteam5066.mk3;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import org.frcteam2910.common.robot.UpdateManager;
+import org.frcteam5066.common.robot.UpdateManager;
 
 public class Robot extends TimedRobot {
     private RobotContainer robotContainer;
