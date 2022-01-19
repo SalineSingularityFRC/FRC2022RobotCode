@@ -1,28 +1,30 @@
-package org.frcteam2910.mk3.subsystems;
+package org.frcteam5066.mk3.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.SPI.Port;
+//import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Subsystem;
-import org.frcteam2910.mk3.Constants;
-import org.frcteam2910.common.drivers.Gyroscope;
-import org.frcteam2910.common.kinematics.ChassisVelocity;
-import org.frcteam2910.common.kinematics.SwerveKinematics;
-import org.frcteam2910.common.kinematics.SwerveOdometry;
-import org.frcteam2910.common.math.RigidTransform2;
-import org.frcteam2910.common.math.Rotation2;
-import org.frcteam2910.common.math.Vector2;
-import org.frcteam2910.common.robot.UpdateManager;
-import org.frcteam2910.common.robot.drivers.Mk3SwerveModule;
-import org.frcteam2910.common.robot.drivers.NavX;
-import org.frcteam2910.common.robot.drivers.Pigeon;
-import org.frcteam2910.common.util.HolonomicDriveSignal;
+import org.frcteam5066.mk3.Constants;
+import org.frcteam5066.common.drivers.Gyroscope;
+import org.frcteam5066.common.kinematics.ChassisVelocity;
+import org.frcteam5066.common.kinematics.SwerveKinematics;
+import org.frcteam5066.common.kinematics.SwerveOdometry;
+import org.frcteam5066.common.math.RigidTransform2;
+import org.frcteam5066.common.math.Rotation2;
+import org.frcteam5066.common.math.Vector2;
+import org.frcteam5066.common.robot.UpdateManager;
+import org.frcteam5066.common.robot.drivers.Mk3SwerveModule;
+import org.frcteam5066.common.robot.drivers.NavX;
+import org.frcteam5066.common.robot.drivers.Pigeon;
+import org.frcteam5066.common.util.HolonomicDriveSignal;
 import edu.wpi.first.wpilibj.SPI;
 
 
@@ -43,7 +45,8 @@ public class DrivetrainSubsystem implements Subsystem, UpdateManager.Updatable {
 
     private final Object sensorLock = new Object();
     @GuardedBy("sensorLock")
-    Gyroscope gyroscope = new NavX(SPI.Port.kMXP);
+    //private Gyroscope gyroscope = new Pigeon(Constants.PIGEON_PORT);
+    Gyroscope gyroscope = new NavX(Port.kMXP);
 
     private final Object kinematicsLock = new Object();
     @GuardedBy("kinematicsLock")
@@ -64,7 +67,7 @@ public class DrivetrainSubsystem implements Subsystem, UpdateManager.Updatable {
 
     public DrivetrainSubsystem() {
         synchronized (sensorLock) {
-            gyroscope.setInverted(false);
+            gyroscope.setInverted(true);
         }
 
         TalonFX frontLeftSteeringMotor = new TalonFX(Constants.DRIVETRAIN_FRONT_LEFT_ANGLE_MOTOR);

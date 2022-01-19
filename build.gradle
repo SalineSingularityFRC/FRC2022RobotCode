@@ -9,7 +9,7 @@ sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
 
 application {
-    mainClassName "org.frcteam2910.mk3.Main"
+    mainClassName "org.frcteam5066.mk3.Main"
 }
 
 wpi {

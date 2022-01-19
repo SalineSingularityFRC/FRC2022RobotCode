@@ -1,11 +1,11 @@
-package org.frcteam2910.mk3;
+package org.frcteam5066.mk3;
 
 import edu.wpi.first.wpilibj2.command.*;
-import org.frcteam2910.mk3.commands.DriveCommand;
-import org.frcteam2910.mk3.subsystems.*;
-import org.frcteam2910.common.math.Rotation2;
-import org.frcteam2910.common.robot.input.Axis;
-import org.frcteam2910.common.robot.input.XboxController;
+import org.frcteam5066.mk3.commands.DriveCommand;
+import org.frcteam5066.mk3.subsystems.*;
+import org.frcteam5066.common.math.Rotation2;
+import org.frcteam5066.common.robot.input.Axis;
+import org.frcteam5066.common.robot.input.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class RobotContainer {
