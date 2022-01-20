@@ -188,6 +188,17 @@ public class DrivetrainSubsystem implements Subsystem, UpdateManager.Updatable {
         }
     }
 
+    public double getGyroAngle(){
+        double angle = 0;
+        
+
+        synchronized (sensorLock) {
+            angle = gyroscope.getAngle().toDegrees();
+        }
+        return angle;
+
+    }
+
     public void resetWheelAngles() {
         for (Mk3SwerveModule module : modules) {
             module.resetAngleOffsetWithAbsoluteEncoder();

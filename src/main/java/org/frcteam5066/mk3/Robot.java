@@ -7,6 +7,7 @@ import org.frcteam5066.common.robot.UpdateManager;
 public class Robot extends TimedRobot {
     private RobotContainer robotContainer;
     private UpdateManager updateManager;
+    
 
     @Override
     public void robotInit() {
@@ -19,11 +20,12 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotPeriodic() {
-        CommandScheduler.getInstance().run();
+        CommandScheduler.getInstance().run();        
     }
 
     @Override
     public void autonomousInit() {
+
     }
 
     @Override

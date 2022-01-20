@@ -49,4 +49,8 @@ public class RobotContainer {
     public XboxController getPrimaryController() {
         return primaryController;
     }
+
+    public double getGyroAngle(){
+        return drivetrainSubsystem.getGyroAngle();
+    }
 }
