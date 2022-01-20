@@ -44,12 +44,8 @@ public class DrivetrainSubsystem implements Subsystem, UpdateManager.Updatable {
 
     private final Object sensorLock = new Object();
     @GuardedBy("sensorLock")
-<<<<<<< HEAD:src/main/java/org/frcteam2910/mk3/subsystems/DrivetrainSubsystem.java
-    Gyroscope gyroscope = new NavX(SPI.Port.kMXP);
-=======
     //private Gyroscope gyroscope = new Pigeon(Constants.PIGEON_PORT);
     Gyroscope gyroscope = new NavX(Port.kMXP);
->>>>>>> 88f660bfc0ff7eb9536e60ba6823773efd492859:src/main/java/org/frcteam5066/mk3/subsystems/DrivetrainSubsystem.java
 
     private final Object kinematicsLock = new Object();
     @GuardedBy("kinematicsLock")
