@@ -1,0 +1,150 @@
+{
+    "SwerveDrive": {
+        "Motors": [
+            {
+                "Name": "FL_Angle",
+                "ControlMethod": "Angle",
+                "Type": "Falcon",
+                "CanID":1,
+                "Coast":false,
+                "CanCoderID":41
+            },
+            {
+                "Name": "FL_Wheel",
+                "Type": "Falcon",
+                "CanID":2
+            },
+            {
+                "Name": "FR_Angle",
+                "ControlMethod": "Angle",
+                "Type": "Falcon",
+                "CanID":3,
+                "Coast":false,
+                "CanCoderID":42
+            },
+            {
+                "Name": "FR_Wheel",
+                "Type": "Falcon",
+                "CanID":4
+
+            },
+            {
+                "Name": "BL_Angle",
+                "ControlMethod": "Angle",
+                "Type": "Falcon",
+                "CanID":5,
+                "Coast":false,
+                "CanCoderID":43
+            },
+            {
+                "Name": "BL_Wheel",
+                "Type": "Falcon",
+                "CanID":6
+            },
+            {
+                "Name": "BR_Angle",
+                "ControlMethod": "Angle",
+                "Type": "Falcon",
+                "CanID":7,
+                "Coast":false,
+                "CanCoderID":44
+            },
+            {
+                "Name": "BR_Wheel",
+                "Type": "Falcon",
+                "CanID":8
+
+            }
+        ],
+        "Speeds":{
+            "Slow":0.3,
+            "Normal": 1.0,
+            "Fast": 1.3
+        }
+
+        
+    },
+    "Chassis": {
+        "Length": 10,
+        "Width": 10
+    },
+    "Shooter":{
+        "Motors":[
+            {
+                "Name":"Flywheel1",
+                "Type":"Spark",
+                "CanID":1,
+                "ControlMethod":"Velocity",
+                "PID": {
+                    "kP": 1.00,
+                    "kI": 1.00,
+                    "kD": 1.00
+                },
+                "IsMotorInverted":true
+                
+
+            },
+            {
+                "Name":"Flywheel2",
+                "Type":"Spark",
+                "CanID":2,
+                "ControlMethod":"Velocity",
+                "PID": {
+                    "kP": 1.00,
+                    "kI": 1.00,
+                    "kD": 1.00
+                },
+                "Following":1,
+                "IsMotorInverted":false
+            },
+            {
+                "Name":"FeederMotor",
+                "Type":"Spark",
+                "CanID":3,
+                "ControlMethod":"Velocity",
+                "PID": {
+                    "kP": 1.00,
+                    "kI": 1.00,
+                    "kD": 1.00
+                },
+                "IsMotorInverted":false
+            }
+        ]
+    },
+    "Limelight":{
+        "kP_Distance": 0.055,
+        "kP_Heading": 0.055
+    },
+    "DefaultConfig": {
+        "Falcon": {
+            "CanID": 0,
+            "IsMotorInverted": false,
+            "ControlMethod": "Rotations",
+            "PID": {
+                "kP": 1.00,
+                "kI": 1.00,
+                "kD": 1.00
+            },
+            "Following":-1,
+            "Coast":true,
+            "RampRate": 0.25,
+            "SensorType":1,
+            "LimitStateNO":true,
+            "CanCoderID":-1
+
+        },
+        "Spark": {
+            "CanID": 0,
+            "IsMotorInverted": false,
+            "ControlMethod": "Rotations",
+            "PID": {
+                "kP": 1.00,
+                "kI": 1.00,
+                "kD": 1.00
+            },
+            "Following":-1,
+            "Coast":true
+        }
+        
+    }
+}
