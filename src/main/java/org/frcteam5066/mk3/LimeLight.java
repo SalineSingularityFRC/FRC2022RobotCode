@@ -18,7 +18,7 @@ public class LimeLight{
         tx = table.getEntry("tx");
         // vertical offset of cross hair to target
         ty = table.getEntry("ty");
-        //target area: 0% of image to 100%
+        //target area: 0% of image to 100%   
         ta = table.getEntry("ta");
         // valid target: 0 - invalid, 1 - valid
         tv = table.getEntry("tv");
