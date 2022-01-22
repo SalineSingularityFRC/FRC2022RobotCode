@@ -178,7 +178,7 @@ public class Spark implements MotorController {
 
         this.printEncoderPosition();
 
-        percentOutput = SingDrive.threshold(percentOutput);
+        percentOutput = 0.05;
 
         SmartDashboard.putNumber(name + " percent output", percentOutput);
         this.setSpeed(percentOutput);
@@ -345,7 +345,8 @@ public class Spark implements MotorController {
         }
 
         //Takes in the joystick value and makes sure it is above the threshold value set in singdrive
-        joystickControl = SingDrive.threshold(joystickControl);
+        //SET DISCRETELY NOW BECAUSE SINGDRIVE NO LONGER EXISTS
+        joystickControl = 0.05;
         
         //Making sure the joystick value is only changed once with if/else statement
         if (joystickControl != previousJoystick) {

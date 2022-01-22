@@ -4,8 +4,8 @@ import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 
-import org.frcteam5066.mk3.json.simple.*;
-import org.frcteam5066.mk3.json.simple.parser.*;
+import org.json.simple.*;
+import org.json.simple.parser.*;
 
 public class SparkBuilder {
     private CANSparkMax m_motor;

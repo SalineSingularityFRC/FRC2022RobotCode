@@ -1,8 +1,9 @@
 package org.frcteam5066.mk3.subsystems.controllers.controlSchemes;
 
-import frc.controller.*;
-import frc.robot.*;
-import frc.singularityDrive.*;
+import org.frcteam5066.mk3.subsystems.controllers.*;
+import org.frcteam5066.mk3.LimeLight;
+import org.frcteam5066.mk3.Robot;
+
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.XboxController;
@@ -20,42 +21,21 @@ public class Test extends ControlScheme{
     XboxController driveController;
     XboxController armController;
 
-    public void colorSensor(ColorSensor colorSensor) {
-        
-    }
+    
 
     public Test(int driveControllerPort, int armControllerPort){
         driveController = new XboxController(driveControllerPort);
         armController = new XboxController(armControllerPort);
     }
 
-    public void drive(SingDrive drive, DrivePneumatics pneumatics) {
+
+
+    @Override
+    public void ledMode(LimeLight limeLight) {
+        // TODO Auto-generated method stub
         
     }
 
-    public void smartDrive(SmartSingDrive drive, DrivePneumatics pneumatics) {
-        
-    }
-
-    public void conveyorFlywheel(Conveyor conveyor, Flywheel flywheel) {
-        
-    }
-
-    public void climber(Climber climber) {
-        
-    }
-
-    public void climberReset(Climber climber) {
-        
-    }
-
-
-    public void ledMode(LimeLight limeLight){
-        
-    }
-
-    public void limeLightDrive(LimeLight limeLight, SmartSingDrive drive, boolean isAuto){
-        
-    }
+    
 
 }
