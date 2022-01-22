@@ -8,6 +8,9 @@ package org.frcteam5066.mk3.subsystems.controllers;
 
 
 import org.frcteam5066.mk3.LimeLight;
+import org.frcteam5066.mk3.subsystems.Intake;
+import org.frcteam5066.mk3.subsystems.Shooter;
+
 import com.kauailabs.navx.frc.AHRS;
 
 
@@ -19,10 +22,13 @@ import com.kauailabs.navx.frc.AHRS;
  */
 
 public abstract class ControlScheme {
+
+	public abstract void intakeConveyer(Intake intake);
+	public abstract void flywheel(Shooter flywheel);
 	
 	
 	
-	public abstract void ledMode(LimeLight limeLight);
+	//public abstract void ledMode(LimeLight limeLight);
 	//public abstract void limeLightDrive(LimeLight limeLight, SmartSingDrive drive, boolean runLimeLight);
 	//public abstract boolean limeLightDrive( LimeLight limeLight, SingDrive drive, AHRS gyro, boolean LLDriveButton);
 	//public abstract boolean limeLightDrive( LimeLight limeLight, SingDrive drive, AHRS gyro, boolean isAuto);
@@ -30,6 +36,8 @@ public abstract class ControlScheme {
 	// In addation to defining our various different mechanisms to be expanded upon in subclasses (other controlSchemes, i.e. ArcadeDrive),
 	// various different methods to interact with the gyro are also included in here. Why? I don't know, but they can be accessed anywhere from
 	// here so I don't want to move them.
+
+
 
 	
 	/**

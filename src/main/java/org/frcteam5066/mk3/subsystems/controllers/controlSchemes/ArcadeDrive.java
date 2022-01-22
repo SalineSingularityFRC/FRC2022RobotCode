@@ -1,6 +1,8 @@
 package org.frcteam5066.mk3.subsystems.controllers.controlSchemes;
 
 import org.frcteam5066.mk3.LimeLight;
+import org.frcteam5066.mk3.subsystems.Intake;
+import org.frcteam5066.mk3.subsystems.Shooter;
 import org.frcteam5066.mk3.subsystems.controllers.*;
 
 import edu.wpi.first.wpilibj.smartdashboard.*;
@@ -49,11 +51,13 @@ public class ArcadeDrive extends ControlScheme {
 
     }
 
-    @Override
+    /*@Override
     public void ledMode(LimeLight limeLight) {
         // TODO Auto-generated method stub
         
-    }
+    }*/
+
+
 
     
 
@@ -69,6 +73,47 @@ public class ArcadeDrive extends ControlScheme {
      * method that controls the conveyor, collector, and flywheel as the three need to move together
      * 
      */
+
+     public void intakeConveyer(Intake intake){
+        
+        if(armController.getLB()){
+            if(armController.getAButton())
+                intake.intakeReject();
+            else intake.intakeCollect();
+        }
+        else{
+            intake.intakeOff();
+        }
+
+        if(armController.getRB()){
+            if (armController.getAButton()) 
+                intake.conveyorReject();
+            else intake.conveyorCollect();
+        }
+        else {
+            intake.conveyorOff();
+        }
+     }
+
+    @Override
+    public void flywheel(Shooter flywheel) {
+        if (armController.getTriggerLeft() > .2) {
+            if (armController.getAButton())
+                flywheel.shooterReverse();
+            else flywheel.shooterOn();
+        }
+        else if (armController.getPOVUp()) {
+            flywheel.barf();
+        }
+        else flywheel.shooterOff();
+
+        if (armController.getTriggerRight() > .2) {
+            if (armController.getAButton())
+                flywheel.feederReverse();
+            else flywheel.shoot();
+        }
+        else flywheel.hold();
+    }
     
 
     
