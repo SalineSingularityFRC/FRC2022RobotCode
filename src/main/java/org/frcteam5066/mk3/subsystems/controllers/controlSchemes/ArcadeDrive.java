@@ -1,5 +1,6 @@
 package org.frcteam5066.mk3.subsystems.controllers.controlSchemes;
 
+import org.frcteam5066.common.robot.subsystems.HolonomicDrivetrain;
 import org.frcteam5066.mk3.LimeLight;
 import org.frcteam5066.mk3.subsystems.Intake;
 import org.frcteam5066.mk3.subsystems.Shooter;
@@ -23,6 +24,8 @@ public class ArcadeDrive extends ControlScheme {
     //Create all objects & a speedMode object
     XboxController driveController, armController;
 
+    HolonomicDrivetrain drive;
+
     
 
     boolean lowGear;
@@ -45,8 +48,12 @@ public class ArcadeDrive extends ControlScheme {
         driveController = new XboxController(driveControllerPort);
         armController = new XboxController(armControllerPort);
 
+        
+
         lowGear = true;
         climberExtended = false;
+
+        
         
 
     }
@@ -127,6 +134,10 @@ public class ArcadeDrive extends ControlScheme {
      * Only turns on the painfully bright Limelight LEDs when they're being used
      * @param limelight takes in Limelight object
      */
+
+     public void limeLightDrive(LimeLight limelight){
+         limelight.runLimeLight(HolonomicDrivetrain);
+     }
     
 
 }
