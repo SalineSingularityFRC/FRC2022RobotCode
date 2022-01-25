@@ -32,9 +32,9 @@ deploy {
                 // getTargetTypeClass is a shortcut to get the class type using a string
 
                 frcJava(getArtifactTypeClass('FRCJavaArtifact')) {
-					
+
                 }
-				
+
 
                 // Static files artifact
                 frcStaticFileDeploy(getArtifactTypeClass('FileTreeArtifact')) {
@@ -51,13 +51,9 @@ def deployArtifact = deploy.targets.roborio.artifacts.frcJava
 dependencies {
     compileOnly group: "com.google.errorprone", name: "error_prone_annotations", version: "2.3.4"
 
-    //implementation wpi.deps.wpilib()
-    //nativeZip wpi.deps.wpilibJni(wpi.platforms.roborio)
-    //nativeDesktopZip wpi.deps.wpilibJni(wpi.platforms.desktop)
-
     implementation files("libs/json-simple-1.1.jar")
-	
-	implementation wpi.java.deps.wpilib()
+
+    implementation wpi.java.deps.wpilib()
     implementation wpi.java.vendor.java()
 
     roborioDebug wpi.java.deps.wpilibJniDebug(wpi.platforms.roborio)
@@ -65,12 +61,6 @@ dependencies {
 
     roborioRelease wpi.java.deps.wpilibJniRelease(wpi.platforms.roborio)
     roborioRelease wpi.java.vendor.jniRelease(wpi.platforms.roborio)
-
-    //implementation wpi.deps.vendor.java()
-    //nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)
-    //nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
-
-    //simulation wpi.deps.sim.gui(wpi.platforms.desktop, false)
 
     errorprone group: "com.google.errorprone", name: "error_prone_core", version: "2.3.4"
 
@@ -87,3 +77,4 @@ jar {
 deployArtifact.jarTask = jar
 wpi.java.configureExecutableTasks(jar)
 wpi.java.configureTestTasks(test)
+jar.dependsOn shadowDistZip
