@@ -1,5 +1,6 @@
 package org.frcteam5066.mk3.subsystems.controllers.controlSchemes;
 
+import org.frcteam5066.mk3.subsystems.DrivetrainSubsystem;
 import org.frcteam5066.mk3.subsystems.Intake;
 import org.frcteam5066.mk3.subsystems.Shooter;
 import org.frcteam5066.mk3.subsystems.controllers.*;
@@ -31,6 +32,7 @@ public class Test extends ControlScheme{
     }
 
 
+    
 /*
     @Override
     public void ledMode(LimeLight limeLight) {
@@ -51,6 +53,13 @@ public class Test extends ControlScheme{
 
     @Override
     public void flywheel(Shooter flywheel) {
+        // TODO Auto-generated method stub
+        
+    }
+
+
+    @Override
+    public void limeLightDrive(LimeLight limeLight, DrivetrainSubsystem drive) {
         // TODO Auto-generated method stub
         
     }

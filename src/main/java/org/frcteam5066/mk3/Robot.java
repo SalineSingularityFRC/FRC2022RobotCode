@@ -12,6 +12,8 @@ public class Robot extends TimedRobot {
     private RobotContainer robotContainer;
     private UpdateManager updateManager;
 
+    LimeLight limeLight;
+
     int flywheelMotor1, flywheelMotor2, flywheelMotor3;
     int conveyorMotor;
 
@@ -38,6 +40,8 @@ public class Robot extends TimedRobot {
         currentScheme = new ArcadeDrive(XBOX_PORT, XBOX_PORT + 1);
 
         intake = new Intake(10, 7);
+
+        limeLight = new LimeLight();
     }
 
     @Override
@@ -45,6 +49,7 @@ public class Robot extends TimedRobot {
         CommandScheduler.getInstance().run();
         currentScheme.flywheel(flywheel);
         currentScheme.intakeConveyer(intake);
+        currentScheme.limeLightDrive(limeLight, robotContainer.getDrivetrainSubsystem());
     }
 
     @Override
