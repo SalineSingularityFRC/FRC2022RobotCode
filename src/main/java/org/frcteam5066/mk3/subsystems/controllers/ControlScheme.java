@@ -10,6 +10,7 @@ import org.frcteam5066.mk3.IntakePneumatics;
 
 
 import org.frcteam5066.mk3.LimeLight;
+import org.frcteam5066.mk3.subsystems.DrivetrainSubsystem;
 import org.frcteam5066.mk3.subsystems.Intake;
 import org.frcteam5066.mk3.subsystems.Shooter;
 
@@ -28,6 +29,9 @@ public abstract class ControlScheme {
 	public abstract void intakeConveyer(Intake intake);
 	public abstract void flywheel(Shooter flywheel);
 	public abstract void intakePneumatics(IntakePneumatics intakePneumatics);
+	public abstract void limeLightDrive(LimeLight limeLight, DrivetrainSubsystem drive);
+
+	
 	
 	
 	//public abstract void ledMode(LimeLight limeLight);

@@ -1,14 +1,19 @@
 package org.frcteam5066.mk3;
 
+import java.sql.Time;
+import java.util.Timer;
+
 import org.frcteam5066.common.math.Vector2;
 
 //technically we shouldn't use this but were going to anyway
-import org.frcteam5066.common.robot.subsystems.HolonomicDrivetrain;
+//import org.frcteam5066.common.robot.subsystems.HolonomicDrivetrain;
+import org.frcteam5066.mk3.subsystems.DrivetrainSubsystem;
 
-
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class LimeLight{
 
@@ -16,6 +21,8 @@ public class LimeLight{
     public NetworkTableEntry tx, ty, ta, tv, ts, tl, pipeLine, tshort, tlong, thor, tvert, getpipe, camtran, ledMode, camMode;
 
     public double target_distance = 0.0;
+
+    PIDController headingPID;
 
     //constructor to create the limelight and its values
     //class by: Branden Amstutz
@@ -52,6 +59,9 @@ public class LimeLight{
         pipeLine = table.getEntry("pipeLine");
         // swap the limelight between vision processing and drive camera
         camMode = table.getEntry("camMode");
+
+        headingPID = new PIDController(.2, 0, .1);
+        headingPID.setTolerance(.7);
         
     }
 
@@ -77,9 +87,12 @@ public class LimeLight{
         limeLight.camMode.setDouble(mode);
     }
 
-    @Deprecated //technically this means we shouldn't use it but were going to anyway
-    @SuppressWarnings("removal")
-    public boolean runLimeLight( HolonomicDrivetrain drive){
+    public boolean runLimeLight( DrivetrainSubsystem drive){
+
+        double kP = .2;
+        double kD = .2;
+        Timer time = new Timer("PID1");
+        
 
         double hasVision = tv.getDouble(0.0);
         
@@ -88,12 +101,14 @@ public class LimeLight{
             double left_comand = 0.0;
             double right_comand = 0.0;
             
-            double heading_error = -tx.getDouble(0.0);
+            //double heading_error = -tx.getDouble(0.0) * .2;
+            double heading_error = headingPID.calculate(tx.getDouble(0.0));
             double distance_error = target_distance - ty.getDouble(0.0);
 
             
-
-            drive.holonomicDrive(new Vector2(0, distance_error), heading_error);
+            SmartDashboard.putNumber("Distance_Error", distance_error);
+            SmartDashboard.putNumber("Heading_Error", heading_error);
+            drive.drive(new Vector2(0, 0), heading_error, true);
 
             return true;
         

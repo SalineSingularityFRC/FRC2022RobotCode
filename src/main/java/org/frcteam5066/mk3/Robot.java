@@ -15,6 +15,7 @@ public class Robot extends TimedRobot {
     private UpdateManager updateManager;
 
     Compressor compressor;
+    LimeLight limeLight;
 
     int flywheelMotor1, flywheelMotor2, flywheelMotor3;
     int conveyorMotor;
@@ -47,6 +48,7 @@ public class Robot extends TimedRobot {
         intakePneumatics = new IntakePneumatics(0, 1);
 
         compressor = new Compressor(PneumaticsModuleType.CTREPCM);
+        limeLight = new LimeLight();
     }
 
     @Override
@@ -57,6 +59,7 @@ public class Robot extends TimedRobot {
         currentScheme.intakeConveyer(intake);
         currentScheme.intakePneumatics(intakePneumatics);
         
+        currentScheme.limeLightDrive(limeLight, robotContainer.getDrivetrainSubsystem());
     }
 
     @Override

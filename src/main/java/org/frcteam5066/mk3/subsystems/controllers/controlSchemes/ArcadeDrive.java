@@ -1,8 +1,10 @@
 package org.frcteam5066.mk3.subsystems.controllers.controlSchemes;
 
+import org.frcteam5066.common.robot.subsystems.Drivetrain;
 import org.frcteam5066.common.robot.subsystems.HolonomicDrivetrain;
 import org.frcteam5066.mk3.IntakePneumatics;
 import org.frcteam5066.mk3.LimeLight;
+import org.frcteam5066.mk3.subsystems.DrivetrainSubsystem;
 import org.frcteam5066.mk3.subsystems.Intake;
 import org.frcteam5066.mk3.subsystems.Shooter;
 import org.frcteam5066.mk3.subsystems.controllers.*;
@@ -146,8 +148,20 @@ public class ArcadeDrive extends ControlScheme {
      * @param limelight takes in Limelight object
      */
 
-     public void limeLightDrive(LimeLight limelight){
-        // limelight.runLimeLight(HolonomicDrivetrain);
+     public void limeLightDrive(LimeLight limelight, DrivetrainSubsystem drive){
+        boolean runningLimelight;
+        boolean hasVision;
+        if (driveController.getXButton()) {
+            hasVision = limelight.runLimeLight(drive);
+            runningLimelight = true;
+            
+        }
+        else{
+            runningLimelight = false;
+            hasVision = false;
+        }
+        SmartDashboard.putNumber("Running Limelight", runningLimelight ? 1:0);
+        SmartDashboard.putNumber("Has Vision", hasVision ? 1:0);
      }
     
 
