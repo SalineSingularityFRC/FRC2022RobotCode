@@ -2,6 +2,7 @@ package org.frcteam5066.mk3.subsystems.controllers.controlSchemes;
 
 import org.frcteam5066.common.robot.subsystems.Drivetrain;
 import org.frcteam5066.common.robot.subsystems.HolonomicDrivetrain;
+import org.frcteam5066.mk3.IntakePneumatics;
 import org.frcteam5066.mk3.LimeLight;
 import org.frcteam5066.mk3.subsystems.DrivetrainSubsystem;
 import org.frcteam5066.mk3.subsystems.Intake;
@@ -111,7 +112,7 @@ public class ArcadeDrive extends ControlScheme {
                 flywheel.shooterReverse();
             else flywheel.shooterOn();
         }
-        else if (armController.getPOVUp()) {
+        else if (armController.getPOVLeft()) {
             flywheel.barf();
         }
         else flywheel.shooterOff();
@@ -123,6 +124,24 @@ public class ArcadeDrive extends ControlScheme {
         }
         else flywheel.hold();
     }
+
+    public void intakePneumatics(IntakePneumatics intakePneumatics) {
+        if (armController.getPOVDown()) {
+            intakePneumatics.setHigh();
+        } else if (armController.getPOVUp()) {
+            intakePneumatics.setLow();
+        } else {
+            intakePneumatics.setOff();
+        }
+    }
+    
+
+    
+
+
+
+
+    
 
     /**
      * Only turns on the painfully bright Limelight LEDs when they're being used

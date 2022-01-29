@@ -121,3 +121,14 @@ public class LimeLight{
 
     }
 }
+//PID-adjusts a control output based on difference between a set point 
+//derivative is rate of change
+//integral-sum of instantaneous error over time and gives accumulated
+//offset that should've been corrected
+
+//THIS IS JUST AN OPTION FOR THE INTAKE OF THE CARGO
+//FOR the interior, place a color sensor. When the sensor sees a ball 
+//that doesn't match with the alliance, it spits the ball out at a slow speed so
+//it doesn't shoot in the goal. But for the exterior, use lime light
+
+//put the color sensor right by the shooter. 

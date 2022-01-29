@@ -1,5 +1,7 @@
 package org.frcteam5066.mk3;
 
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import org.frcteam5066.common.robot.UpdateManager;
@@ -12,6 +14,7 @@ public class Robot extends TimedRobot {
     private RobotContainer robotContainer;
     private UpdateManager updateManager;
 
+    Compressor compressor;
     LimeLight limeLight;
 
     int flywheelMotor1, flywheelMotor2, flywheelMotor3;
@@ -21,6 +24,7 @@ public class Robot extends TimedRobot {
 
     Shooter flywheel;
     Intake intake;
+    IntakePneumatics intakePneumatics;
     
     final int XBOX_PORT = 0;
 	final int BIG_JOYSTICK_PORT = 1;
@@ -41,14 +45,20 @@ public class Robot extends TimedRobot {
 
         intake = new Intake(10, 7);
 
+        intakePneumatics = new IntakePneumatics(0, 1);
+
+        compressor = new Compressor(PneumaticsModuleType.CTREPCM);
         limeLight = new LimeLight();
     }
 
     @Override
     public void robotPeriodic() {
+        compressor.enableDigital();
         CommandScheduler.getInstance().run();
         currentScheme.flywheel(flywheel);
         currentScheme.intakeConveyer(intake);
+        currentScheme.intakePneumatics(intakePneumatics);
+        
         currentScheme.limeLightDrive(limeLight, robotContainer.getDrivetrainSubsystem());
     }
 
