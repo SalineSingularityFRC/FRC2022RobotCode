@@ -4,6 +4,7 @@ import org.frcteam5066.mk3.subsystems.DrivetrainSubsystem;
 import org.frcteam5066.mk3.subsystems.Intake;
 import org.frcteam5066.mk3.subsystems.Shooter;
 import org.frcteam5066.mk3.subsystems.controllers.*;
+import org.frcteam5066.mk3.IntakePneumatics;
 import org.frcteam5066.mk3.LimeLight;
 import org.frcteam5066.mk3.Robot;
 
@@ -57,6 +58,9 @@ public class Test extends ControlScheme{
         
     }
 
+    @Override
+    public void intakePneumatics(IntakePneumatics intakePneumatics) {
+    }
 
     @Override
     public void limeLightDrive(LimeLight limeLight, DrivetrainSubsystem drive) {
