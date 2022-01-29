@@ -83,8 +83,8 @@ public class ArcadeDrive extends ControlScheme {
      * 
      */
 
-     public void intakeConveyer(Intake intake){
-        
+    public void intakeConveyer(Intake intake){
+
         if(armController.getLB()){
             if(armController.getAButton())
                 intake.intakeReject();
@@ -102,7 +102,7 @@ public class ArcadeDrive extends ControlScheme {
         else {
             intake.conveyorOff();
         }
-     }
+    }
 
     @Override
     public void flywheel(Shooter flywheel) {
@@ -129,26 +129,25 @@ public class ArcadeDrive extends ControlScheme {
      * @param limelight takes in Limelight object
      */
 
-     public void limeLightDrive(LimeLight limelight, DrivetrainSubsystem drive){
+    public void limeLightDrive(LimeLight limelight, DrivetrainSubsystem drive){
+        
         boolean runningLimelight;
         boolean hasVision;
         if (driveController.getXButton()) {
             hasVision = limelight.runLimeLight(drive);
             runningLimelight = true;
+            limelight.ledMode.setBoolean(true);
+
             
         }
         else{
             runningLimelight = false;
             hasVision = false;
+            limelight.ledMode.setBoolean(false);
         }
         SmartDashboard.putNumber("Running Limelight", runningLimelight ? 1:0);
         SmartDashboard.putNumber("Has Vision", hasVision ? 1:0);
-     }
+    }
     
 
 }
-
-/**
- * Pseudocode for Limelight targeting 
- * Use a p controller
- */
