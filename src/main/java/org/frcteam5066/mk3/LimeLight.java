@@ -1,10 +1,10 @@
 package org.frcteam5066.mk3;
 
-import java.sql.Time;
-import java.util.Timer;
+//import java.sql.Time;
+//import java.util.Timer;
 
 import org.frcteam5066.common.math.Vector2;
-
+import org.frcteam5066.common.robot.drivers.Limelight;
 //technically we shouldn't use this but were going to anyway
 //import org.frcteam5066.common.robot.subsystems.HolonomicDrivetrain;
 import org.frcteam5066.mk3.subsystems.DrivetrainSubsystem;
@@ -60,21 +60,23 @@ public class LimeLight{
         // swap the limelight between vision processing and drive camera
         camMode = table.getEntry("camMode");
 
-        headingPID = new PIDController(.2, 0, .1);
-        headingPID.setTolerance(.7);
+        //initialize PID objects from WPILIB
+        headingPID = new PIDController(.02, 0.00025, 0.0004);
+        //
+        headingPID.setTolerance(.065);
         
     }
 
     // turn on the LEDs, takes a liemlight object
     public void ledOn( LimeLight limeLight ){
         
-        limeLight.ledMode.setDouble(1.0);
+        limeLight.ledMode.setDouble(3.0);
 
     }
 
     // turn off the LEDs, takes a LimeLight object
     public void ledOff(LimeLight limeLight){
-        limeLight.ledMode.setDouble(3.0);
+        limeLight.ledMode.setDouble(0.0);
     }
 
     // method to change between pipeLines, takes an int and a LimeLight object
@@ -91,10 +93,11 @@ public class LimeLight{
 
         double kP = .2;
         double kD = .2;
-        Timer time = new Timer("PID1");
+        //Timer time = new Timer("PID1");
         
 
         double hasVision = tv.getDouble(0.0);
+        
         
         if(hasVision == 1.0 && !(tx.getDouble(0.0) <= 0.1 && tx.getDouble(0.0) >= -0.1)){
             
