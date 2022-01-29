@@ -1,6 +1,7 @@
 package org.frcteam5066.mk3.subsystems.controllers.controlSchemes;
 
 import org.frcteam5066.common.robot.subsystems.HolonomicDrivetrain;
+import org.frcteam5066.mk3.IntakePneumatics;
 import org.frcteam5066.mk3.LimeLight;
 import org.frcteam5066.mk3.subsystems.Intake;
 import org.frcteam5066.mk3.subsystems.Shooter;
@@ -109,7 +110,7 @@ public class ArcadeDrive extends ControlScheme {
                 flywheel.shooterReverse();
             else flywheel.shooterOn();
         }
-        else if (armController.getPOVUp()) {
+        else if (armController.getPOVLeft()) {
             flywheel.barf();
         }
         else flywheel.shooterOff();
@@ -120,6 +121,16 @@ public class ArcadeDrive extends ControlScheme {
             else flywheel.shoot();
         }
         else flywheel.hold();
+    }
+
+    public void intakePneumatics(IntakePneumatics intakePneumatics) {
+        if (armController.getPOVDown()) {
+            intakePneumatics.setHigh();
+        } else if (armController.getPOVUp()) {
+            intakePneumatics.setLow();
+        } else {
+            intakePneumatics.setOff();
+        }
     }
     
 
@@ -136,7 +147,7 @@ public class ArcadeDrive extends ControlScheme {
      */
 
      public void limeLightDrive(LimeLight limelight){
-         limelight.runLimeLight(HolonomicDrivetrain);
+        // limelight.runLimeLight(HolonomicDrivetrain);
      }
     
 

@@ -2,6 +2,8 @@ package org.frcteam5066.mk3.subsystems.controllers;
 
 
 
+import org.frcteam5066.mk3.IntakePneumatics;
+
 //import com.kauailabs.navx.frc.AHRS;
 
 //import edu.wpi.first.wpilibj.Ultrasonic;
@@ -25,7 +27,7 @@ public abstract class ControlScheme {
 
 	public abstract void intakeConveyer(Intake intake);
 	public abstract void flywheel(Shooter flywheel);
-	
+	public abstract void intakePneumatics(IntakePneumatics intakePneumatics);
 	
 	
 	//public abstract void ledMode(LimeLight limeLight);
