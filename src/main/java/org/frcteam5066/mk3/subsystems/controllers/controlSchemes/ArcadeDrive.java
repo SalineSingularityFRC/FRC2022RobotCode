@@ -153,16 +153,18 @@ public class ArcadeDrive extends ControlScheme {
         boolean runningLimelight;
         boolean hasVision;
         if (driveController.getXButton()) {
+            limelight.ledOn(limelight);
             hasVision = limelight.runLimeLight(drive);
             runningLimelight = true;
-            limelight.ledMode.setBoolean(true);
+            //limelight.ledMode.setBoolean(true);
 
             
         }
         else{
+
             runningLimelight = false;
             hasVision = false;
-            limelight.ledMode.setBoolean(false);
+            limelight.ledOff(limelight);
         }
         SmartDashboard.putNumber("Running Limelight", runningLimelight ? 1:0);
         SmartDashboard.putNumber("Has Vision", hasVision ? 1:0);

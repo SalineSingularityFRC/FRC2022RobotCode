@@ -61,22 +61,22 @@ public class LimeLight{
         camMode = table.getEntry("camMode");
 
         //initialize PID objects from WPILIB
-        headingPID = new PIDController(.2, 0, .1);
+        headingPID = new PIDController(.02, 0.00025, 0.0004);
         //
-        headingPID.setTolerance(.7);
+        headingPID.setTolerance(.065);
         
     }
 
     // turn on the LEDs, takes a liemlight object
     public void ledOn( LimeLight limeLight ){
         
-        limeLight.ledMode.setDouble(1.0);
+        limeLight.ledMode.setDouble(3.0);
 
     }
 
     // turn off the LEDs, takes a LimeLight object
     public void ledOff(LimeLight limeLight){
-        limeLight.ledMode.setDouble(3.0);
+        limeLight.ledMode.setDouble(0.0);
     }
 
     // method to change between pipeLines, takes an int and a LimeLight object
