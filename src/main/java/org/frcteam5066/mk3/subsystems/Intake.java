@@ -1,51 +1,63 @@
-package frc.robot;
+package org.frcteam5066.mk3.subsystems;
 
-import frc.controller.MotorController;
-import frc.controller.motorControllers.Spark;
+import org.frcteam5066.mk3.subsystems.controllers.motorControllers.Spark;
+import org.frcteam5066.mk3.subsystems.controllers.MotorController;
 
-//This intake class includes both the collector and conveyer
+//This intake class includes both the collector and conveyor
 public class Intake {
-
-    Spark intakeDrive, intakeConveyer;
-
-
-    double kP = 6e-5; 
+ 
+    MotorController intakeDrive, intakeConveyor;
+ 
+ 
+    double kP = 6e-5;
     double kI = 0;
-    double kD = 0; 
-    double kIz = 0; 
-    double kFF = 0.000015; 
-    double kMaxOutput = 1; 
+    double kD = 0;
+    double kIz = 0;
+    double kFF = 0.000015;
+    double kMaxOutput = 1;
     double kMinOutput = -1;
     double maxRPMIntake = 11000;
-    // maxRPMIntakeConveyer is copied from 2021 Conveyer class
-    double maxRPMIntakeConveyer = -4000;
+    // maxRPMIntakeconveyor is copied from 2021 conveyor class
+    double maxRPMIntakeconveyor = -4000;
     double maxRPMFeed = 5700;
-
-
-
-
+ 
+ 
+ 
+ 
     //Intake Constructor
-    public Intake(int intakeDrivePort, int intakeBottomPort){
-
+    public Intake(int intakeDrivePort, int intakeConveyorPort){
+ 
         //550 motors used for intake, unsure if they are brushed
-        intakeDrive = new Spark(intakeDrivePort, false, 0.00, "IntakeDrive", false, false, kP, kI, kD, kIz, kFF, kMinOutput, kMaxOutput);
-        intakeConveyer = new Spark(intakeConveyerPort, false, 0.00, "IntakeConveyer", false, false, kP, kI, kD, kIz, kFF, kMinOutput, kMaxOutput);
-
+        intakeDrive = new Spark(intakeDrivePort, true, 0.00, "IntakeDrive", false, false, kP, kI, kD, kIz, kFF, kMinOutput, kMaxOutput);
+        intakeConveyor = new Spark(intakeConveyorPort, true, 0.00, "IntakeConveyor", false, false, kP, kI, kD, kIz, kFF, kMinOutput, kMaxOutput);
+ 
     }
-
+ 
     public void intakeCollect() {
         intakeDrive.setVelocity(maxRPMIntake);
-        intakeConveyer.setVelocity(maxRPMIntakeConveyer);
+        //intakeConveyor.setVelocity(maxRPMIntakeconveyor);
     }
-
+ 
     //Use if color senser recognizes opposite team's ball
     public void intakeReject(){
         intakeDrive.setVelocity(-maxRPMIntake);
-        intakeConveyer.setVelocity(-maxRPMIntakeConveyer);
+        //intakeConveyor.setVelocity(-maxRPMIntakeconveyor);
     }
-
+ 
     public void intakeOff(){
         intakeDrive.setVelocity(0.0);
-        intakeConveyer.setVelocity(0.0);
+        //intakeConveyor.setVelocity(0.0);
+    }
+
+    public void conveyorCollect(){
+        intakeConveyor.setVelocity(maxRPMIntakeconveyor);
+    }
+
+    public void conveyorReject(){
+        intakeConveyor.setVelocity(-maxRPMIntakeconveyor);
+    }
+
+    public void conveyorOff(){
+        intakeConveyor.setVelocity(0.0);
     }
 }

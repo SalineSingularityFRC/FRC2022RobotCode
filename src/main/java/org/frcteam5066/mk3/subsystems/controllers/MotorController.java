@@ -34,6 +34,8 @@ public interface MotorController {
      */
     public void setCoastMode(boolean coast);
 
+    public void setVelocity(double velocity);
+
 
     
 }
