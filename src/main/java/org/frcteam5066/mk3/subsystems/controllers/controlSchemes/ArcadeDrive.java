@@ -127,7 +127,7 @@ public class ArcadeDrive extends ControlScheme {
         if (armController.getTriggerRight() > .2) {
             if (armController.getAButton())
                 flywheel.feederReverse();
-            else flywheel.shoot();
+            else flywheel.shoot(); // turns on feeder wheel
         }
         else flywheel.hold();
     }

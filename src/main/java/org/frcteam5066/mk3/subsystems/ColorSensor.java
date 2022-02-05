@@ -3,8 +3,6 @@ package org.frcteam5066.mk3.subsystems;
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorMatchResult;
 
-import java.sql.Driver;
-
 import com.revrobotics.ColorMatch;
 
 import edu.wpi.first.wpilibj.DriverStation;
