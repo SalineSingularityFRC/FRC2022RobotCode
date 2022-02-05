@@ -32,7 +32,7 @@ public class ColorSensor {
 
     public boolean robotColor(){
         String colorString;
-        Boolean sameColor = false; 
+        Boolean sameColor = true; 
         Color detectedColor = m_colorSensor.getColor();
         ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
 
@@ -44,8 +44,8 @@ public class ColorSensor {
             colorString = "Unknown";
         }
 
-        if (colorString.equalsIgnoreCase(allianceColor) && proximity > 135) {
-            sameColor = true;
+        if (!colorString.equalsIgnoreCase(allianceColor) && proximity < 135) {
+            sameColor = false;
         }
 
         SmartDashboard.putNumber("Proximity", proximity);
