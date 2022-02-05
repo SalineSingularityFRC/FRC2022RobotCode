@@ -41,4 +41,7 @@ public class IntakePneumatics{
 		//rightDoubleSolenoid.set(DoubleSolenoid.Value.kReverse);
 	}
 
+	public void intakeDeploy(){
+		//I don't know how to do this yet
+	}
 }
