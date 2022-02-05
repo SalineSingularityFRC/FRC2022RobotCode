@@ -4,6 +4,7 @@ import org.frcteam5066.common.robot.subsystems.Drivetrain;
 import org.frcteam5066.common.robot.subsystems.HolonomicDrivetrain;
 import org.frcteam5066.mk3.IntakePneumatics;
 import org.frcteam5066.mk3.LimeLight;
+import org.frcteam5066.mk3.subsystems.ColorSensor;
 import org.frcteam5066.mk3.subsystems.DrivetrainSubsystem;
 import org.frcteam5066.mk3.subsystems.Intake;
 import org.frcteam5066.mk3.subsystems.Shooter;
@@ -26,6 +27,7 @@ public class ArcadeDrive extends ControlScheme {
 
     //Create all objects & a speedMode object
     XboxController driveController, armController;
+    ColorSensor colorSensor = new ColorSensor(); 
 
     HolonomicDrivetrain drive;
 
@@ -108,9 +110,14 @@ public class ArcadeDrive extends ControlScheme {
     @Override
     public void flywheel(Shooter flywheel) {
         if (armController.getTriggerLeft() > .2) {
-            if (armController.getAButton())
+            
+            if (armController.getAButton()) {
                 flywheel.shooterReverse();
-            else flywheel.shooterOn();
+            } else if (colorSensor.robotColor() == false) {
+                flywheel.barf();
+            } else {
+                flywheel.shooterOn();
+            }
         }
         else if (armController.getPOVLeft()) {
             flywheel.barf();

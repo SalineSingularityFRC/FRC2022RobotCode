@@ -19,7 +19,7 @@ public class LimeLight{
 
     public NetworkTable table;
     public NetworkTableEntry tx, ty, ta, tv, ts, tl, pipeLine, tshort, tlong, thor, tvert, getpipe, camtran, ledMode, camMode;
-
+//t means target(example-target x, y, )
     public double target_distance = 0.0;
 
     PIDController headingPID;
@@ -108,7 +108,7 @@ public class LimeLight{
             
             SmartDashboard.putNumber("Distance_Error", distance_error);
             SmartDashboard.putNumber("Heading_Error", heading_error);
-            drive.drive(new Vector2(0, 0), heading_error, true);
+            drive.drive(new Vector2(0, 0), heading_error, true);//vector takes in x and y
 
             return true;
         
@@ -116,13 +116,13 @@ public class LimeLight{
 
         return false;
 
-    }
+    }//the pipelines track configurations on the limelight(like the rgb )
 }
 //PID-adjusts a control output based on difference between a set point 
-//derivative is rate of change
+//derivative is rate of change/predicting future, so as to not over shoot
 //integral-sum of instantaneous error over time and gives accumulated
 //offset that should've been corrected
-
+//proportion- the ratio of output response to the error signal.
 //THIS IS JUST AN OPTION FOR THE INTAKE OF THE CARGO
 //FOR the interior, place a color sensor. When the sensor sees a ball 
 //that doesn't match with the alliance, it spits the ball out at a slow speed so
