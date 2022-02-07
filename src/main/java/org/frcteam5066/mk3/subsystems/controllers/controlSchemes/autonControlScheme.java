@@ -1,12 +1,19 @@
 package org.frcteam5066.mk3.subsystems.controllers.controlSchemes;
 
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+
+
+
+//import org.frcteam5066.common.math.Vector2;
+import com.kauailabs.navx.frc.AHRS;
 import org.frcteam5066.mk3.LimeLight;
 import org.frcteam5066.mk3.subsystems.DrivetrainSubsystem;
 import org.frcteam5066.mk3.subsystems.Shooter;
+import org.frcteam5066.mk3.subsystems.Intake;
 
-public abstract class autonControlScheme {
+public abstract class AutonControlScheme {
 
-    //protected static AHRS gyro;
+    protected static AHRS gyro;
     protected static LimeLight limeLight;
     protected static DrivetrainSubsystem drive;
     protected static Shooter flywheel;
@@ -14,13 +21,21 @@ public abstract class autonControlScheme {
     protected static int position;
     protected static int color;
     protected static int rotationDirection; //1 is clockwise, -1 is counter-clockwise
+    
+    SendableChooser<Integer> startingPosition = new SendableChooser<>();
 
-    public autonControlScheme(LimeLight limeLight, Shooter flywheel, DrivetrainSubsystem drive, int position, String color){
-        //this.gyro = new AHRS(SPI.Port.kMXP);
+    public AutonControlScheme(LimeLight limeLight, Shooter flywheel, DrivetrainSubsystem drive, String color){
+        
+        startingPosition.setDefaultOption("Position 1", 1);
+        startingPosition.addOption("Position 2", 2);
+        startingPosition.addOption("Position 3", 3);
+        startingPosition.addOption("Position 3", 4);
+
+        this.gyro = new AHRS(SPI.Port.kMXP);
         this.limeLight = limeLight;
         this.flywheel = flywheel;
         this.intake = intake;
-        this.position = position;
+        this.position = startingPosition.getSelected();
         if(color.equals("Red")) this.color = 2;
         else this.color = 3;
         if(position < 3) rotationDirection = 1;
@@ -38,23 +53,19 @@ public abstract class autonControlScheme {
         }
 
         else if(position != 1){
-            if(color == 2){
-                if(limeLight.hasRedCargoTarget()){
-                    drive.drive(new Vector2((driveType == 0)? 1:0, 0), 0, false);
-                }
-            }
-            else{
-                if(limeLight.hasBlueCargoTarget()){
-                    drive.drive(new Vector2((driveType == 0)? 1:0, 0), 0, false);
-                }
-            }
+            
+            //use runLimeLight, pass in color as int (2 or 3)
+            limeLight.runLimeLight(drive, color);
+  
+
         }
     }
     
+    
     public void shoot(){
         if(position != 1){
-            if(!limeLight.hasVisionTarget()){
-                drive.drive(new Vector2((driveType == 0)? 0:0, 0), 1 * rotationDirection, false);
+            while(!limeLight.hasVisionTarget()){
+                drive.drive(new Vector2(0, 0), 1 * rotationDirection, false);
             }
         }
 
@@ -64,16 +75,19 @@ public abstract class autonControlScheme {
         //this next section waits for 1 second to pass. This should be optimized once we get a chance to run this on the robot
         try {
             Thread.sleep(1000);
-        } catch (InterruptedException ex) {
+        }
+        catch (InterruptedException ex) {
             
         }
 
         intake.conveyorCollect();
         flywheel.shoot();
 
+        //this will be replaced with color sensor telling us when a ball has been fired
         try {
             Thread.sleep(1000);
-        } catch (InterruptedException ex) {
+        }
+        catch (InterruptedException ex) {
             
         }
 
@@ -83,9 +97,17 @@ public abstract class autonControlScheme {
     }
 
     public void getBall(){
-        if(!hasCargoTarget()){
-            drive.drive(new Vector2((driveType == 0)? 0:0, 0), 1 * rotationDirection, false);
+        double initPos = gyro.getAngle();
+        while(!hasCargoTarget()){
+            drive.drive(new Vector2(0, 0), 1 * rotationDirection, false);
+            if( Math.abs(initPos - gyro.getAngle()) >  180 ) break;
         }
+        initPos = gyro.getAngle();
+        while(!hasCargoTarget()){
+            drive.drive(new Vector2(0, 0), 1 * -rotationDirection, false);
+            if( Math.abs(initPos - gyro.getAngle()) >  180 ) break;
+        }
+
         limeLight.runLimeLight(drive, 1);
 
     }
