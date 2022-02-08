@@ -4,9 +4,9 @@ package org.frcteam5066.mk3.subsystems;
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.frcteam5066.mk3.Constants;
+import org.frcteam5066.mk3.subsystems.controllers.XboxController;
 
 import com.ctre.phoenix.led.*;
 import com.ctre.phoenix.led.CANdle.LEDStripType;
@@ -37,8 +37,8 @@ public class CANdleSystem extends SubsystemBase {
     }
     private AnimationTypes m_currentAnimation;
 
-    public CANdleSystem(XboxController joy) {
-        this.joystick = joy;
+    public CANdleSystem(org.frcteam5066.mk3.subsystems.controllers.XboxController primaryController) {
+        this.joystick = primaryController;
         changeAnimation(AnimationTypes.SetAll);
         CANdleConfiguration configAll = new CANdleConfiguration();
         configAll.statusLedOffWhenActive = true;
@@ -93,7 +93,7 @@ public class CANdleSystem extends SubsystemBase {
 
     public void changeAnimation(AnimationTypes toChange) {
         m_currentAnimation = toChange;
-        
+        System.out.print("change animation worked");
         switch(toChange)
         {
             case ColorFlow:
@@ -134,13 +134,13 @@ public class CANdleSystem extends SubsystemBase {
     public void periodic() {
         // This method will be called once per scheduler run
         if(m_toAnimate == null) {
-            m_candle.setLEDs((int)(joystick.getLeftTriggerAxis() * 255), 
-                              (int)(joystick.getRightTriggerAxis() * 255), 
-                              (int)(joystick.getLeftX() * 255));
+            m_candle.setLEDs((int)(joystick.getTriggerLeft() * 255), 
+                              (int)(joystick.getTriggerRight() * 255), 
+                              (int)(joystick.getLS_X() * 255));
         } else {
             m_candle.animate(m_toAnimate);
         }
-        m_candle.modulateVBatOutput(joystick.getRightY());
+        m_candle.modulateVBatOutput(joystick.getRS_Y());
     }
 
     @Override
