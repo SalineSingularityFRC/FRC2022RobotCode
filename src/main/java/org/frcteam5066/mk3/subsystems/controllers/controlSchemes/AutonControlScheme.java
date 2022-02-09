@@ -6,77 +6,51 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import java.lang.Math;
 
 import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.SerialPort;
 
-import frc.robot.Flywheel;
-import frc.robot.LimeLight;
-import frc.singularityDrive.SingDrive;
-import frc.singularityDrive.SingDrive.*;
-import frc.robot.CellCollector;
-import frc.robot.Conveyor;
+import org.frcteam5066.mk3.LimeLight;
+import org.frcteam5066.mk3.subsystems.Shooter;
+import org.frcteam5066.mk3.subsystems.Intake;
+import org.frcteam5066.mk3.subsystems.DrivetrainSubsystem;
+
+import edu.wpi.first.wpilibj.SerialPort;
+//we have to create 4 paths
 
 public abstract class AutonControlScheme {
 
-    protected static AHRS gyro;
-    protected static SingDrive drive;
+    //protected static AHRS gyro;
     protected static LimeLight limeLight;
-    protected static Flywheel flywheel;
-    protected static Conveyor conveyor;
-    protected static CellCollector cellCollector;
+    protected static Shooter flywheel;
+    protected static Intake conveyor;
+    protected static Intake intake;
 
     public static final double radius = 3.125;
     
     public static final double encoderTicks = 16.28;
 
-    public AutonControlScheme(SingDrive drive, LimeLight limeLight, Flywheel flywheel, Conveyor conveyor){
+    public AutonControlScheme(LimeLight limeLight, Shooter flywheel, Intake conveyor, DrivetrainSubsystem drive){
         //define Limelight and all the sensors
-        this.drive = drive;
         //this.gyro = new AHRS(SerialPort.Port.kUSB);//Via USB
-        this.gyro = new AHRS(SPI.Port.kMXP);//Plugged In
+       // this.gyro = new AHRS(SPI.Port.kMXP);//Plugged In
         this.limeLight = limeLight;
         this.flywheel = flywheel;
         this.conveyor = conveyor;
-        this.cellCollector = cellCollector;
+        this.intake = intake;
     }
 
     //the main method of each auton programs
-    public abstract void moveAuton();
-    
     /**
      * How to make the robot move forward or backwards autonomously.
      * DISCLAIMER If you want the robot to go backwards set verticalSpeed number to negative
-     * @param distance the absolute value of the distance in inches the robot will travel 
-     * @param verticalSpeed The speed between 0 and 1 the robot will go. 
+     * The speed between 0 and 1 the robot will go. 
+     * @return 
+     * @return 
      */
-    public void vertical(double distance, double verticalSpeed){
+    public void (){
         
-        //if(distance < 0) verticalSpeed *= -1;
-
-        drive.setInitialPosition();
-
-        while ( drive.getCurrentPosition() / encoderTicks > -1 * Math.abs(distance) /( 2* Math.PI *radius)
-                && drive.getCurrentPosition() / encoderTicks < Math.abs(distance) / ( 2* Math.PI *radius)) {
-        
-            SmartDashboard.putNumber("encoderRotations", drive.getCurrentPosition() / encoderTicks);
-            SmartDashboard.putNumber("goal", distance / (2 * Math.PI * radius));
-
-            drive.arcadeDrive(verticalSpeed, 0, 0.0, false, SpeedMode.NORMAL);
-        
-        }
-        
-        drive.arcadeDrive(0, 0, 0.0, false, SpeedMode.NORMAL);
-
     }
 
     public void vertical(double distance){
         vertical(distance, distance / Math.abs(distance) *0.3);
-    }
-
-    public void verticalWithCollector(double distance){
-        cellCollector.collectorForward();
-        conveyor.conveyorForward();
-        vertical(distance);
-        cellCollector.collectorOff();
     }
 
 
@@ -102,12 +76,12 @@ public abstract class AutonControlScheme {
 		drive.arcadeDrive(0.0, 0.0, 0.0, false, SpeedMode.NORMAL);
 
     }
+    //.\public AutonControlScheme(Limt, )
 
-    public void adjustToTarget(){
-        while(drive.limeLightDrive(limeLight));
+  
     }
 
-    public void shoot(){
+    //public void shoot(){
         /*flywheel.flywheelForward();
 
         try {
