@@ -23,24 +23,24 @@ public class Shooter {
         flywheel2 = new Spark(flywheel2Port, true, 0.00, "flywheel2", false, false, kP, kI, kD, kIz, kFF, kMinOutput, kMaxOutput);
         flywheel1 = new Spark(flywheel1Port, true, 0.00, "flywheel1", false, false, kP, kI, kD, kIz, kFF, kMinOutput, kMaxOutput);
         flywheelFeed = new Spark(flywheelFeedPort, true, 0.00, "FlywheelFeed", false, false, kP, kI, kD, kIz, kFF, kMinOutput, kMaxOutput);
-        //flywheel2.follow(flywheel1, true);
+        flywheel2.follow(flywheel1, true);
     }
  
  
     public void shooterOn(){
-        flywheel2.setVelocity(maxRPMflywheel2);
+        //flywheel2.setVelocity(maxRPMflywheel2);
         flywheel1.setVelocity(maxRPMflywheel1);
     }
  
  
      public void shooterOff(){
-        flywheel2.setVelocity(0.0);
+        //flywheel2.setVelocity(0.0);
         flywheel1.setVelocity(0.0);
     }
  
  
     public void shooterReverse(){
-        flywheel2.setVelocity(-maxRPMflywheel2);
+        //flywheel2.setVelocity(-maxRPMflywheel2);
         flywheel1.setVelocity(-maxRPMflywheel1);
     }
  
@@ -60,6 +60,6 @@ public class Shooter {
 
     public void barf() {
         flywheel1.setVelocity(barfRPM);
-        flywheel2.setVelocity(barfRPM);
+        //flywheel2.setVelocity(barfRPM);
     }
 }

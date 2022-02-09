@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import org.frcteam5066.common.robot.UpdateManager;
+import org.frcteam5066.mk3.subsystems.ColorSensor;
 import org.frcteam5066.mk3.subsystems.Intake;
 import org.frcteam5066.mk3.subsystems.Shooter;
 import org.frcteam5066.mk3.subsystems.controllers.ControlScheme;
@@ -19,7 +20,6 @@ public class Robot extends TimedRobot {
 
     int flywheelMotor1, flywheelMotor2, flywheelMotor3;
     int conveyorMotor;
-
     ControlScheme currentScheme;
 
     Shooter flywheel;
@@ -28,7 +28,7 @@ public class Robot extends TimedRobot {
     
     final int XBOX_PORT = 0;
 	final int BIG_JOYSTICK_PORT = 1;
-  final int SMALL_JOYSTICK_PORT = 2;
+    final int SMALL_JOYSTICK_PORT = 2;
     
 
     @Override
@@ -58,10 +58,12 @@ public class Robot extends TimedRobot {
         compressor.enableDigital();
         CommandScheduler.getInstance().run();
         currentScheme.flywheel(flywheel);
+        
         currentScheme.intakeConveyer(intake);
         currentScheme.intakePneumatics(intakePneumatics);
         
         currentScheme.limeLightDrive(limeLight, robotContainer.getDrivetrainSubsystem());
+        
     }
 
     @Override
