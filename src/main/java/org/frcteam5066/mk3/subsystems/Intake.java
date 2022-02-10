@@ -35,6 +35,8 @@ public class Intake {
         falconIntake = new Falcon(intakeDeployPort, 1.0, true);
     }
  
+    
+
     public void intakeCollect() {
         intakeDrive.setVelocity(maxRPMIntake);
         //intakeConveyor.setVelocity(maxRPMIntakeconveyor);
@@ -52,15 +54,15 @@ public class Intake {
     }
 
     public void conveyorCollect(){
-        intakeConveyor.setVelocity(maxRPMIntakeconveyor);
+        //intakeConveyor.setVelocity(maxRPMIntakeconveyor);
     }
 
     public void conveyorReject(){
-        intakeConveyor.setVelocity(-maxRPMIntakeconveyor);
+        //intakeConveyor.setVelocity(-maxRPMIntakeconveyor);
     }
 
     public void conveyorOff(){
-        intakeConveyor.setVelocity(0.0);
+        //intakeConveyor.setVelocity(0.0);
     }
     public void intakeDeploy(){//bring one of the falcons to make the intake deploy, which way is it supposed to turn
         falconIntake.setSpeed(extendSpeed);

@@ -45,7 +45,7 @@ public class Robot extends TimedRobot {
 
         currentScheme = new ArcadeDrive(XBOX_PORT, XBOX_PORT + 1);
 
-        intake = new Intake(10, 7);
+        intake = new Intake(10, 7, 1);
 
         intakePneumatics = new IntakePneumatics(0, 1);
 

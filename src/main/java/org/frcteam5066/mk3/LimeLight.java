@@ -26,14 +26,11 @@ public class LimeLight{
     public double target_distance = 0.0;
 
     PIDController headingPID;
-    Solenoid s3;
+
 
     //constructor to create the limelight and its values
     //class by: Branden Amstutz
-    public LimeLight(int fowardChannel, int reverseChannel) {
-        s3= new Solenoid(reverseChannel, PneumaticsModuleType.CTREPCM, 7);
-		s3.set(false);
-
+    public LimeLight(){
         table = NetworkTableInstance.getDefault().getTable("limelight");
         // horizontal offset of cross hair to target
         tx = table.getEntry("tx");

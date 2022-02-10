@@ -19,7 +19,7 @@ public class IntakePneumatics{
     public IntakePneumatics(int forwardChannel, int reverseChannel){
         leftDoubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, forwardChannel, reverseChannel);
 		s1= new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 2, 3);
-		s2= new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 6, 7);
+		s2= new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 5, 6);
 		s1.set(DoubleSolenoid.Value.kReverse);
 		s2.set(DoubleSolenoid.Value.kReverse);
 		leftDoubleSolenoid.set(DoubleSolenoid.Value.kReverse);

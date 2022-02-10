@@ -25,7 +25,7 @@ public class Shooter {
        // flywheel2 = new Falcon(60, 1, true);
         flywheel1 = new Falcon(61, 1.0, true);
         flywheelFeed = new Spark(flywheelFeedPort, true, 0.00, "FlywheelFeed", false, false, kP, kI, kD, kIz, kFF, kMinOutput, kMaxOutput);
-        flywheel2.follow(flywheel1, true);
+        //flywheel2.follow(flywheel1, true);
     }
  
  
