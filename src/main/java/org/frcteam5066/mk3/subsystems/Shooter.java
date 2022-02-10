@@ -1,11 +1,13 @@
 package org.frcteam5066.mk3.subsystems;
 
 import org.frcteam5066.mk3.subsystems.controllers.motorControllers.Spark;
+import org.frcteam5066.mk3.subsystems.controllers.motorControllers.Falcon;
+
 import org.frcteam5066.mk3.subsystems.controllers.MotorController;
 
 public class Shooter {
  
-    Spark flywheel1, flywheel2, flywheelFeed;
+    MotorController flywheel1, flywheel2, flywheelFeed;
  
     double kP = 6e-5;
     double kI = 0;
@@ -20,15 +22,15 @@ public class Shooter {
     double barfRPM = 1000;
  
     public Shooter(int flywheel1Port, int flywheel2Port, int flywheelFeedPort){
-        flywheel2 = new Spark(flywheel2Port, true, 0.00, "flywheel2", false, false, kP, kI, kD, kIz, kFF, kMinOutput, kMaxOutput);
-        flywheel1 = new Spark(flywheel1Port, true, 0.00, "flywheel1", false, false, kP, kI, kD, kIz, kFF, kMinOutput, kMaxOutput);
+       // flywheel2 = new Falcon(60, 1.0, true);
+        flywheel1 = new Falcon(61, 1.0, true);
         flywheelFeed = new Spark(flywheelFeedPort, true, 0.00, "FlywheelFeed", false, false, kP, kI, kD, kIz, kFF, kMinOutput, kMaxOutput);
-        flywheel2.follow(flywheel1, true);
+        //flywheel2.follow(flywheel1, true);
     }
  
  
     public void shooterOn(){
-        //flywheel2.setVelocity(maxRPMflywheel2);
+       // flywheel2.setVelocity(maxRPMflywheel2);
         flywheel1.setVelocity(maxRPMflywheel1);
     }
  
