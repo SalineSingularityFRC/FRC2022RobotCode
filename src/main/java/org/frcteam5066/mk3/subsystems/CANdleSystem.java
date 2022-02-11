@@ -37,8 +37,7 @@ public class CANdleSystem extends SubsystemBase {
     }
     private AnimationTypes m_currentAnimation;
 
-    public CANdleSystem(org.frcteam5066.mk3.subsystems.controllers.XboxController primaryController) {
-        this.joystick = primaryController;
+    public CANdleSystem() {
         changeAnimation(AnimationTypes.SetAll);
         CANdleConfiguration configAll = new CANdleConfiguration();
         configAll.statusLedOffWhenActive = true;

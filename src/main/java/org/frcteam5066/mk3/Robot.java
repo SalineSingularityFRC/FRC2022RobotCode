@@ -29,9 +29,6 @@ public class Robot extends TimedRobot {
 	final int BIG_JOYSTICK_PORT = 1;
     final int SMALL_JOYSTICK_PORT = 2;
 
-    XboxController xboxController = new XboxController(XBOX_PORT+1
-     
-    );
     CANdleSystem candle;
 
     
@@ -52,7 +49,7 @@ public class Robot extends TimedRobot {
 
         limeLight = new LimeLight();
 
-        candle = new CANdleSystem(xboxController);
+        candle = new CANdleSystem();
         
         // candle.changeAnimation(AnimationTypes.TwinkleOff);
 
