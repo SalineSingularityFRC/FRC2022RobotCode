@@ -5,9 +5,12 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import org.frcteam5066.common.robot.UpdateManager;
+import org.frcteam5066.mk3.subsystems.CANdleSystem;
 import org.frcteam5066.mk3.subsystems.Intake;
 import org.frcteam5066.mk3.subsystems.Shooter;
+import org.frcteam5066.mk3.subsystems.CANdleSystem.AnimationTypes;
 import org.frcteam5066.mk3.subsystems.controllers.ControlScheme;
+import org.frcteam5066.mk3.subsystems.controllers.XboxController;
 import org.frcteam5066.mk3.subsystems.controllers.controlSchemes.ArcadeDrive;
 
 public class Robot extends TimedRobot {
@@ -28,7 +31,10 @@ public class Robot extends TimedRobot {
     
     final int XBOX_PORT = 0;
 	final int BIG_JOYSTICK_PORT = 1;
-  final int SMALL_JOYSTICK_PORT = 2;
+    final int SMALL_JOYSTICK_PORT = 2;
+
+    CANdleSystem candle;
+
     
 
     @Override
@@ -51,6 +57,12 @@ public class Robot extends TimedRobot {
 
         compressor = new Compressor(PneumaticsModuleType.CTREPCM);
         limeLight = new LimeLight();
+
+        candle = new CANdleSystem();
+        
+        // candle.changeAnimation(AnimationTypes.TwinkleOff);
+
+ 
     }
 
     @Override

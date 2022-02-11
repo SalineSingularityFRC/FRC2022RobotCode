@@ -1,6 +1,7 @@
 package org.frcteam5066.mk3;
 
 public class Constants {
+
     public static final int DRIVETRAIN_FRONT_LEFT_DRIVE_MOTOR = 58;
     public static final int DRIVETRAIN_FRONT_RIGHT_DRIVE_MOTOR = 56;
     public static final int DRIVETRAIN_BACK_LEFT_DRIVE_MOTOR = 52;
@@ -25,4 +26,7 @@ public class Constants {
     public static final double DRIVETRAIN_BACK_RIGHT_ENCODER_OFFSET = Math.toRadians(218.848 - 180 );
 
     public static final int PRIMARY_CONTROLLER_PORT = 0;
+
+    public static final int CANdleID = 1;
+
 }
