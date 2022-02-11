@@ -49,7 +49,18 @@ public abstract class AutonControlScheme {
 
     public void drive(){
         if(position == 1){
-            //I don't know yet
+
+            drive.drive(new Vector2(1, 0), 0, false);
+            
+            try {
+                Thread.sleep(1000);
+            }
+            catch (InterruptedException ex) {
+                
+            }
+
+            drive.drive(new Vector2(1, 0), 0, false);
+
         }
 
         else if(position != 1){
@@ -73,12 +84,12 @@ public abstract class AutonControlScheme {
         flywheel.shooterOn();
 
         //this next section waits for 1 second to pass. This should be optimized once we get a chance to run this on the robot
-        try {
-            Thread.sleep(1000);
-        }
-        catch (InterruptedException ex) {
-            
-        }
+            try {
+                Thread.sleep(1000);
+            }
+            catch (InterruptedException ex) {
+                
+            }
 
         intake.conveyorCollect();
         flywheel.shoot();
