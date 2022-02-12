@@ -62,4 +62,5 @@ public class Shooter {
         flywheel1.setVelocity(barfRPM);
         //flywheel2.setVelocity(barfRPM);
     }
+
 }

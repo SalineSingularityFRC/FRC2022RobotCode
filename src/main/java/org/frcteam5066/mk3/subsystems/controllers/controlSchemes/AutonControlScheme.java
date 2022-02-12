@@ -75,32 +75,19 @@ public abstract class AutonControlScheme {
     
     public void shoot(){
         if(position != 1){
-            while(!limeLight.hasVisionTarget()){
+            if(!limeLight.hasVisionTarget()){
                 drive.drive(new Vector2(0, 0), 1 * rotationDirection, false);
             }
         }
 
-        limeLight.runLimeLight(drive, 1);
-        flywheel.shooterOn();
-
-        //this next section waits for 1 second to pass. This should be optimized once we get a chance to run this on the robot
-            try {
-                Thread.sleep(1000);
-            }
-            catch (InterruptedException ex) {
-                
-            }
+        else {
+            limeLight.runLimeLight(drive, 1);
+            flywheel.shooterOn();
+        }
+        
 
         intake.conveyorCollect();
         flywheel.shoot();
-
-        //this will be replaced with color sensor telling us when a ball has been fired
-        try {
-            Thread.sleep(1000);
-        }
-        catch (InterruptedException ex) {
-            
-        }
 
         intake.conveyorOff();
         flywheel.shooterOff();

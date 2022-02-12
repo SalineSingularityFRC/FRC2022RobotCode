@@ -33,7 +33,7 @@ public class Robot extends TimedRobot {
     IntakePneumatics intakePneumatics;
     DrivetrainSubsystem drive;
     RunAuton runAuton;
-    
+
     final int XBOX_PORT = 0;
 	final int BIG_JOYSTICK_PORT = 1;
     final int SMALL_JOYSTICK_PORT = 2;
@@ -89,6 +89,12 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         runAuton.actuallyRunAutonTheMethod();
+        //runAuton = new RunAuton(limeLight, flywheel, drive, allianceColor);
+    }
+
+    @Override
+    public void autonomousPeriodic() {
+        //runAuton.actuallyRunAutonTheMethod();
     }
 
     @Override
