@@ -1,17 +1,20 @@
 package org.frcteam5066.mk3;
 
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import org.frcteam5066.common.robot.UpdateManager;
 import org.frcteam5066.mk3.subsystems.CANdleSystem;
+import org.frcteam5066.mk3.subsystems.DrivetrainSubsystem;
 import org.frcteam5066.mk3.subsystems.Intake;
 import org.frcteam5066.mk3.subsystems.Shooter;
 import org.frcteam5066.mk3.subsystems.CANdleSystem.AnimationTypes;
 import org.frcteam5066.mk3.subsystems.controllers.ControlScheme;
 import org.frcteam5066.mk3.subsystems.controllers.XboxController;
 import org.frcteam5066.mk3.subsystems.controllers.controlSchemes.ArcadeDrive;
+import org.frcteam5066.mk3.subsystems.controllers.controlSchemes.RunAuton;
 
 public class Robot extends TimedRobot {
     private RobotContainer robotContainer;
@@ -20,20 +23,24 @@ public class Robot extends TimedRobot {
     Compressor compressor;
     LimeLight limeLight;
 
-    int flywheelMotor1, flywheelMotor2, flywheelMotor3;
-    int conveyorMotor;
+    int flywheelMotor1Port, flywheelMotor2Port, flywheelMotor3Port;
+    int conveyorMotorPort;
 
     ControlScheme currentScheme;
 
     Shooter flywheel;
     Intake intake;
     IntakePneumatics intakePneumatics;
+    DrivetrainSubsystem drive;
+    RunAuton runAuton;
     
     final int XBOX_PORT = 0;
 	final int BIG_JOYSTICK_PORT = 1;
     final int SMALL_JOYSTICK_PORT = 2;
 
     CANdleSystem candle;
+
+    private final String allianceColor = DriverStation.getAlliance().toString();
 
     
 
@@ -60,6 +67,9 @@ public class Robot extends TimedRobot {
 
         candle = new CANdleSystem();
         
+        drive = robotContainer.getDrivetrainSubsystem();
+
+        runAuton = new RunAuton(limeLight, flywheel, drive, allianceColor);
         // candle.changeAnimation(AnimationTypes.TwinkleOff);
 
  
@@ -78,7 +88,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-
+        runAuton.actuallyRunAutonTheMethod();
     }
 
     @Override

@@ -14,6 +14,7 @@ public class RunAuton extends AutonControlScheme{
     SendableChooser<Boolean> doShoot2 = new SendableChooser<>();
 
     public RunAuton(LimeLight limeLight, Shooter flywheel, DrivetrainSubsystem drive, String color){
+
         super(limeLight, flywheel, drive, color);
 
         doDrive.setDefaultOption("Yes", true);
@@ -29,7 +30,7 @@ public class RunAuton extends AutonControlScheme{
         doShoot2.addOption("No", false);
     }
 
-    public void moveAuton(){
+    public void actuallyRunAutonTheMethod(){
         
         if(doDrive.getSelected()) super.drive();
         if(doShoot.getSelected()) super.shoot();
