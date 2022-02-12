@@ -54,6 +54,7 @@ public class Falcon implements MotorController {
 
     public void setInverted(InvertType invert){
         this.talon.setInverted(invert);
+        
     }
 
     public void setSpeed(double speed) { //speed will be from -1.0 to 1.0
@@ -67,6 +68,11 @@ public class Falcon implements MotorController {
     public void setRPMFromStick(double stickValue){ //stickValue will be between -1.0 and 1.0
         double rpm = stickValue * 6380;
         this.setVelocity(rpm);
+    }
+
+    public double getMotorRPM(){
+        double rpm = ( this.talon.getSelectedSensorVelocity() * 60 * 10 ) / (2048); //
+        return rpm;
     }
 
     public void setPosition(double position){ //position is measured in degrees
