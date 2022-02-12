@@ -18,6 +18,8 @@ import edu.wpi.first.wpilibj.DriverStation;
 import org.frcteam5066.mk3.subsystems.controllers.XboxController;
 import org.frcteam5066.mk3.subsystems.controllers.motorControllers.MotorCycle;
 
+
+
 //Uncomment to enable gyro stuff
 //import com.kauailabs.navx.frc.AHRS;
 
@@ -125,7 +127,12 @@ public class ArcadeDrive extends ControlScheme {
 
     @Override
     public void flywheel(Shooter flywheel) {
+
+        
+
         if (armController.getTriggerLeft() > .2) {
+
+            SmartDashboard.putNumber("Running Flywheel", 1);
             
             if (armController.getAButton()) {
                 flywheel.shooterReverse();
@@ -146,6 +153,7 @@ public class ArcadeDrive extends ControlScheme {
             else flywheel.shoot(); // turns on feeder wheel
         }
         else flywheel.hold();
+        SmartDashboard.putNumber("Running Flywheel", 0);
     }
 
     public void intakePneumatics(IntakePneumatics intakePneumatics) {
