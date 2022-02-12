@@ -1,5 +1,6 @@
 package org.frcteam5066.mk3.subsystems;
 
+import org.frcteam5066.mk3.subsystems.controllers.motorControllers.Falcon;
 import org.frcteam5066.mk3.subsystems.controllers.motorControllers.Spark;
 import org.frcteam5066.mk3.subsystems.controllers.motorControllers.Falcon;
 
@@ -8,7 +9,8 @@ import org.frcteam5066.mk3.subsystems.controllers.MotorController;
 public class Shooter {
  
     MotorController flywheel1, flywheel2, flywheelFeed;
- 
+ //motorcontroller class is the parent class(not all motor controllers are falcons)
+ //specify that something is a moter controller, then later specify if it's a falcon
     double kP = 6e-5;
     double kI = 0;
     double kD = 0;
@@ -20,9 +22,9 @@ public class Shooter {
     double maxRPMflywheel1 = 11000;
     double maxRPMFeed = 5700;
     double barfRPM = 1000;
- 
+ //change can ID of falcons to 60 on phoenix tuner 
     public Shooter(int flywheel1Port, int flywheel2Port, int flywheelFeedPort){
-       // flywheel2 = new Falcon(60, 1.0, true);
+       // flywheel2 = new Falcon(60, 1, true);
         flywheel1 = new Falcon(61, 1.0, true);
         flywheelFeed = new Spark(flywheelFeedPort, true, 0.00, "FlywheelFeed", false, false, kP, kI, kD, kIz, kFF, kMinOutput, kMaxOutput);
         //flywheel2.follow(flywheel1, true);

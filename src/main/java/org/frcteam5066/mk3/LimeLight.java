@@ -9,7 +9,9 @@ import org.frcteam5066.common.robot.drivers.Limelight.CamMode;
 //technically we shouldn't use this but were going to anyway
 //import org.frcteam5066.common.robot.subsystems.HolonomicDrivetrain;
 import org.frcteam5066.mk3.subsystems.DrivetrainSubsystem;
-
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -25,10 +27,10 @@ public class LimeLight{
 
     PIDController headingPID;
 
+
     //constructor to create the limelight and its values
     //class by: Branden Amstutz
-    public LimeLight() {
-
+    public LimeLight(){
         table = NetworkTableInstance.getDefault().getTable("limelight");
         // horizontal offset of cross hair to target
         tx = table.getEntry("tx");
@@ -124,6 +126,8 @@ public class LimeLight{
         else if(driveType == 1){
             pipeLine.setNumber( 1 );
         }
+
+        
 
         //SmartDashboard.putBoolean("isPipeline", pipeLine.setNumber( 2 ));
 

@@ -1,4 +1,3 @@
-//auton is where you talk about what is happening 15 seconds before you start
 package org.frcteam5066.mk3.subsystems.controllers.controlSchemes;
 
 import edu.wpi.first.wpilibj.SPI;
@@ -8,134 +7,47 @@ import java.lang.Math;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SerialPort;
 
-import frc.robot.Flywheel;
-import frc.robot.LimeLight;
-import frc.singularityDrive.SingDrive;
-import frc.singularityDrive.SingDrive.*;
-import frc.robot.CellCollector;
-import frc.robot.Conveyor;
+import org.frcteam5066.common.robot.subsystems.Drivetrain;
+import org.frcteam5066.common.robot.subsystems.HolonomicDrivetrain;
+import org.frcteam5066.mk3.LimeLight;
+import org.frcteam5066.mk3.subsystems.DrivetrainSubsystem;
+import org.frcteam5066.mk3.subsystems.Intake;
+import org.frcteam5066.mk3.subsystems.Shooter;
+import org.frcteam5066.mk3.subsystems.controllers.*;
 
 public abstract class AutonControlScheme {
 
-    protected static AHRS gyro;
-    protected static SingDrive drive;
-    protected static LimeLight limeLight;
-    protected static Flywheel flywheel;
-    protected static Conveyor conveyor;
-    protected static CellCollector cellCollector;
+    LimeLight lili = new LimeLight();
 
-    public static final double radius = 3.125;
+    public abstract void moveAuton(DrivetrainSubsystem drive);
+
+    public void driveToPoint(DrivetrainSubsystem drive){
+        
+        //run motor until out of tarmak
+    }
+
+    public void searchAlign(DrivetrainSubsystem drive){
+        //spin until ball is in center of vision
+    }
     
-    public static final double encoderTicks = 16.28;
-
-    public AutonControlScheme(SingDrive drive, LimeLight limeLight, Flywheel flywheel, Conveyor conveyor){
-        //define Limelight and all the sensors
-        this.drive = drive;
-        //this.gyro = new AHRS(SerialPort.Port.kUSB);//Via USB
-        this.gyro = new AHRS(SPI.Port.kMXP);//Plugged In
-        this.limeLight = limeLight;
-        this.flywheel = flywheel;
-        this.conveyor = conveyor;
-        this.cellCollector = cellCollector;
+    public void searchLeft(DrivetrainSubsystem drive){
+        //searchAlign starting left
     }
 
-    //the main method of each auton programs
-    public abstract void moveAuton();
+    public void searchRight(DrivetrainSubsystem drive){
+        //searchAlign starting right
+    }
+
+    public void deployIntake(DrivetrainSubsystem drive){
+        //deploy intake
+    }
     
-    /**
-     * How to make the robot move forward or backwards autonomously.
-     * DISCLAIMER If you want the robot to go backwards set verticalSpeed number to negative
-     * @param distance the absolute value of the distance in inches the robot will travel 
-     * @param verticalSpeed The speed between 0 and 1 the robot will go. 
-     */
-    public void vertical(double distance, double verticalSpeed){
-        
-        //if(distance < 0) verticalSpeed *= -1;
-
-        drive.setInitialPosition();
-
-        while ( drive.getCurrentPosition() / encoderTicks > -1 * Math.abs(distance) /( 2* Math.PI *radius)
-                && drive.getCurrentPosition() / encoderTicks < Math.abs(distance) / ( 2* Math.PI *radius)) {
-        
-            SmartDashboard.putNumber("encoderRotations", drive.getCurrentPosition() / encoderTicks);
-            SmartDashboard.putNumber("goal", distance / (2 * Math.PI * radius));
-
-            drive.arcadeDrive(verticalSpeed, 0, 0.0, false, SpeedMode.NORMAL);
-        
-        }
-        
-        drive.arcadeDrive(0, 0, 0.0, false, SpeedMode.NORMAL);
-
+    public void getBall(DrivetrainSubsystem drive){
+        //run AFTER searchAlign(), drive until ball is in robot
+    }
+    public void aim(DrivetrainSubsystem drive){
+        //aim robot at goal. Use this in teleop as well
     }
 
-    public void vertical(double distance){
-        vertical(distance, distance / Math.abs(distance) *0.3);
-    }
-
-    public void verticalWithCollector(double distance){
-        cellCollector.collectorForward();
-        conveyor.conveyorForward();
-        vertical(distance);
-        cellCollector.collectorOff();
-    }
-
-
-    public void rotate(double angle, boolean isCounterClockwise){
-        rotate(0.2, angle, isCounterClockwise);
-    }
-
-    public void rotate(double rotationSpeed, double angle, boolean isCounterClockwise){
-        gyro.reset();
-        if(isCounterClockwise) rotationSpeed*= -1;
-        SmartDashboard.putNumber("GyroAngle", gyro.getAngle());
-
-		while(gyro.getAngle() < angle) {
-
-            SmartDashboard.putNumber("GyroAngle", gyro.getAngle());
-			
-			//TODO accelerate motors slowly
-            //drive.rampVoltage();
-			
-			drive.arcadeDrive(0.0, rotationSpeed, 0.0, false, SpeedMode.NORMAL);
-		}
-		
-		drive.arcadeDrive(0.0, 0.0, 0.0, false, SpeedMode.NORMAL);
-
-    }
-
-    public void adjustToTarget(){
-        while(drive.limeLightDrive(limeLight));
-    }
-
-    public void shoot(){
-        /*flywheel.flywheelForward();
-
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException ex) {
-            
-        }
-
-        flywheel.flywheelFeedOn();
-
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException ex) {
-            
-        }
-
-        conveyor.conveyorForward();
-
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException ex) {
-            
-        }
-        
-        flywheel.flywheelOff();
-        flywheel.flywheelFeedOff();
-        conveyor.conveyorOff();
-        */
-    }
 
 }
