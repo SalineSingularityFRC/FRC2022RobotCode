@@ -19,7 +19,6 @@ import com.ctre.phoenix.led.TwinkleOffAnimation.TwinkleOffPercent;
 public class CANdleSystem extends SubsystemBase {
     private final CANdle m_candle = new CANdle(Constants.CANdleID, "rio");
     private final int LedCount = 300;
-    private XboxController joystick;
 
     private Animation m_toAnimate = null;
 
@@ -139,7 +138,7 @@ public class CANdleSystem extends SubsystemBase {
         } else {
             m_candle.animate(m_toAnimate);
         }
-        m_candle.modulateVBatOutput(joystick.getRS_Y());
+        m_candle.modulateVBatOutput(.5);
     }
 
     @Override
