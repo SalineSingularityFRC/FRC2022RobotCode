@@ -13,6 +13,8 @@ import org.frcteam5066.mk3.subsystems.controllers.*;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.DriverStation;
+
 import org.frcteam5066.mk3.subsystems.controllers.XboxController;
 import org.frcteam5066.mk3.subsystems.controllers.motorControllers.MotorCycle;
 
@@ -32,6 +34,10 @@ public class ArcadeDrive extends ControlScheme {
     MotorCycle motorCycle = new MotorCycle(7);
 
     HolonomicDrivetrain drive;
+
+    //DriverStation driverStation = new DriverStation();
+
+    String allianceColor = DriverStation.getAlliance().toString();
 
     
 
@@ -107,6 +113,14 @@ public class ArcadeDrive extends ControlScheme {
         else {
             intake.conveyorOff();
         }
+
+        if( armController.getPOVUp() ){
+            intake.intakeDeploy();
+        }
+        else if ( armController.getPOVUp() ){
+            intake.intakeRetract();
+        }
+
     }
 
     @Override
@@ -158,6 +172,8 @@ public class ArcadeDrive extends ControlScheme {
      */
 
     public void limeLightDrive(LimeLight limelight, DrivetrainSubsystem drive){
+
+        //motorCycle.on();
         
         boolean runningLimelight;
         boolean hasVision;
@@ -165,6 +181,8 @@ public class ArcadeDrive extends ControlScheme {
             motorCycle.off();
             //limelight.ledOn(limelight);
             //limelight.setpipeline(limelight, 0.0);
+
+            
             hasVision = limelight.runLimeLight(drive, 1);
             runningLimelight = true;
             //limelight.ledMode.setBoolean(true);
@@ -175,7 +193,12 @@ public class ArcadeDrive extends ControlScheme {
             motorCycle.on();
             //limelight.ledOff(limelight);
             //limelight.setpipeline(limelight, 1.0);
-            hasVision = limelight.runLimeLight(drive, 0);
+            if(allianceColor.equals("Blue")){ //don't be a sinner and use ==. use .equals();
+                hasVision = limelight.runLimeLight(drive, 2);
+            }
+            else{
+                hasVision = limelight.runLimeLight(drive, 3);
+            }
             runningLimelight = true;
         
         }

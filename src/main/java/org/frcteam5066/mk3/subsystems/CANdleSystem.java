@@ -133,9 +133,9 @@ public class CANdleSystem extends SubsystemBase {
     public void periodic() {
         // This method will be called once per scheduler run
         if(m_toAnimate == null) {
-            m_candle.setLEDs((int)(joystick.getTriggerLeft() * 255), 
-                              (int)(joystick.getTriggerRight() * 255), 
-                              (int)(joystick.getLS_X() * 255));
+            m_candle.setLEDs((int)(1 * 255), 
+                              (int)(1 * 255), 
+                              (int)(1 * 255));
         } else {
             m_candle.animate(m_toAnimate);
         }

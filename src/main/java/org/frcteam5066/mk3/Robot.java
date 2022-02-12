@@ -27,13 +27,13 @@ public class Robot extends TimedRobot {
 
     Shooter flywheel;
     Intake intake;
-    IntakePneumatics intakePneumatics;
+    //IntakePneumatics intakePneumatics;
     
     final int XBOX_PORT = 0;
 	final int BIG_JOYSTICK_PORT = 1;
     final int SMALL_JOYSTICK_PORT = 2;
 
-    CANdleSystem candle;
+    //CANdleSystem candle;
 
     
 
@@ -47,18 +47,18 @@ public class Robot extends TimedRobot {
 
         
 
-        flywheel = new Shooter(12, 11, 8);
+        flywheel = new Shooter(61, 11, 8);
 
         currentScheme = new ArcadeDrive(XBOX_PORT, XBOX_PORT + 1);
 
-        intake = new Intake(10, 7, 1);
+        intake = new Intake(15, 7, 31);
 
-        intakePneumatics = new IntakePneumatics(0, 1);
+        //intakePneumatics = new IntakePneumatics(0, 1);
 
         compressor = new Compressor(PneumaticsModuleType.CTREPCM);
         limeLight = new LimeLight();
 
-        candle = new CANdleSystem();
+        //candle = new CANdleSystem();
         
         // candle.changeAnimation(AnimationTypes.TwinkleOff);
 
@@ -72,7 +72,7 @@ public class Robot extends TimedRobot {
         currentScheme.flywheel(flywheel);
         
         currentScheme.intakeConveyer(intake);
-        currentScheme.intakePneumatics(intakePneumatics);
+        //currentScheme.intakePneumatics(intakePneumatics);
         
         currentScheme.limeLightDrive(limeLight, robotContainer.getDrivetrainSubsystem());
         

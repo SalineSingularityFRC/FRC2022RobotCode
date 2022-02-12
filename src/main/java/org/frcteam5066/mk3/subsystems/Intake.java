@@ -7,7 +7,8 @@ import org.frcteam5066.mk3.subsystems.controllers.MotorController;
 //This intake class includes both the collector and conveyor
 public class Intake {
  
-    MotorController intakeDrive, intakeConveyor, falconIntake;
+    MotorController intakeDrive, intakeConveyor;
+    Falcon intakeDeploy;
  
  
     double kP = 6e-5;
@@ -21,7 +22,8 @@ public class Intake {
     // maxRPMIntakeconveyor is copied from 2021 conveyor class
     double maxRPMIntakeconveyor = -4000;
     double maxRPMFeed = 5700;
-    double extendSpeed = 1;
+    double deployPosition = 0;
+    double retractPosition = (115) * 201.67; //~115 degrees to the 
  
  
  
@@ -32,7 +34,7 @@ public class Intake {
         //550 motors used for intake, unsure if they are brushed
         intakeDrive = new Spark(intakeDrivePort, true, 0.00, "IntakeDrive", false, false, kP, kI, kD, kIz, kFF, kMinOutput, kMaxOutput);
         intakeConveyor = new Spark(intakeConveyorPort, true, 0.00, "IntakeConveyor", false, false, kP, kI, kD, kIz, kFF, kMinOutput, kMaxOutput);
-        falconIntake = new Falcon(intakeDeployPort, 1.0, true);
+        intakeDeploy = new Falcon(intakeDeployPort, 1.0, true);
     }
  
     
@@ -54,22 +56,22 @@ public class Intake {
     }
 
     public void conveyorCollect(){
-        //intakeConveyor.setVelocity(maxRPMIntakeconveyor);
+        intakeConveyor.setVelocity(maxRPMIntakeconveyor);
     }
 
     public void conveyorReject(){
-        //intakeConveyor.setVelocity(-maxRPMIntakeconveyor);
+        intakeConveyor.setVelocity(-maxRPMIntakeconveyor);
     }
 
     public void conveyorOff(){
-        //intakeConveyor.setVelocity(0.0);
+        intakeConveyor.setVelocity(0.0);
     }
     public void intakeDeploy(){//bring one of the falcons to make the intake deploy, which way is it supposed to turn
-        falconIntake.setSpeed(extendSpeed);
+        intakeDeploy.setPosition(deployPosition);
     }
 
     public void intakeRetract(){//bring one of the falcons to make the intake deploy
-        falconIntake.setSpeed(-extendSpeed);
+        intakeDeploy.setSpeed(retractPosition);
     }
 }
 //how are we going to deploy the intake out?
