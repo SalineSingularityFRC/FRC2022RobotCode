@@ -4,6 +4,7 @@ import org.frcteam5066.common.robot.subsystems.Drivetrain;
 import org.frcteam5066.common.robot.subsystems.HolonomicDrivetrain;
 import org.frcteam5066.mk3.IntakePneumatics;
 import org.frcteam5066.mk3.LimeLight;
+import org.frcteam5066.mk3.subsystems.CANdleSystem;
 import org.frcteam5066.mk3.subsystems.ColorSensor;
 import org.frcteam5066.mk3.subsystems.DrivetrainSubsystem;
 import org.frcteam5066.mk3.subsystems.Intake;
@@ -11,6 +12,8 @@ import org.frcteam5066.mk3.subsystems.Shooter;
 import org.frcteam5066.mk3.subsystems.controllers.*;
 
 import edu.wpi.first.wpilibj.smartdashboard.*;
+
+import com.ctre.phoenix.led.CANdle;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -40,6 +43,8 @@ public class ArcadeDrive extends ControlScheme {
     //DriverStation driverStation = new DriverStation();
 
     String allianceColor = DriverStation.getAlliance().toString();
+
+
 
     
 
@@ -118,9 +123,13 @@ public class ArcadeDrive extends ControlScheme {
 
         if( armController.getPOVUp() ){
             intake.intakeDeploy();
+            SmartDashboard.putNumber("Deploy", 1);
+            SmartDashboard.putNumber("Retract", 0);
         }
-        else if ( armController.getPOVUp() ){
+        else if ( armController.getPOVDown() ){
             intake.intakeRetract();
+            SmartDashboard.putNumber("Deploy", 0);
+            SmartDashboard.putNumber("Retract", 1);
         }
 
     }
@@ -166,6 +175,15 @@ public class ArcadeDrive extends ControlScheme {
         }
     }
     
+
+    public void candle(CANdleSystem candle){
+        if( armController.getYButton() ){
+            candle.vBatOn();
+        }
+        else{
+            candle.vBatOff();
+        }
+    }
 
     
 

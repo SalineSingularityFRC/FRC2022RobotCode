@@ -2,6 +2,9 @@ package org.frcteam5066.mk3.subsystems;
 
 import org.frcteam5066.mk3.subsystems.controllers.motorControllers.Falcon;
 import org.frcteam5066.mk3.subsystems.controllers.motorControllers.Spark;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import org.frcteam5066.mk3.subsystems.controllers.MotorController;
 
 //This intake class includes both the collector and conveyor
@@ -68,10 +71,11 @@ public class Intake {
     }
     public void intakeDeploy(){//bring one of the falcons to make the intake deploy, which way is it supposed to turn
         intakeDeploy.setPosition(deployPosition);
+        
     }
 
     public void intakeRetract(){//bring one of the falcons to make the intake deploy
-        intakeDeploy.setSpeed(retractPosition);
+        intakeDeploy.setPosition(retractPosition);
     }
 }
 //how are we going to deploy the intake out?
