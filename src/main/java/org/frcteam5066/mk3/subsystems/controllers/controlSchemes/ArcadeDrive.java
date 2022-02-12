@@ -4,6 +4,7 @@ import org.frcteam5066.common.robot.subsystems.Drivetrain;
 import org.frcteam5066.common.robot.subsystems.HolonomicDrivetrain;
 import org.frcteam5066.mk3.IntakePneumatics;
 import org.frcteam5066.mk3.LimeLight;
+import org.frcteam5066.mk3.subsystems.ColorSensor;
 import org.frcteam5066.mk3.subsystems.DrivetrainSubsystem;
 import org.frcteam5066.mk3.subsystems.Intake;
 import org.frcteam5066.mk3.subsystems.Shooter;
@@ -13,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.*;
 import com.kauailabs.navx.frc.AHRS;
 
 import org.frcteam5066.mk3.subsystems.controllers.XboxController;
+import org.frcteam5066.mk3.subsystems.controllers.motorControllers.MotorCycle;
 
 //Uncomment to enable gyro stuff
 //import com.kauailabs.navx.frc.AHRS;
@@ -26,6 +28,8 @@ public class ArcadeDrive extends ControlScheme {
 
     //Create all objects & a speedMode object
     XboxController driveController, armController;
+    //ColorSensor colorSensor = new ColorSensor(); 
+    MotorCycle motorCycle = new MotorCycle(7);
 
     HolonomicDrivetrain drive;
 
@@ -108,9 +112,14 @@ public class ArcadeDrive extends ControlScheme {
     @Override
     public void flywheel(Shooter flywheel) {
         if (armController.getTriggerLeft() > .2) {
-            if (armController.getAButton())
+            
+            if (armController.getAButton()) {
                 flywheel.shooterReverse();
-            else flywheel.shooterOn();
+            } else if (/*colorSensor.robotColor()*/true == false) {
+                flywheel.barf();
+            } else {
+                flywheel.shooterOn();
+            }
         }
         else if (armController.getPOVLeft()) {
             flywheel.barf();
@@ -120,7 +129,7 @@ public class ArcadeDrive extends ControlScheme {
         if (armController.getTriggerRight() > .2) {
             if (armController.getAButton())
                 flywheel.feederReverse();
-            else flywheel.shoot();
+            else flywheel.shoot(); // turns on feeder wheel
         }
         else flywheel.hold();
     }
@@ -153,6 +162,7 @@ public class ArcadeDrive extends ControlScheme {
         boolean runningLimelight;
         boolean hasVision;
         if (driveController.getXButton()) {
+            motorCycle.off();
             //limelight.ledOn(limelight);
             //limelight.setpipeline(limelight, 0.0);
             hasVision = limelight.runLimeLight(drive, 1);
@@ -162,13 +172,15 @@ public class ArcadeDrive extends ControlScheme {
             
         }
         else if (driveController.getBButton()){
+            motorCycle.on();
             //limelight.ledOff(limelight);
             //limelight.setpipeline(limelight, 1.0);
             hasVision = limelight.runLimeLight(drive, 0);
             runningLimelight = true;
+        
         }
         else{
-
+            motorCycle.off();
             runningLimelight = false;
             hasVision = false;
             limelight.ledOff(limelight);

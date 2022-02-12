@@ -9,7 +9,9 @@ import org.frcteam5066.common.robot.drivers.Limelight.CamMode;
 //technically we shouldn't use this but were going to anyway
 //import org.frcteam5066.common.robot.subsystems.HolonomicDrivetrain;
 import org.frcteam5066.mk3.subsystems.DrivetrainSubsystem;
-
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -20,15 +22,15 @@ public class LimeLight{
 
     public NetworkTable table;
     public NetworkTableEntry tx, ty, ta, tv, ts, tl, pipeLine, tshort, tlong, thor, tvert, getpipe, camtran, ledMode, camMode;
-
+//t means target(example-target x, y, )
     public double target_distance = 0.0;
 
     PIDController headingPID;
 
+
     //constructor to create the limelight and its values
     //class by: Branden Amstutz
-    public LimeLight() {
-
+    public LimeLight(){
         table = NetworkTableInstance.getDefault().getTable("limelight");
         // horizontal offset of cross hair to target
         tx = table.getEntry("tx");
@@ -125,6 +127,8 @@ public class LimeLight{
             pipeLine.setNumber( 1 );
         }
 
+        
+
         //SmartDashboard.putBoolean("isPipeline", pipeLine.setNumber( 2 ));
 
         //SmartDashboard.putNumber("Pipeline number", getpipe.getDouble(190.0));
@@ -170,13 +174,13 @@ public class LimeLight{
 
         return false;
 
-    }
+    }//the pipelines track configurations on the limelight(like the rgb )
 }
 //PID-adjusts a control output based on difference between a set point 
-//derivative is rate of change
+//derivative is rate of change/predicting future, so as to not over shoot
 //integral-sum of instantaneous error over time and gives accumulated
 //offset that should've been corrected
-
+//proportion- the ratio of output response to the error signal.
 //THIS IS JUST AN OPTION FOR THE INTAKE OF THE CARGO
 //FOR the interior, place a color sensor. When the sensor sees a ball 
 //that doesn't match with the alliance, it spits the ball out at a slow speed so

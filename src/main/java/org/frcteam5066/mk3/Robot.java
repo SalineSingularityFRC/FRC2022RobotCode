@@ -6,8 +6,7 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import org.frcteam5066.common.robot.UpdateManager;
-import org.frcteam5066.mk3.subsystems.CANdleSystem;
-import org.frcteam5066.mk3.subsystems.DrivetrainSubsystem;
+import org.frcteam5066.mk3.subsystems.ColorSensor;
 import org.frcteam5066.mk3.subsystems.Intake;
 import org.frcteam5066.mk3.subsystems.Shooter;
 import org.frcteam5066.mk3.subsystems.CANdleSystem.AnimationTypes;
@@ -58,7 +57,7 @@ public class Robot extends TimedRobot {
 
         currentScheme = new ArcadeDrive(XBOX_PORT, XBOX_PORT + 1);
 
-        intake = new Intake(10, 7);
+        intake = new Intake(10, 7, 1);
 
         intakePneumatics = new IntakePneumatics(0, 1);
 
@@ -80,10 +79,12 @@ public class Robot extends TimedRobot {
         compressor.enableDigital();
         CommandScheduler.getInstance().run();
         currentScheme.flywheel(flywheel);
+        
         currentScheme.intakeConveyer(intake);
         currentScheme.intakePneumatics(intakePneumatics);
         
         currentScheme.limeLightDrive(limeLight, robotContainer.getDrivetrainSubsystem());
+        
     }
 
     @Override
