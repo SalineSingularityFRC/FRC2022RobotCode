@@ -33,6 +33,8 @@ public class Robot extends TimedRobot {
 	final int BIG_JOYSTICK_PORT = 1;
     final int SMALL_JOYSTICK_PORT = 2;
 
+    CANdleSystem candle;
+
     //CANdleSystem candle;
 
     
@@ -52,6 +54,8 @@ public class Robot extends TimedRobot {
         currentScheme = new ArcadeDrive(XBOX_PORT, XBOX_PORT + 1);
 
         intake = new Intake(15, 7, 31);
+
+        candle = new CANdleSystem();
 
         //intakePneumatics = new IntakePneumatics(0, 1);
 
@@ -75,6 +79,10 @@ public class Robot extends TimedRobot {
         //currentScheme.intakePneumatics(intakePneumatics);
         
         currentScheme.limeLightDrive(limeLight, robotContainer.getDrivetrainSubsystem());
+
+        currentScheme.candle(candle);
+
+
         
     }
 
