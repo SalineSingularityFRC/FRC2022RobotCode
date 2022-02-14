@@ -71,7 +71,7 @@ public class Intake {
     }
 
     public void intakeRetract(){//bring one of the falcons to make the intake deploy
-        intakeDeploy.setSpeed(retractPosition);
+        intakeDeploy.setPosition(retractPosition);
     }
 }
 //how are we going to deploy the intake out?

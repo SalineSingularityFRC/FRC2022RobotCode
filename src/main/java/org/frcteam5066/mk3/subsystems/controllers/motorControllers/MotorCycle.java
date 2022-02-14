@@ -10,16 +10,16 @@ public class MotorCycle {
     public MotorCycle(int portNumber) {
         s3= new Solenoid( PneumaticsModuleType.CTREPCM, portNumber);
 		s3.set(false);
+    }
 
-}
 
-public void on(){
-    s3.set(true);
-}
+    public void on(){
+        s3.set(true);
+    }
 
-public void off(){
-    s3.set(false);
+    public void off(){
+        s3.set(false);
 
-}
+    }
 
 }
