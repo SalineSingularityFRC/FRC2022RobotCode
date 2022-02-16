@@ -179,8 +179,10 @@ public class ArcadeDrive extends ControlScheme {
     public void candle(CANdleSystem candle){
         if( armController.getYButton() ){
             candle.vBatOn();
+            SmartDashboard.putNumber("Motorcycle Light State", 1);
         }
         else{
+            SmartDashboard.putNumber("Motorcycle Light State", 0);
             candle.vBatOff();
         }
     }
@@ -205,6 +207,7 @@ public class ArcadeDrive extends ControlScheme {
         boolean hasVision;
         if (driveController.getXButton()) {
             motorCycle.off();
+            SmartDashboard.putNumber("Motorcycle Light State", 0);
             //limelight.ledOn(limelight);
             //limelight.setpipeline(limelight, 0.0);
 
@@ -217,6 +220,7 @@ public class ArcadeDrive extends ControlScheme {
         }
         else if (driveController.getBButton()){
             motorCycle.on();
+            SmartDashboard.putNumber("Motorcycle Light State", 1);
             //limelight.ledOff(limelight);
             //limelight.setpipeline(limelight, 1.0);
             if(allianceColor.equals("Blue")){ //don't be a sinner and use ==. use .equals();
@@ -230,6 +234,7 @@ public class ArcadeDrive extends ControlScheme {
         }
         else{
             motorCycle.off();
+            SmartDashboard.putNumber("Motorcycle Light State", 0);
             runningLimelight = false;
             hasVision = false;
             limelight.ledOff(limelight);
