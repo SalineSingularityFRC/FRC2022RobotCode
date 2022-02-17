@@ -8,7 +8,10 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import org.frcteam5066.common.robot.UpdateManager;
 import org.frcteam5066.mk3.subsystems.CANdleSystem;
 import org.frcteam5066.mk3.subsystems.ColorSensor;
+<<<<<<< HEAD
 import org.frcteam5066.mk3.subsystems.DrivetrainSubsystem;
+=======
+>>>>>>> b057887e081e0ca0f0f63fc7c81a4a1f2d5f2137
 import org.frcteam5066.mk3.subsystems.Intake;
 import org.frcteam5066.mk3.subsystems.Shooter;
 import org.frcteam5066.mk3.subsystems.CANdleSystem.AnimationTypes;
@@ -55,18 +58,20 @@ public class Robot extends TimedRobot {
 
         
 
-        flywheel = new Shooter(12, 11, 8);
+        flywheel = new Shooter(61, 11, 8);
 
         currentScheme = new ArcadeDrive(XBOX_PORT, XBOX_PORT + 1);
 
-        intake = new Intake(10, 7, 1);
+        intake = new Intake(15, 7, 31);
 
-        intakePneumatics = new IntakePneumatics(0, 1);
+        candle = new CANdleSystem();
+
+        //intakePneumatics = new IntakePneumatics(0, 1);
 
         compressor = new Compressor(PneumaticsModuleType.CTREPCM);
         limeLight = new LimeLight();
 
-        candle = new CANdleSystem();
+        //candle = new CANdleSystem();
         
         drive = robotContainer.getDrivetrainSubsystem();
 
@@ -83,9 +88,13 @@ public class Robot extends TimedRobot {
         currentScheme.flywheel(flywheel);
         
         currentScheme.intakeConveyer(intake);
-        currentScheme.intakePneumatics(intakePneumatics);
+        //currentScheme.intakePneumatics(intakePneumatics);
         
         currentScheme.limeLightDrive(limeLight, robotContainer.getDrivetrainSubsystem());
+
+        currentScheme.candle(candle);
+
+
         
     }
 

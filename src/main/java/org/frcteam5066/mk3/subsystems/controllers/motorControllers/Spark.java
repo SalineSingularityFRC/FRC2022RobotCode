@@ -415,4 +415,8 @@ public class Spark implements MotorController {
         m_motor.getEncoder().setPosition(0.0);
     }
     
+    public double getMotorRPM() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
 }

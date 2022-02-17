@@ -120,12 +120,14 @@ public class LimeLight{
         double kD = .2;
         //Timer time = new Timer("PID1");
 
-        if(driveType == 0){
+        /*if(driveType == 0){
             pipeLine.setNumber( 0 );
         }
         else if(driveType == 1){
             pipeLine.setNumber( 1 );
-        }
+        }*/
+
+        pipeLine.setNumber( driveType );
 
         
 
@@ -138,7 +140,7 @@ public class LimeLight{
 
         //pipeLine.set;
 
-       //pipeLine.setNumber( driveType );
+        //pipeLine.setNumber( driveType );
 
         //SmartDashboard.putNumber("X Value", tx.getDouble(0.0));
 
@@ -164,7 +166,7 @@ public class LimeLight{
             
             SmartDashboard.putNumber("Distance_Error", distance_error);
             SmartDashboard.putNumber("Heading_Error", heading_error);
-            drive.drive(new Vector2((driveType == 0)? 1:0, 0), heading_error, false); 
+            drive.drive(new Vector2((driveType == 2 || driveType == 3)? 0:0, 0), 0, false); 
             //note that vectors in this notation use (y,x) and should be used with robot oriented control
             //Not necessarily y and x but rather forward/backward and left/right
 

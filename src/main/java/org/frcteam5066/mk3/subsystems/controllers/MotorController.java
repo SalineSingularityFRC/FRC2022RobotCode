@@ -38,5 +38,8 @@ public interface MotorController {
 
     public abstract double getRotationsSpun();
     public abstract void resetRotationsZero();
+    public double getMotorRPM();
+
+
     
 }

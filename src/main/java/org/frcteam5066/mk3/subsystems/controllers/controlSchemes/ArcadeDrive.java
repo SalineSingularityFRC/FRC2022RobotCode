@@ -4,6 +4,7 @@ import org.frcteam5066.common.robot.subsystems.Drivetrain;
 import org.frcteam5066.common.robot.subsystems.HolonomicDrivetrain;
 import org.frcteam5066.mk3.IntakePneumatics;
 import org.frcteam5066.mk3.LimeLight;
+import org.frcteam5066.mk3.subsystems.CANdleSystem;
 import org.frcteam5066.mk3.subsystems.ColorSensor;
 import org.frcteam5066.mk3.subsystems.DrivetrainSubsystem;
 import org.frcteam5066.mk3.subsystems.Intake;
@@ -11,10 +12,16 @@ import org.frcteam5066.mk3.subsystems.Shooter;
 import org.frcteam5066.mk3.subsystems.controllers.*;
 
 import edu.wpi.first.wpilibj.smartdashboard.*;
+
+import com.ctre.phoenix.led.CANdle;
 import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.wpilibj.DriverStation;
 
 import org.frcteam5066.mk3.subsystems.controllers.XboxController;
 import org.frcteam5066.mk3.subsystems.controllers.motorControllers.MotorCycle;
+
+
 
 //Uncomment to enable gyro stuff
 //import com.kauailabs.navx.frc.AHRS;
@@ -32,6 +39,12 @@ public class ArcadeDrive extends ControlScheme {
     MotorCycle motorCycle = new MotorCycle(7);
 
     HolonomicDrivetrain drive;
+
+    //DriverStation driverStation = new DriverStation();
+
+    String allianceColor = DriverStation.getAlliance().toString();
+
+
 
     
 
@@ -107,11 +120,28 @@ public class ArcadeDrive extends ControlScheme {
         else {
             intake.conveyorOff();
         }
+
+        if( armController.getPOVUp() ){
+            intake.intakeDeploy();
+            SmartDashboard.putNumber("Deploy", 1);
+            SmartDashboard.putNumber("Retract", 0);
+        }
+        else if ( armController.getPOVDown() ){
+            intake.intakeRetract();
+            SmartDashboard.putNumber("Deploy", 0);
+            SmartDashboard.putNumber("Retract", 1);
+        }
+
     }
 
     @Override
     public void flywheel(Shooter flywheel) {
+
+        
+
         if (armController.getTriggerLeft() > .2) {
+
+            SmartDashboard.putNumber("Running Flywheel", 1);
             
             if (armController.getAButton()) {
                 flywheel.shooterReverse();
@@ -132,6 +162,7 @@ public class ArcadeDrive extends ControlScheme {
             else flywheel.shoot(); // turns on feeder wheel
         }
         else flywheel.hold();
+        SmartDashboard.putNumber("Running Flywheel", 0);
     }
 
     public void intakePneumatics(IntakePneumatics intakePneumatics) {
@@ -144,6 +175,17 @@ public class ArcadeDrive extends ControlScheme {
         }
     }
     
+
+    public void candle(CANdleSystem candle){
+        if( armController.getYButton() ){
+            candle.vBatOn();
+            SmartDashboard.putNumber("Motorcycle Light State", 1);
+        }
+        else{
+            SmartDashboard.putNumber("Motorcycle Light State", 0);
+            candle.vBatOff();
+        }
+    }
 
     
 
@@ -158,13 +200,18 @@ public class ArcadeDrive extends ControlScheme {
      */
 
     public void limeLightDrive(LimeLight limelight, DrivetrainSubsystem drive){
+
+        //motorCycle.on();
         
         boolean runningLimelight;
         boolean hasVision;
         if (driveController.getXButton()) {
             motorCycle.off();
+            SmartDashboard.putNumber("Motorcycle Light State", 0);
             //limelight.ledOn(limelight);
             //limelight.setpipeline(limelight, 0.0);
+
+            
             hasVision = limelight.runLimeLight(drive, 1);
             runningLimelight = true;
             //limelight.ledMode.setBoolean(true);
@@ -173,14 +220,21 @@ public class ArcadeDrive extends ControlScheme {
         }
         else if (driveController.getBButton()){
             motorCycle.on();
+            SmartDashboard.putNumber("Motorcycle Light State", 1);
             //limelight.ledOff(limelight);
             //limelight.setpipeline(limelight, 1.0);
-            hasVision = limelight.runLimeLight(drive, 0);
+            if(allianceColor.equals("Blue")){ //don't be a sinner and use ==. use .equals();
+                hasVision = limelight.runLimeLight(drive, 2);
+            }
+            else{
+                hasVision = limelight.runLimeLight(drive, 3);
+            }
             runningLimelight = true;
         
         }
         else{
             motorCycle.off();
+            SmartDashboard.putNumber("Motorcycle Light State", 0);
             runningLimelight = false;
             hasVision = false;
             limelight.ledOff(limelight);

@@ -1,5 +1,6 @@
 package org.frcteam5066.mk3.subsystems.controllers.controlSchemes;
 
+import org.frcteam5066.mk3.subsystems.CANdleSystem;
 import org.frcteam5066.mk3.subsystems.DrivetrainSubsystem;
 import org.frcteam5066.mk3.subsystems.Intake;
 import org.frcteam5066.mk3.subsystems.Shooter;
@@ -64,6 +65,14 @@ public class Test extends ControlScheme{
 
     @Override
     public void limeLightDrive(LimeLight limeLight, DrivetrainSubsystem drive) {
+        // TODO Auto-generated method stub
+        
+    }
+
+
+
+    @Override
+    public void candle(CANdleSystem candle) {
         // TODO Auto-generated method stub
         
     }
