@@ -22,10 +22,17 @@ public abstract class AutonControlScheme {
     protected static int color;
     protected static int rotationDirection; //1 is clockwise, -1 is counter-clockwise
     
+    private boolean driveDone = false;
+    private boolean shootDone = false;
+    private boolean getBallDone = false;
+    private boolean drive2Done = false;
+
     SendableChooser<Integer> startingPosition = new SendableChooser<>();
 
     public AutonControlScheme(LimeLight limeLight, Shooter flywheel, DrivetrainSubsystem drive, String color){
         
+        drive.resetRotationsZero();
+
         startingPosition.setDefaultOption("Position 1", 1);
         startingPosition.addOption("Position 2", 2);
         startingPosition.addOption("Position 3", 3);
@@ -47,38 +54,71 @@ public abstract class AutonControlScheme {
         return limeLight.hasBlueCargoTarget();
     }
 
+    public boolean driveDone(){
+         return driveDone;
+    }
+
+    public boolean shootDone(){
+        return shootDone;
+    }
+
+    public boolean getBallDone(){
+        return getBallDone;
+    }
+
+    public boolean drive2Done(){
+        return drive2Done;
+    }
+
+    // target == 1 is vision tape, target == 2 is ball
+    private void aim(int target){
+        if(target == 1){
+            if(!limeLight.hasVisionTarget()){
+                drive.drive(new Vector2(0, 0), 1 * rotationDirection, false);
+            }
+        
+            else {
+                limeLight.runLimeLight(drive, 1);
+            }
+        }
+
+        if(target == 2){
+            
+        }
+
+    }
+
     public void drive(){
+
+
         if(position == 1){
 
             drive.drive(new Vector2(1, 0), 0, false);
             
-            try {
-                Thread.sleep(1000);
+            //AUTON TESTING MODIFY SPOT the "10" below represent the amount of rotations needed to get off the tarmac
+            
+            if(drive.getRotationsSpun() >= 10){
+                drive.drive(new Vector2(0, 0),0, false);
+                driveDone = true;
             }
-            catch (InterruptedException ex) {
-                
-            }
-
-            drive.drive(new Vector2(1, 0), 0, false);
-
-        }
+        }   
 
         else if(position != 1){
             
             //use runLimeLight, pass in color as int (2 or 3)
             limeLight.runLimeLight(drive, color);
-  
+            if(!hasCargoTarget()) driveDone = true;
 
         }
     }
     
     
     public void shoot(){
-        if(position != 1){
-            if(!limeLight.hasVisionTarget()){
-                drive.drive(new Vector2(0, 0), 1 * rotationDirection, false);
-            }
+        //rotates until target is seen
+        if(!limeLight.hasVisionTarget()){
+            drive.drive(new Vector2(0, 0), 1 * rotationDirection, false);
         }
+    
 
         else {
             limeLight.runLimeLight(drive, 1);

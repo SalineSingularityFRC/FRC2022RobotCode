@@ -406,4 +406,13 @@ public class Spark implements MotorController {
     m_pidController.setSmartMotionMaxAccel(maxAcc, slot);
     m_pidController.setSmartMotionAllowedClosedLoopError(allowedErr, slot);
     }
+    
+    public double getRotationsSpun(){
+        return m_motor.getEncoder().getPosition();
+    }
+
+    public void resetRotationsZero(){
+        m_motor.getEncoder().setPosition(0.0);
+    }
+    
 }

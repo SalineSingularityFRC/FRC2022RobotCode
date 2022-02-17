@@ -6,7 +6,9 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import org.frcteam5066.common.robot.UpdateManager;
+import org.frcteam5066.mk3.subsystems.CANdleSystem;
 import org.frcteam5066.mk3.subsystems.ColorSensor;
+import org.frcteam5066.mk3.subsystems.DrivetrainSubsystem;
 import org.frcteam5066.mk3.subsystems.Intake;
 import org.frcteam5066.mk3.subsystems.Shooter;
 import org.frcteam5066.mk3.subsystems.CANdleSystem.AnimationTypes;
@@ -26,7 +28,7 @@ public class Robot extends TimedRobot {
     int conveyorMotorPort;
 
     ControlScheme currentScheme;
-
+    
     Shooter flywheel;
     Intake intake;
     IntakePneumatics intakePneumatics;
@@ -89,7 +91,6 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        runAuton.actuallyRunAutonTheMethod();
         //runAuton = new RunAuton(limeLight, flywheel, drive, allianceColor);
     }
 

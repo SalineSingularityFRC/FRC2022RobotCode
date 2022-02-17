@@ -278,4 +278,13 @@ public class DrivetrainSubsystem implements Subsystem, UpdateManager.Updatable {
             moduleAngleEntries[i].setDouble(Math.toDegrees(modules[i].getCurrentAngle()));
         }
     }
+
+    public double getRotationsSpun(){
+        return modules[0].getRotationsSpun();
+    }
+
+    public void resetRotationsZero(){
+        modules[0].resetRotationsZero();
+    }
+
 }

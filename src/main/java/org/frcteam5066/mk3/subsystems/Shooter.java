@@ -64,5 +64,13 @@ public class Shooter {
         flywheel1.setVelocity(barfRPM);
         //flywheel2.setVelocity(barfRPM);
     }
+    
+    public boolean readyToShoot(){
+        //INCOMPLETE METHOD. flywheel2 is commented out right now because 2021 robot only has 1 flywheel
+        //Continue comenting out flywheel2 stuff until we get the new robot
+        return true;
+    }
+
+    
 
 }
