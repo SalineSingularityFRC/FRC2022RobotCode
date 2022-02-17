@@ -5,9 +5,13 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import org.frcteam5066.common.robot.UpdateManager;
+import org.frcteam5066.mk3.subsystems.CANdleSystem;
+import org.frcteam5066.mk3.subsystems.ColorSensor;
 import org.frcteam5066.mk3.subsystems.Intake;
 import org.frcteam5066.mk3.subsystems.Shooter;
+import org.frcteam5066.mk3.subsystems.CANdleSystem.AnimationTypes;
 import org.frcteam5066.mk3.subsystems.controllers.ControlScheme;
+import org.frcteam5066.mk3.subsystems.controllers.XboxController;
 import org.frcteam5066.mk3.subsystems.controllers.controlSchemes.ArcadeDrive;
 
 public class Robot extends TimedRobot {
@@ -19,16 +23,20 @@ public class Robot extends TimedRobot {
 
     int flywheelMotor1, flywheelMotor2, flywheelMotor3;
     int conveyorMotor;
-
     ControlScheme currentScheme;
 
     Shooter flywheel;
     Intake intake;
-    IntakePneumatics intakePneumatics;
+    //IntakePneumatics intakePneumatics;
     
     final int XBOX_PORT = 0;
 	final int BIG_JOYSTICK_PORT = 1;
-  final int SMALL_JOYSTICK_PORT = 2;
+    final int SMALL_JOYSTICK_PORT = 2;
+
+    CANdleSystem candle;
+
+    //CANdleSystem candle;
+
     
 
     @Override
@@ -41,16 +49,24 @@ public class Robot extends TimedRobot {
 
         
 
-        flywheel = new Shooter(12, 11, 8);
+        flywheel = new Shooter(61, 11, 8);
 
         currentScheme = new ArcadeDrive(XBOX_PORT, XBOX_PORT + 1);
 
-        intake = new Intake(10, 7);
+        intake = new Intake(15, 7, 31);
 
-        intakePneumatics = new IntakePneumatics(0, 1);
+        candle = new CANdleSystem();
+
+        //intakePneumatics = new IntakePneumatics(0, 1);
 
         compressor = new Compressor(PneumaticsModuleType.CTREPCM);
         limeLight = new LimeLight();
+
+        //candle = new CANdleSystem();
+        
+        // candle.changeAnimation(AnimationTypes.TwinkleOff);
+
+ 
     }
 
     @Override
@@ -58,10 +74,16 @@ public class Robot extends TimedRobot {
         compressor.enableDigital();
         CommandScheduler.getInstance().run();
         currentScheme.flywheel(flywheel);
+        
         currentScheme.intakeConveyer(intake);
-        currentScheme.intakePneumatics(intakePneumatics);
+        //currentScheme.intakePneumatics(intakePneumatics);
         
         currentScheme.limeLightDrive(limeLight, robotContainer.getDrivetrainSubsystem());
+
+        currentScheme.candle(candle);
+
+
+        
     }
 
     @Override

@@ -9,7 +9,9 @@ import org.frcteam5066.common.robot.drivers.Limelight.CamMode;
 //technically we shouldn't use this but were going to anyway
 //import org.frcteam5066.common.robot.subsystems.HolonomicDrivetrain;
 import org.frcteam5066.mk3.subsystems.DrivetrainSubsystem;
-
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -20,15 +22,15 @@ public class LimeLight{
 
     public NetworkTable table;
     public NetworkTableEntry tx, ty, ta, tv, ts, tl, pipeLine, tshort, tlong, thor, tvert, getpipe, camtran, ledMode, camMode;
-
+//t means target(example-target x, y, )
     public double target_distance = 0.0;
 
     PIDController headingPID;
 
+
     //constructor to create the limelight and its values
     //class by: Branden Amstutz
-    public LimeLight() {
-
+    public LimeLight(){
         table = NetworkTableInstance.getDefault().getTable("limelight");
         // horizontal offset of cross hair to target
         tx = table.getEntry("tx");
@@ -118,12 +120,16 @@ public class LimeLight{
         double kD = .2;
         //Timer time = new Timer("PID1");
 
-        if(driveType == 0){
+        /*if(driveType == 0){
             pipeLine.setNumber( 0 );
         }
         else if(driveType == 1){
             pipeLine.setNumber( 1 );
-        }
+        }*/
+
+        pipeLine.setNumber( driveType );
+
+        
 
         //SmartDashboard.putBoolean("isPipeline", pipeLine.setNumber( 2 ));
 
@@ -134,7 +140,7 @@ public class LimeLight{
 
         //pipeLine.set;
 
-       //pipeLine.setNumber( driveType );
+        //pipeLine.setNumber( driveType );
 
         //SmartDashboard.putNumber("X Value", tx.getDouble(0.0));
 
@@ -160,7 +166,7 @@ public class LimeLight{
             
             SmartDashboard.putNumber("Distance_Error", distance_error);
             SmartDashboard.putNumber("Heading_Error", heading_error);
-            drive.drive(new Vector2((driveType == 0)? 1:0, 0), heading_error, false); 
+            drive.drive(new Vector2((driveType == 2 || driveType == 3)? 0:0, 0), 0, false); 
             //note that vectors in this notation use (y,x) and should be used with robot oriented control
             //Not necessarily y and x but rather forward/backward and left/right
 
@@ -170,13 +176,13 @@ public class LimeLight{
 
         return false;
 
-    }
+    }//the pipelines track configurations on the limelight(like the rgb )
 }
 //PID-adjusts a control output based on difference between a set point 
-//derivative is rate of change
+//derivative is rate of change/predicting future, so as to not over shoot
 //integral-sum of instantaneous error over time and gives accumulated
 //offset that should've been corrected
-
+//proportion- the ratio of output response to the error signal.
 //THIS IS JUST AN OPTION FOR THE INTAKE OF THE CARGO
 //FOR the interior, place a color sensor. When the sensor sees a ball 
 //that doesn't match with the alliance, it spits the ball out at a slow speed so

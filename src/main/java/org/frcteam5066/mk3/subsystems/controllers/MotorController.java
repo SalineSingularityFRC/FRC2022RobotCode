@@ -36,6 +36,8 @@ public interface MotorController {
 
     public void setVelocity(double velocity);
 
+    public double getMotorRPM();
+
 
     
 }
