@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import org.frcteam5066.common.robot.UpdateManager;
 import org.frcteam5066.mk3.subsystems.CANdleSystem;
@@ -21,7 +22,7 @@ public class Robot extends TimedRobot {
     private RobotContainer robotContainer;
     private UpdateManager updateManager;
 
-    Compressor compressor;
+    //Compressor compressor;
     LimeLight limeLight;
 
     int flywheelMotor1Port, flywheelMotor2Port, flywheelMotor3Port;
@@ -52,6 +53,9 @@ public class Robot extends TimedRobot {
                 robotContainer.getDrivetrainSubsystem()
         );
         updateManager.startLoop(5.0e-3);
+        
+
+        
 
         
 
@@ -65,7 +69,7 @@ public class Robot extends TimedRobot {
 
         //intakePneumatics = new IntakePneumatics(0, 1);
 
-        compressor = new Compressor(PneumaticsModuleType.CTREPCM);
+        //compressor = new Compressor(PneumaticsModuleType.CTREPCM);
         limeLight = new LimeLight();
 
         //candle = new CANdleSystem();
@@ -80,7 +84,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotPeriodic() {
-        compressor.enableDigital();
+        //compressor.enableDigital();
         CommandScheduler.getInstance().run();
         currentScheme.flywheel(flywheel);
         
@@ -90,6 +94,8 @@ public class Robot extends TimedRobot {
         currentScheme.limeLightDrive(limeLight, robotContainer.getDrivetrainSubsystem());
 
         currentScheme.candle(candle);
+
+        SmartDashboard.putNumber("Gyro Angle", robotContainer.getGyroAngle());
 
 
         

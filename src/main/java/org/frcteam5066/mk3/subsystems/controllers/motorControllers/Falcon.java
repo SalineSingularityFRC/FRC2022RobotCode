@@ -1,5 +1,7 @@
 package org.frcteam5066.mk3.subsystems.controllers.motorControllers;
 
+import javax.swing.text.Position;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -11,10 +13,15 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import org.frcteam5066.mk3.subsystems.controllers.MotorController;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class Falcon implements MotorController {
 
     private WPI_TalonFX talon; 
     private int canID;
+
+    TalonFXConfiguration config = new TalonFXConfiguration();
+
 
 
     public Falcon(int canID, double rampRate, boolean coast ) {
@@ -26,10 +33,34 @@ public class Falcon implements MotorController {
         setCoastMode(coast);
     }
 
+    public Falcon(int canID, double rampRate, boolean coast, String canBusName ) {
+        talon = new WPI_TalonFX(canID, canBusName);
+        this.canID = canID;
+         
+        talon.configFactoryDefault();
+        
+        setRampRate(rampRate);
+        setCoastMode(coast);
+    }
+
+    public Falcon(int canID, double rampRate, boolean coast, String canBusName, double kP, double kI, double kD ) {
+        talon = new WPI_TalonFX(canID, canBusName);
+        this.canID = canID;
+         
+        talon.configFactoryDefault();
+        talon.config_kP(0, kP);
+        talon.config_kI(0, kI);
+        talon.config_kD(0, kD);
+        setRampRate(rampRate);
+        setCoastMode(coast);
+    }
+
     public int getCanID(){
         
         return canID;
     }
+
+    
 
     public void setConfiguration(TalonFXConfiguration config){
         talon.configAllSettings(config);
@@ -79,6 +110,10 @@ public class Falcon implements MotorController {
         position /= 360;
         position *= 2048; //2048 is the number of ticks of the encoder (to our best estimate, most likely true)
         this.talon.set(TalonFXControlMode.Position, position); //position here is measured in encoder ticks
+        SmartDashboard.putNumber("Setting Talon Position to ", position);
+        SmartDashboard.putNumber("Current Falcon Position: ", talon.getSelectedSensorPosition());
+        SmartDashboard.putNumber("Position Difference", talon.getSelectedSensorPosition() - position);
+        
         
     }
 
