@@ -108,4 +108,16 @@ public class Falcon implements MotorController {
     public WPI_TalonFX getMotorController() {
         return this.talon;
     }
+
+    @Override
+    public double getRotationsSpun() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
+    public void resetRotationsZero() {
+        // TODO Auto-generated method stub
+        
+    }
 }
