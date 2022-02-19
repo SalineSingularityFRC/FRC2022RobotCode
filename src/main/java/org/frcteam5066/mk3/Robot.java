@@ -73,9 +73,9 @@ public class Robot extends TimedRobot {
 
         //candle = new CANdleSystem();
         
-        drive = robotContainer.getDrivetrainSubsystem();
+        //drive = robotContainer.getDrivetrainSubsystem();
 
-        runAuton = new RunAuton(limeLight, flywheel, intake, drive, allianceColor);
+        runAuton = new RunAuton(limeLight, flywheel, intake, robotContainer.getDrivetrainSubsystem(), allianceColor);
         // candle.changeAnimation(AnimationTypes.TwinkleOff);
 
  
