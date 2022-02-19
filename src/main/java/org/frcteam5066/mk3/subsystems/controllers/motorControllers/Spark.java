@@ -311,6 +311,10 @@ public class Spark implements MotorController {
         
     }
 
+    public double getVelocity(){
+        return 0.0;
+    }
+
 
 
     /**

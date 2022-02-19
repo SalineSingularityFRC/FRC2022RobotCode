@@ -18,13 +18,19 @@ public class Shooter {
     double kMinOutput = -1;
     double maxRPMflywheel2 = 11000;
     double maxRPMflywheel1 = 11000;
+    double flywheelkP = .03;
+    double flywheelkI = 0.0;
+    double flywheelkD = 0;
+    double flywheelFF = 0.04766;
     double maxRPMFeed = 5700;
     double barfRPM = 1000;
  //change can ID of falcons to 60 on phoenix tuner 
     public Shooter(int flywheel1Port, int flywheel2Port, int flywheelFeedPort){
        // flywheel2 = new Falcon(60, 1, true);
-        flywheel1 = new Falcon(61, 1.0, true);
+        //flywheel1 = new Falcon(61, 1.0, true);
+        flywheel1 = new Falcon(61, 0.0, true, "rio", flywheelkP, flywheelkI, flywheelkD, flywheelFF);
         flywheelFeed = new Spark(flywheelFeedPort, true, 0.00, "FlywheelFeed", false, false, kP, kI, kD, kIz, kFF, kMinOutput, kMaxOutput);
+        //flywheelFeed = new Spark(portNumber, brushlessMotor, rampRate)
         //flywheel2.follow(flywheel1, true);
     }
  
@@ -37,7 +43,7 @@ public class Shooter {
  
      public void flywheelOff(){
         //flywheel2.setVelocity(0.0);
-        flywheel1.setVelocity(0.0);
+        flywheel1.setSpeed(0.0);
     }
  
  
@@ -69,6 +75,10 @@ public class Shooter {
         //INCOMPLETE METHOD. flywheel2 is commented out right now because 2021 robot only has 1 flywheel
         //Continue comenting out flywheel2 stuff until we get the new robot
         return true;
+    }
+
+    public double getFlywheelVelocity(){
+        return flywheel1.getVelocity();
     }
 
     

@@ -137,6 +137,8 @@ public class ArcadeDrive extends ControlScheme {
     @Override
     public void flywheel(Shooter flywheel) {
 
+        SmartDashboard.putNumber("Current Velocity", flywheel.getFlywheelVelocity() + Math.random());
+
         
 
         if (armController.getTriggerLeft() > .2) {

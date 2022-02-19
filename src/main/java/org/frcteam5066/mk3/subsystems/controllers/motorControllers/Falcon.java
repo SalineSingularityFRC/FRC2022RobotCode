@@ -55,6 +55,19 @@ public class Falcon implements MotorController {
         setCoastMode(coast);
     }
 
+    public Falcon(int canID, double rampRate, boolean coast, String canBusName, double kP, double kI, double kD, double kF ) {
+        talon = new WPI_TalonFX(canID, canBusName);
+        this.canID = canID;
+         
+        talon.configFactoryDefault();
+        talon.config_kP(0, kP);
+        talon.config_kI(0, kI);
+        talon.config_kD(0, kD);
+        talon.config_kF(0, kF);
+        setRampRate(rampRate);
+        setCoastMode(coast);
+    }
+
     public int getCanID(){
         
         return canID;
@@ -92,13 +105,17 @@ public class Falcon implements MotorController {
         this.talon.set(TalonFXControlMode.PercentOutput, speed);
     }
 
-    public void setVelocity(double rpm) { //speed will be from -1.0 to 1.0
+    public void setVelocity(double rpm) { 
         this.talon.set(TalonFXControlMode.Velocity, rpm);
+        //setSpeed(1);
+        //SmartDashboard.putNumber("Target Velocity", rpm);
+        //SmartDashboard.putNumber("Current Velocity", this.talon.getSelectedSensorVelocity());
     }
 
     public void setRPMFromStick(double stickValue){ //stickValue will be between -1.0 and 1.0
         double rpm = stickValue * 6380;
         this.setVelocity(rpm);
+
     }
 
     public double getMotorRPM(){
@@ -155,4 +172,9 @@ public class Falcon implements MotorController {
         // TODO Auto-generated method stub
         
     }
+
+    public double getVelocity(){
+        return this.talon.getSelectedSensorVelocity();
+    }
+    
 }
