@@ -1,6 +1,7 @@
 package org.frcteam5066.mk3.subsystems.controllers.controlSchemes;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.frcteam5066.mk3.LimeLight;
 import org.frcteam5066.mk3.subsystems.DrivetrainSubsystem;

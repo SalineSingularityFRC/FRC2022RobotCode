@@ -39,8 +39,10 @@ public abstract class AutonControlScheme {
 
     SendableChooser<Integer> startingPosition = new SendableChooser<>();
 
-    public AutonControlScheme(LimeLight limeLight, Shooter shooter, Intake intake, DrivetrainSubsystem drive, String color){
+    public AutonControlScheme(LimeLight limeLight, Shooter shooter, Intake intake, DrivetrainSubsystem _drive, String color){
         
+        drive = _drive;
+
         drive.resetRotationsZero();
 
         startingPosition.setDefaultOption("Position 1", 1);
