@@ -33,7 +33,7 @@ public class RunAuton extends AutonControlScheme{
     }
 
     public void actuallyRunAutonTheMethod(){
-        
+        /*
         if( doDrive.getSelected() && !driveDone() ) super.drive();
         if( doShoot.getSelected() && !aimDone() ) super.aim();
         if( doShoot.getSelected() && !shootDone() ) super.shoot();
@@ -42,6 +42,17 @@ public class RunAuton extends AutonControlScheme{
             super.resetAimDone();
             super.resetShootDone();
         }
+        */
+
+        if( true && !driveDone() ) super.drive();
+        if( false && !aimDone() ) super.aim();
+        if( false && !shootDone() ) super.shoot();
+        if( false && !getBallDone() ) super.getBall();
+        if( false ){       
+            super.resetAimDone();
+            super.resetShootDone();
+        }
+
     }
 
 }

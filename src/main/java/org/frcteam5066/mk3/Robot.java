@@ -97,12 +97,12 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        //runAuton = new RunAuton(limeLight, flywheel, drive, allianceColor);
+        runAuton = new RunAuton(limeLight, flywheel, drive, allianceColor);
     }
 
     @Override
     public void autonomousPeriodic() {
-        //runAuton.actuallyRunAutonTheMethod();
+        runAuton.actuallyRunAutonTheMethod();
     }
 
     @Override

@@ -124,7 +124,7 @@ public abstract class AutonControlScheme {
         }   
 
         else if(position != 1){
-            
+        // runLimeLight() both aims/drives towards ball and returns "true" if it is still adjusting/driving ("false" if not making adjustments)
             if( limeLight.runLimeLight(drive, color) ){}
             else driveDone = true;
 
@@ -141,6 +141,7 @@ public abstract class AutonControlScheme {
 
             if( limeLight.hasVisionTarget() ) aimProgress1 = true;
         }
+        // runLimeLight() both aims/drives towards ball and returns "true" if it is still adjusting/driving ("false" if not making adjustments)
         else if (limeLight.runLimeLight(drive, 1)){}
         else aimDone = true;
 
@@ -173,6 +174,7 @@ public abstract class AutonControlScheme {
             
             if( hasCargoTarget() ) getBallProgress1 = true;
         }
+        // runLimeLight() both aims/drives towards ball and returns "true" if it is still adjusting/driving ("false" if not making adjustments)
         else if (limeLight.runLimeLight(drive, color)){}
         else {
             rotationDirection = -rotationDirection;
