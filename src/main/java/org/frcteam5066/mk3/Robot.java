@@ -33,7 +33,6 @@ public class Robot extends TimedRobot {
     Shooter flywheel;
     Intake intake;
     //IntakePneumatics intakePneumatics;
-    DrivetrainSubsystem drive;
     RunAuton runAuton;
 
     final int XBOX_PORT = 0;
@@ -76,7 +75,7 @@ public class Robot extends TimedRobot {
         
         drive = robotContainer.getDrivetrainSubsystem();
 
-        runAuton = new RunAuton(limeLight, flywheel, drive, allianceColor);
+        runAuton = new RunAuton(limeLight, flywheel, intake, drive, allianceColor);
         // candle.changeAnimation(AnimationTypes.TwinkleOff);
 
  
@@ -103,7 +102,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        runAuton = new RunAuton(limeLight, flywheel, drive, allianceColor);
+        runAuton = new RunAuton(limeLight, flywheel, intake, robotContainer.getDrivetrainSubsystem(), allianceColor);
     }
 
     @Override

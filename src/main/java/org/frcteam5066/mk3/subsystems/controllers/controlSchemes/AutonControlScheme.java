@@ -20,7 +20,7 @@ public abstract class AutonControlScheme {
     protected static Shooter shooter;
     protected static Intake intake;
     protected static ColorSensor colorSensor;
-    protected static int position;
+    protected static int position = 1;
     protected static int color;
     protected static int rotationDirection; //1 is clockwise, -1 is counter-clockwise
     
@@ -52,7 +52,8 @@ public abstract class AutonControlScheme {
         this.limeLight = limeLight;
         this.shooter = shooter;
         this.intake = intake;
-        this.position = startingPosition.getSelected();
+        //this.position = startingPosition.getSelected();
+        this.position = 1;
         if(color.equals("Blue")) this.color = 2;
         else this.color = 3;
         if(position < 3) rotationDirection = 1;
@@ -114,12 +115,14 @@ public abstract class AutonControlScheme {
 
         if(position == 1){
 
+            SmartDashboard.putNumber("Driving", 1);
             drive.drive(new Vector2(1, 0), 0, false);
             
             //AUTON TESTING MODIFY SPOT the "10" below represent the amount of rotations needed to get off the tarmac
             
             if(drive.getRotationsSpun() >= 10){
                 drive.drive(new Vector2(0, 0),0, false);
+                SmartDashboard.putNumber("Driving", 0);
                 driveDone = true;
                 
             }

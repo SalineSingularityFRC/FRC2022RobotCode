@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 import org.frcteam5066.mk3.LimeLight;
 import org.frcteam5066.mk3.subsystems.DrivetrainSubsystem;
+import org.frcteam5066.mk3.subsystems.Intake;
 import org.frcteam5066.mk3.subsystems.Shooter;
 
 
@@ -15,7 +16,7 @@ public class RunAuton extends AutonControlScheme{
     SendableChooser<Boolean> doShoot2 = new SendableChooser<>();
 
 
-    public RunAuton(LimeLight limeLight, Shooter flywheel, DrivetrainSubsystem drive, String color){
+    public RunAuton(LimeLight limeLight, Shooter flywheel, Intake intake, DrivetrainSubsystem drive, String color){
 
         super(limeLight, flywheel, intake, drive, color);
 
