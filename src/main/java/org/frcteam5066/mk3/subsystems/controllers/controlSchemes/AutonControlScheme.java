@@ -1,7 +1,7 @@
 package org.frcteam5066.mk3.subsystems.controllers.controlSchemes;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.frcteam5066.common.math.Vector2;
 import com.kauailabs.navx.frc.AHRS;
@@ -39,7 +39,7 @@ public abstract class AutonControlScheme {
 
     SendableChooser<Integer> startingPosition = new SendableChooser<>();
 
-    public AutonControlScheme(LimeLight limeLight, Shooter shooter, DrivetrainSubsystem drive, String color){
+    public AutonControlScheme(LimeLight limeLight, Shooter shooter, Intake intake, DrivetrainSubsystem drive, String color){
         
         drive.resetRotationsZero();
 
@@ -48,10 +48,10 @@ public abstract class AutonControlScheme {
         startingPosition.addOption("Position 3", 3);
         startingPosition.addOption("Position 3", 4);
 
-        this.gyro = new AHRS(Port.kMXP);
+        //this.gyro = new AHRS(Port.kMXP);
         this.limeLight = limeLight;
         this.shooter = shooter;
-       // this.intake = intake;
+        this.intake = intake;
         this.position = startingPosition.getSelected();
         if(color.equals("Blue")) this.color = 2;
         else this.color = 3;
@@ -65,7 +65,7 @@ public abstract class AutonControlScheme {
     }
 
     private void resetAnglePos(){
-        initAnglePos = gyro.getAngle();
+        initAnglePos = drive.getGyroAngle();
     }
 
     public boolean driveDone(){
@@ -110,6 +110,7 @@ public abstract class AutonControlScheme {
 
     public void drive(){
 
+        SmartDashboard.putNumber("Drive Done", driveDone ? 1:0);
 
         if(position == 1){
 
@@ -120,6 +121,7 @@ public abstract class AutonControlScheme {
             if(drive.getRotationsSpun() >= 10){
                 drive.drive(new Vector2(0, 0),0, false);
                 driveDone = true;
+                
             }
         }   
 
@@ -170,7 +172,7 @@ public abstract class AutonControlScheme {
 
             drive.drive(new Vector2(0, 0), 1 * rotationDirection, false);
             
-            if( Math.abs( gyro.getAngle() - initAnglePos ) >= 180 ) rotationDirection = -rotationDirection;
+            if( Math.abs(drive.getGyroAngle() - initAnglePos ) >= 180 ) rotationDirection = -rotationDirection;
             
             if( hasCargoTarget() ) getBallProgress1 = true;
         }

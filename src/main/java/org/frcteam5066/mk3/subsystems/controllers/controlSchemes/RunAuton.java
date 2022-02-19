@@ -17,7 +17,7 @@ public class RunAuton extends AutonControlScheme{
 
     public RunAuton(LimeLight limeLight, Shooter flywheel, DrivetrainSubsystem drive, String color){
 
-        super(limeLight, flywheel, drive, color);
+        super(limeLight, flywheel, intake, drive, color);
 
         doDrive.setDefaultOption("Yes", true);
         doDrive.addOption("No", false);
@@ -35,9 +35,9 @@ public class RunAuton extends AutonControlScheme{
     public void actuallyRunAutonTheMethod(){
         /*
         if( doDrive.getSelected() && !driveDone() ) super.drive();
-        if( doShoot.getSelected() && !aimDone() ) super.aim();
-        if( doShoot.getSelected() && !shootDone() ) super.shoot();
-        if( doShoot.getSelected() && !getBallDone() ) super.getBall();
+        if( doShoot.getSelected() && !aimDone() && driveDone() ) super.aim();
+        if( doShoot.getSelected() && !shootDone() && aimDone() ) super.shoot();
+        if( doShoot.getSelected() && !getBallDone() && shootDone() ) super.getBall();
         if( doShoot2.getSelected() ){       
             super.resetAimDone();
             super.resetShootDone();
@@ -45,9 +45,9 @@ public class RunAuton extends AutonControlScheme{
         */
 
         if( true && !driveDone() ) super.drive();
-        if( false && !aimDone() ) super.aim();
-        if( false && !shootDone() ) super.shoot();
-        if( false && !getBallDone() ) super.getBall();
+        if( false && !aimDone() && driveDone() ) super.aim();
+        if( false && !shootDone() && aimDone() ) super.shoot();
+        if( false && !getBallDone() && shootDone() ) super.getBall();
         if( false ){       
             super.resetAimDone();
             super.resetShootDone();

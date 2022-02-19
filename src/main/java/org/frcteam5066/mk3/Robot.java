@@ -32,7 +32,7 @@ public class Robot extends TimedRobot {
     
     Shooter flywheel;
     Intake intake;
-    IntakePneumatics intakePneumatics;
+    //IntakePneumatics intakePneumatics;
     DrivetrainSubsystem drive;
     RunAuton runAuton;
 
@@ -108,6 +108,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousPeriodic() {
+        CommandScheduler.getInstance().run();
         runAuton.actuallyRunAutonTheMethod();
     }
 
