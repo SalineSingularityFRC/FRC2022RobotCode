@@ -8,10 +8,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import org.frcteam5066.common.robot.UpdateManager;
 import org.frcteam5066.mk3.subsystems.CANdleSystem;
 import org.frcteam5066.mk3.subsystems.ColorSensor;
-<<<<<<< HEAD
 import org.frcteam5066.mk3.subsystems.DrivetrainSubsystem;
-=======
->>>>>>> b057887e081e0ca0f0f63fc7c81a4a1f2d5f2137
 import org.frcteam5066.mk3.subsystems.Intake;
 import org.frcteam5066.mk3.subsystems.Shooter;
 import org.frcteam5066.mk3.subsystems.CANdleSystem.AnimationTypes;

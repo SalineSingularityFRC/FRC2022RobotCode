@@ -113,8 +113,8 @@ public class LimeLight{
     }
 
     
-
-    public boolean runLimeLight( DrivetrainSubsystem drive, int driveType ){ //drivetype will be 0 for vision tracking, 1 for blue cargo, and 2 for red cargo
+    // runLimeLight returning "true" means it is still in the process of aiming
+    public boolean runLimeLight( DrivetrainSubsystem drive, int driveType ){ //drivetype will be 1 for vision tracking, 2 for blue cargo, and 3 for red cargo
 
         double kP = .2;
         double kD = .2;

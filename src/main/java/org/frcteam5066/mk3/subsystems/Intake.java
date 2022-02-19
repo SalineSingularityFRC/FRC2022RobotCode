@@ -69,6 +69,12 @@ public class Intake {
     public void conveyorOff(){
         intakeConveyor.setVelocity(0.0);
     }
+
+    //this method must be run iteratively (NOT COMPLETE)
+    public void conveyorPrimeCargo(){
+        intakeConveyor.setVelocity(maxRPMIntakeconveyor);
+    }
+
     public void intakeDeploy(){//bring one of the falcons to make the intake deploy, which way is it supposed to turn
         intakeDeploy.setPosition(deployPosition);
         

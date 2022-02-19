@@ -6,12 +6,14 @@ import org.frcteam5066.mk3.LimeLight;
 import org.frcteam5066.mk3.subsystems.DrivetrainSubsystem;
 import org.frcteam5066.mk3.subsystems.Shooter;
 
+
 public class RunAuton extends AutonControlScheme{
     
     SendableChooser<Boolean> doDrive = new SendableChooser<>();
     SendableChooser<Boolean> doShoot = new SendableChooser<>();
     SendableChooser<Boolean> doSearch = new SendableChooser<>();
     SendableChooser<Boolean> doShoot2 = new SendableChooser<>();
+
 
     public RunAuton(LimeLight limeLight, Shooter flywheel, DrivetrainSubsystem drive, String color){
 
@@ -32,10 +34,14 @@ public class RunAuton extends AutonControlScheme{
 
     public void actuallyRunAutonTheMethod(){
         
-        if(doDrive.getSelected()) super.drive();
-        if(doShoot.getSelected()) super.shoot();
-        if(doSearch.getSelected()) super.getBall();
-        if(doShoot2.getSelected()) super.shoot();
+        if( doDrive.getSelected() && !driveDone() ) super.drive();
+        if( doShoot.getSelected() && !aimDone() ) super.aim();
+        if( doShoot.getSelected() && !shootDone() ) super.shoot();
+        if( doShoot.getSelected() && !getBallDone() ) super.getBall();
+        if( doShoot2.getSelected() ){       
+            super.resetAimDone();
+            super.resetShootDone();
+        }
     }
 
 }

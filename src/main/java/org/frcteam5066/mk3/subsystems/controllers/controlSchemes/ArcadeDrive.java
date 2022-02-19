@@ -144,24 +144,24 @@ public class ArcadeDrive extends ControlScheme {
             SmartDashboard.putNumber("Running Flywheel", 1);
             
             if (armController.getAButton()) {
-                flywheel.shooterReverse();
+                flywheel.flywheelReverse();
             } else if (/*colorSensor.robotColor()*/true == false) {
                 flywheel.barf();
             } else {
-                flywheel.shooterOn();
+                flywheel.flywheelOn();
             }
         }
         else if (armController.getPOVLeft()) {
             flywheel.barf();
         }
-        else flywheel.shooterOff();
+        else flywheel.flywheelOff();
 
         if (armController.getTriggerRight() > .2) {
             if (armController.getAButton())
                 flywheel.feederReverse();
-            else flywheel.shoot(); // turns on feeder wheel
+            else flywheel.feederOn(); // turns on feeder wheel
         }
-        else flywheel.hold();
+        else flywheel.feederOff();
         SmartDashboard.putNumber("Running Flywheel", 0);
     }
 

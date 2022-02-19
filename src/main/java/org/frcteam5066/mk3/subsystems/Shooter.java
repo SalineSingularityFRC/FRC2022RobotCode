@@ -29,30 +29,30 @@ public class Shooter {
     }
  
  
-    public void shooterOn(){
+    public void flywheelOn(){
         //flywheel2.setVelocity(maxRPMflywheel2);
         flywheel1.setVelocity(maxRPMflywheel1);
     }
  
  
-     public void shooterOff(){
+     public void flywheelOff(){
         //flywheel2.setVelocity(0.0);
         flywheel1.setVelocity(0.0);
     }
  
  
-    public void shooterReverse(){
+    public void flywheelReverse(){
         //flywheel2.setVelocity(-maxRPMflywheel2);
         flywheel1.setVelocity(-maxRPMflywheel1);
     }
  
  
-    public void hold(){
+    public void feederOff(){
         flywheelFeed.setVelocity(0.0);
     }
  
  
-    public void shoot(){
+    public void feederOn(){
         flywheelFeed.setVelocity(maxRPMFeed);
     }
 
