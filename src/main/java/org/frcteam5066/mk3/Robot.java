@@ -4,9 +4,15 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+
+import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
+
 import org.frcteam5066.common.robot.UpdateManager;
+import org.frcteam5066.mk3.commands.DontDriveCommand;
 import org.frcteam5066.mk3.subsystems.CANdleSystem;
 import org.frcteam5066.mk3.subsystems.ColorSensor;
 import org.frcteam5066.mk3.subsystems.DrivetrainSubsystem;
@@ -21,6 +27,8 @@ import org.frcteam5066.mk3.subsystems.controllers.controlSchemes.RunAuton;
 public class Robot extends TimedRobot {
     private RobotContainer robotContainer;
     private UpdateManager updateManager;
+
+    private DontDriveCommand dontDriveCommand;
 
     //Compressor compressor;
     LimeLight limeLight;
@@ -52,6 +60,8 @@ public class Robot extends TimedRobot {
                 robotContainer.getDrivetrainSubsystem()
         );
         updateManager.startLoop(5.0e-3);
+
+        dontDriveCommand = new DontDriveCommand(robotContainer.getDrivetrainSubsystem());
         
 
         
@@ -102,12 +112,15 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
+        CommandScheduler.getInstance().setDefaultCommand( (Subsystem) robotContainer.getDrivetrainSubsystem(), (Command) dontDriveCommand);
         runAuton = new RunAuton(limeLight, flywheel, intake, robotContainer.getDrivetrainSubsystem(), allianceColor);
     }
 
     @Override
     public void autonomousPeriodic() {
         CommandScheduler.getInstance().run();
+        //CommandScheduler.getInstance().setDefaultCommand(subsystem, defaultCommand);
+
         runAuton.actuallyRunAutonTheMethod();
     }
 
@@ -125,5 +138,6 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
+        CommandScheduler.getInstance().setDefaultCommand( (Subsystem) robotContainer.getDrivetrainSubsystem(), robotContainer.getDefaultCommand());
     }
 }
