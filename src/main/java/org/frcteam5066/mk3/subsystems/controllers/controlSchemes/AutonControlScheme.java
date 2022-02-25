@@ -121,7 +121,7 @@ public abstract class AutonControlScheme {
             drive.drive(new Vector2(1, 0), 0, false);
             
             //AUTON TESTING MODIFY SPOT the "10" below represent the amount of rotations needed to get off the tarmac
-            
+            SmartDashboard.putNumber("Wheel Rotations", drive.getRotationsSpun());
             if(drive.getRotationsSpun() >= 10){
                 drive.drive(new Vector2(0, 0),0, false);
                 SmartDashboard.putNumber("Driving", 0);

@@ -47,7 +47,7 @@ public class RunAuton extends AutonControlScheme{
         */
 
         if( true && !driveDone() ) super.drive();
-        if( false && !aimDone() && driveDone() ) super.aim();
+        if( true && !aimDone() && driveDone() ) super.aim();
         if( false && !shootDone() && aimDone() ) super.shoot();
         if( false && !getBallDone() && shootDone() ) super.getBall();
         if( false ){       
