@@ -281,7 +281,7 @@ public class DrivetrainSubsystem implements Subsystem, UpdateManager.Updatable {
     }
 
     public double getRotationsSpun(){
-        return -modules[0].getRotationsSpun();
+        return modules[0].getRotationsSpun();
     }
 
     public void resetRotationsZero(){

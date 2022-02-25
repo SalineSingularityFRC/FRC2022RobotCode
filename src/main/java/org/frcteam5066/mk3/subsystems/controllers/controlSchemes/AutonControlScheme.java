@@ -140,10 +140,10 @@ public abstract class AutonControlScheme {
     
     public void aim(){
 
-        shooter.flywheelOn();
-        intake.conveyorCollect();
+        //shooter.flywheelOn();
+        //intake.conveyorCollect();
         
-        if(aimProgress1){
+        if(!aimProgress1){
             drive.drive(new Vector2(0, 0), 1 * rotationDirection, false);
 
             if( limeLight.hasVisionTarget() ) aimProgress1 = true;
