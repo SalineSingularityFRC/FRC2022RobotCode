@@ -155,8 +155,14 @@ public class LimeLight{
             
             double left_comand = 0.0;
             double right_comand = 0.0;
+
+            double distance = 8.5; //just for lols rn, this is the max in meters
+            double height = 2.042;
             
-            
+
+            double velocity = Math.sqrt((-.5 * 9.807 * Math.pow( distance, 2 )) / 
+                    ( Math.pow( Math.cos(Math.toRadians(60) ), 2 ) * ( height - distance * Math.tan(Math.toRadians(60)) ) ) );
+            //plz never make me type that again
 
             
             //double heading_error = -tx.getDouble(0.0) * .2;
