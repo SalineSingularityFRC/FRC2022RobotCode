@@ -63,7 +63,6 @@ public class Robot extends TimedRobot {
 
         dontDriveCommand = new DontDriveCommand(robotContainer.getDrivetrainSubsystem());
         
-
         
 
         
@@ -105,15 +104,25 @@ public class Robot extends TimedRobot {
         currentScheme.candle(candle);
 
         SmartDashboard.putNumber("Gyro Angle", robotContainer.getGyroAngle());
-
+        SmartDashboard.putNumber("CAN Test", Constants.DRIVETRAIN_FRONT_LEFT_DRIVE_MOTOR);
 
         
     }
 
     @Override
     public void autonomousInit() {
+        robotContainer.getDrivetrainSubsystem().resetRotationsZero();
+        
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
         CommandScheduler.getInstance().setDefaultCommand( (Subsystem) robotContainer.getDrivetrainSubsystem(), (Command) dontDriveCommand);
         runAuton = new RunAuton(limeLight, flywheel, intake, robotContainer.getDrivetrainSubsystem(), allianceColor);
+        
     }
 
     @Override
