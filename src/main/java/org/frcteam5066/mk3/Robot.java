@@ -67,11 +67,11 @@ public class Robot extends TimedRobot {
 
         
 
-        flywheel = new Shooter(61, 11, 8);
+        flywheel = new Shooter(61, 11, 3);
 
         currentScheme = new ArcadeDrive(XBOX_PORT, XBOX_PORT + 1);
 
-        intake = new Intake(15, 7, 31);
+        intake = new Intake(15, 1, 31);
 
         candle = new CANdleSystem();
 

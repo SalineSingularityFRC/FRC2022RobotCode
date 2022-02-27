@@ -16,14 +16,20 @@ public class Shooter {
     double kFF = 0.000015;
     double kMaxOutput = 1;
     double kMinOutput = -1;
-    double maxRPMflywheel2 = 11000;
-    double maxRPMflywheel1 = 11000;
+    double maxRPMflywheel2 = 6380;
+    double maxRPMflywheel1 = 6380;
     double flywheelkP = .03;
     double flywheelkI = 0.0;
     double flywheelkD = 0;
     double flywheelFF = 0.04766;
     double maxRPMFeed = 5700;
-    double barfRPM = 1000;
+    double barfRPM = 500;
+    double gearRatio = 1.22;
+
+    /*double velocity = Math.sqrt((-.5 * 9.807 * Math.pow( distance, 2 )) / 
+                    ( Math.pow( Math.cos(Math.toRadians(60) ), 2 ) * ( height - distance * Math.tan(Math.toRadians(60)) ) ) );
+            //plz never make me type that again*/
+
  //change can ID of falcons to 60 on phoenix tuner 
     public Shooter(int flywheel1Port, int flywheel2Port, int flywheelFeedPort){
        // flywheel2 = new Falcon(60, 1, true);
@@ -34,10 +40,21 @@ public class Shooter {
         //flywheel2.follow(flywheel1, true);
     }
  
+    private double computeVelocity(double distance){
+        double velocity = Math.sqrt((-.5 * 9.807 * Math.pow( distance, 2 )) / 
+                    ( Math.pow( Math.cos(Math.toRadians(60) ), 2 ) * ( 2.2 - distance * Math.tan(Math.toRadians(60)) ) ) );
+            //plz never make me type that again
+        return velocity;
+        
+    }
  
     public void flywheelOn(){
         //flywheel2.setVelocity(maxRPMflywheel2);
         flywheel1.setVelocity(maxRPMflywheel1);
+    }
+
+    public void flywheelOn(double distance){
+        flywheel1.setVelocity( computeVelocity(distance) / 1.22);
     }
  
  

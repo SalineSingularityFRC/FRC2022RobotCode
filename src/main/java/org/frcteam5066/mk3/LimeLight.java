@@ -113,6 +113,12 @@ public class LimeLight{
     }
 
     
+    //@TODO actually get limelight distance tuning correct
+    public double getDistance(){
+        return 4.0;
+    }
+
+    
     // runLimeLight returning "true" means it is still in the process of aiming
     public boolean runLimeLight( DrivetrainSubsystem drive, int driveType ){ //drivetype will be 1 for vision tracking, 2 for blue cargo, and 3 for red cargo
 

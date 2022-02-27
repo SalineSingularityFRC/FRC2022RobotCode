@@ -160,8 +160,8 @@ public class ArcadeDrive extends ControlScheme {
 
         if (armController.getTriggerRight() > .2) {
             if (armController.getAButton())
-                flywheel.feederReverse();
-            else flywheel.feederOn(); // turns on feeder wheel
+                flywheel.feederOn();
+            else flywheel.feederReverse(); // turns on feeder wheel
         }
         else flywheel.feederOff();
         SmartDashboard.putNumber("Running Flywheel", 0);

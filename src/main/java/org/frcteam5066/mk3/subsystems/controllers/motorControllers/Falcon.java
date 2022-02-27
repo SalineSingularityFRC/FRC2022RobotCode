@@ -106,7 +106,8 @@ public class Falcon implements MotorController {
     }
 
     public void setVelocity(double rpm) { 
-        this.talon.set(TalonFXControlMode.Velocity, rpm);
+        double velocity = rpm * 2048 / 600;
+        this.talon.set(TalonFXControlMode.Velocity, velocity);
         //setSpeed(1);
         //SmartDashboard.putNumber("Target Velocity", rpm);
         //SmartDashboard.putNumber("Current Velocity", this.talon.getSelectedSensorVelocity());
@@ -119,7 +120,7 @@ public class Falcon implements MotorController {
     }
 
     public double getMotorRPM(){
-        double rpm = ( this.talon.getSelectedSensorVelocity() * 60 * 10 ) / (2048); //
+        double rpm = ( this.talon.getSelectedSensorVelocity() * 60 * 10 ) / (2048); //go from units/100ms to rpm
         return rpm;
     }
 
