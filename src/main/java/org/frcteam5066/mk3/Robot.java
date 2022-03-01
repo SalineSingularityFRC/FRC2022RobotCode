@@ -94,9 +94,11 @@ public class Robot extends TimedRobot {
     public void robotPeriodic() {
         //compressor.enableDigital();
         CommandScheduler.getInstance().run();
-        currentScheme.flywheel(flywheel);
-        
-        currentScheme.intakeConveyer(intake);
+
+        currentScheme.shootSequence(flywheel, intake);;
+        currentScheme.intakeSequence(flywheel, intake);
+        // currentScheme.flywheel(flywheel);           
+        // currentScheme.intakeConveyer(intake);
         //currentScheme.intakePneumatics(intakePneumatics);
         
         currentScheme.limeLightDrive(limeLight, robotContainer.getDrivetrainSubsystem());

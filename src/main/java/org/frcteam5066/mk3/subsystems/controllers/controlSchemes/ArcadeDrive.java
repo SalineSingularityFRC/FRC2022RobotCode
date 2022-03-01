@@ -40,6 +40,8 @@ public class ArcadeDrive extends ControlScheme {
 
     HolonomicDrivetrain drive;
 
+    ColorSensor colorSensor;
+
     //DriverStation driverStation = new DriverStation();
 
     String allianceColor = DriverStation.getAlliance().toString();
@@ -67,6 +69,7 @@ public class ArcadeDrive extends ControlScheme {
     public ArcadeDrive(int driveControllerPort, int armControllerPort) {
         driveController = new XboxController(driveControllerPort);
         armController = new XboxController(armControllerPort);
+        colorSensor = new ColorSensor();
 
         
 
@@ -160,8 +163,8 @@ public class ArcadeDrive extends ControlScheme {
 
         if (armController.getTriggerRight() > .2) {
             if (armController.getAButton())
-                flywheel.feederOn();
-            else flywheel.feederReverse(); // turns on feeder wheel
+                flywheel.feederReverse();
+            else flywheel.feederOn(); // turns on feeder wheel
         }
         else flywheel.feederOff();
         SmartDashboard.putNumber("Running Flywheel", 0);
@@ -176,7 +179,46 @@ public class ArcadeDrive extends ControlScheme {
             intakePneumatics.setOff();
         }
     }
-    
+
+
+
+
+
+
+    public void shootSequence(Intake intake, Shooter flywheel) {
+        if (armController.getTriggerRight() > 0.2 || armController.getRB()) {
+            if (colorSensor.robotColor()) {
+                flywheel.flywheelOn(4);               
+            }
+            else {
+                flywheel.barf();
+            }
+
+            if (flywheel.readyToShoot()) {
+                intake.conveyorCollect();
+                flywheel.feederOn();
+            }
+        }
+    }
+
+    public void intakeSequence(Intake intake, Shooter flywheel) {
+        if (armController.getTriggerLeft() > 0.2) {
+            if (colorSensor.hasBall()) {
+                flywheel.feederOff();
+            }
+            else {
+                flywheel.feederOn();
+            }
+
+            intake.intakeCollect();
+            intake.conveyorCollect();
+        } 
+        else if (armController.getLB()) {
+            intake.intakeReject();
+        }
+    }
+
+
 
     public void candle(CANdleSystem candle){
         if( armController.getYButton() ){
@@ -243,6 +285,18 @@ public class ArcadeDrive extends ControlScheme {
         }
         SmartDashboard.putNumber("Running Limelight", runningLimelight ? 1:0);
         SmartDashboard.putNumber("Has Vision", hasVision ? 1:0);
+    }
+
+    @Override
+    public void shootSequence(Shooter flywheel, Intake intake) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void intakeSequence(Shooter flywheel, Intake intake) {
+        // TODO Auto-generated method stub
+        
     }
     
 

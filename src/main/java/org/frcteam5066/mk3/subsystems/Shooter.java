@@ -26,6 +26,8 @@ public class Shooter {
     double barfRPM = 500;
     double gearRatio = 1.22;
 
+    private static double lastSetVelocity = 0;
+
     /*double velocity = Math.sqrt((-.5 * 9.807 * Math.pow( distance, 2 )) / 
                     ( Math.pow( Math.cos(Math.toRadians(60) ), 2 ) * ( height - distance * Math.tan(Math.toRadians(60)) ) ) );
             //plz never make me type that again*/
@@ -51,22 +53,26 @@ public class Shooter {
     public void flywheelOn(){
         //flywheel2.setVelocity(maxRPMflywheel2);
         flywheel1.setVelocity(maxRPMflywheel1);
+        lastSetVelocity = maxRPMflywheel1;
     }
 
     public void flywheelOn(double distance){
-        flywheel1.setVelocity( computeVelocity(distance) / 1.22);
+        flywheel1.setVelocity( computeVelocity(distance) / gearRatio);
+        lastSetVelocity = computeVelocity(distance) / gearRatio;
     }
  
  
      public void flywheelOff(){
         //flywheel2.setVelocity(0.0);
         flywheel1.setSpeed(0.0);
+        lastSetVelocity = 0;
     }
  
  
     public void flywheelReverse(){
         //flywheel2.setVelocity(-maxRPMflywheel2);
         flywheel1.setVelocity(-maxRPMflywheel1);
+        lastSetVelocity = -maxRPMflywheel1;
     }
  
  
@@ -76,22 +82,21 @@ public class Shooter {
  
  
     public void feederOn(){
-        flywheelFeed.setVelocity(maxRPMFeed);
+        flywheelFeed.setVelocity(-maxRPMFeed);
     }
 
     public void feederReverse () {
-        flywheelFeed.setVelocity(-maxRPMFeed);
+        flywheelFeed.setVelocity(maxRPMFeed);
     }
 
     public void barf() {
         flywheel1.setVelocity(barfRPM);
+        lastSetVelocity = barfRPM;
         //flywheel2.setVelocity(barfRPM);
     }
     
     public boolean readyToShoot(){
-        //INCOMPLETE METHOD. flywheel2 is commented out right now because 2021 robot only has 1 flywheel
-        //Continue comenting out flywheel2 stuff until we get the new robot
-        return true;
+        return getFlywheelVelocity() >= lastSetVelocity - 30 && getFlywheelVelocity() <= lastSetVelocity + 30;
     }
 
     public double getFlywheelVelocity(){

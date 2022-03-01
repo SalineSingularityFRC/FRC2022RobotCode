@@ -29,6 +29,8 @@ public abstract class ControlScheme {
 
 	public abstract void intakeConveyer(Intake intake);
 	public abstract void flywheel(Shooter flywheel);
+	public abstract void shootSequence(Shooter flywheel, Intake intake);
+	public abstract void intakeSequence(Shooter flywheel, Intake intake);
 	public abstract void intakePneumatics(IntakePneumatics intakePneumatics);
 	public abstract void limeLightDrive(LimeLight limeLight, DrivetrainSubsystem drive);
 	public abstract void candle(CANdleSystem candle);

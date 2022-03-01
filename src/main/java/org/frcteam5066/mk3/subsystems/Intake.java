@@ -60,15 +60,15 @@ public class Intake {
     }
 
     public void conveyorCollect(){
-        intakeConveyor.setVelocity(maxRPMIntakeconveyor);
+        intakeConveyor.setSpeed(.75);
     }
 
     public void conveyorReject(){
-        intakeConveyor.setVelocity(-maxRPMIntakeconveyor);
+        intakeConveyor.setSpeed(-.75);
     }
 
     public void conveyorOff(){
-        intakeConveyor.setVelocity(0.0);
+        intakeConveyor.setSpeed(0.0);
     }
 
     //this method must be run iteratively (NOT COMPLETE)

@@ -77,6 +77,22 @@ public class Test extends ControlScheme{
         
     }
 
+
+
+    @Override
+    public void shootSequence(Shooter flywheel, Intake intake) {
+        // TODO Auto-generated method stub
+        
+    }
+
+
+
+    @Override
+    public void intakeSequence(Shooter flywheel, Intake intake) {
+        // TODO Auto-generated method stub
+        
+    }
+
     
 
 }
