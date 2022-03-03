@@ -18,15 +18,15 @@ public class Intake {
     double kI = 1e-6;
     double kD = 2e-5;
     double kIz = 0;
-    double kFF = 0.000015;
+    double kFF = -0.25;
     double kMaxOutput = 1;
     double kMinOutput = -1;
     double maxRPMIntake = 11000;
     // maxRPMIntakeconveyor is copied from 2021 conveyor class
     double maxRPMIntakeconveyor = -4000;
     double maxRPMFeed = 5700;
-    double deployPosition = 0;
-    double retractPosition = (115) * 201.69; //~115 degrees to the 
+    double deployPosition = 1158;
+    double retractPosition = -52676; //~115 degrees to the 
  
  
  
@@ -90,7 +90,7 @@ public class Intake {
     }
 
     public double getDeploySensorPosition(){
-        SmartDashboard.putNumber("Deploy Sensor Position", intakeDeploy.getMotorController().getSelectedSensorPosition());
+        SmartDashboard.putNumber("Deploy Sensor Position", intakeDeploy.getSelectedSensorPosition());
         return intakeDeploy.getMotorController().getSelectedSensorPosition();
     }
 }

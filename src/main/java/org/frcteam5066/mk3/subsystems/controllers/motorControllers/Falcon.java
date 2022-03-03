@@ -177,5 +177,9 @@ public class Falcon implements MotorController {
     public double getVelocity(){
         return this.talon.getSelectedSensorVelocity();
     }
+
+    public double getSelectedSensorPosition(){
+        return this.talon.getSelectedSensorPosition();
+    }
     
 }

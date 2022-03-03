@@ -39,7 +39,7 @@ public class ArcadeDrive extends ControlScheme {
     //ColorSensor colorSensor = new ColorSensor(); 
     MotorCycle motorCycle = new MotorCycle(7);
 
-    HolonomicDrivetrain drive;
+    //HolonomicDrivetrain drive;
 
     //ColorSensor colorSensor;
 
@@ -192,16 +192,16 @@ public class ArcadeDrive extends ControlScheme {
     public void shootSequence(Shooter flywheel, Intake intake) {
         if (armController.getTriggerRight() > 0.2 || armController.getRB()) {
             if (/*colorSensor.robotColor()*/ true) {
-                flywheel.flywheelOn(4);               
+                flywheel.flywheelOn();               
             }
             else {
                 flywheel.barf();
             }
-
+            /*
             if (flywheel.readyToShoot()) {
                 intake.conveyorCollect();
                 flywheel.feederOn();
-            }
+            }*/
         }
     }
 
@@ -219,6 +219,18 @@ public class ArcadeDrive extends ControlScheme {
             intake.conveyorCollect();
         } 
         else if (armController.getLB()) {
+            intake.intakeReject();
+        }
+        else{
+            intake.conveyorOff();
+            intake.intakeOff();
+            flywheel.feederOff();
+        }
+        
+        if(armController.getPOVDown()){
+            intake.intakeDeploy();
+        }
+        else if(armController.getPOVUp()){
             intake.intakeReject();
         }
     }
