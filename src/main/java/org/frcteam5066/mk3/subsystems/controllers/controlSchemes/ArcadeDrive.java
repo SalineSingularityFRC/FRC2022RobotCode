@@ -8,6 +8,7 @@ import org.frcteam5066.mk3.subsystems.CANdleSystem;
 import org.frcteam5066.mk3.subsystems.ColorSensor;
 import org.frcteam5066.mk3.subsystems.DrivetrainSubsystem;
 import org.frcteam5066.mk3.subsystems.Intake;
+import org.frcteam5066.mk3.subsystems.Servo2;
 import org.frcteam5066.mk3.subsystems.Shooter;
 import org.frcteam5066.mk3.subsystems.controllers.*;
 
@@ -40,7 +41,9 @@ public class ArcadeDrive extends ControlScheme {
 
     HolonomicDrivetrain drive;
 
-    ColorSensor colorSensor;
+    //ColorSensor colorSensor;
+
+    Servo2 servo;
 
     //DriverStation driverStation = new DriverStation();
 
@@ -69,7 +72,8 @@ public class ArcadeDrive extends ControlScheme {
     public ArcadeDrive(int driveControllerPort, int armControllerPort) {
         driveController = new XboxController(driveControllerPort);
         armController = new XboxController(armControllerPort);
-        colorSensor = new ColorSensor();
+        //colorSensor = new ColorSensor();
+        servo = new Servo2(0);
 
         
 
@@ -187,7 +191,7 @@ public class ArcadeDrive extends ControlScheme {
 
     public void shootSequence(Intake intake, Shooter flywheel) {
         if (armController.getTriggerRight() > 0.2 || armController.getRB()) {
-            if (colorSensor.robotColor()) {
+            if (/*colorSensor.robotColor()*/ true) {
                 flywheel.flywheelOn(4);               
             }
             else {
@@ -202,8 +206,9 @@ public class ArcadeDrive extends ControlScheme {
     }
 
     public void intakeSequence(Intake intake, Shooter flywheel) {
+        SmartDashboard.putNumber("Intake Position", intake.getDeploySensorPosition());
         if (armController.getTriggerLeft() > 0.2) {
-            if (colorSensor.hasBall()) {
+            if (/*colorSensor.hasBall()*/false) {
                 flywheel.feederOff();
             }
             else {
@@ -221,6 +226,16 @@ public class ArcadeDrive extends ControlScheme {
 
 
     public void candle(CANdleSystem candle){
+
+        if(armController.getPOVLeft()){
+            servo.toIntakeAngle();
+        }
+        else if(armController.getPOVRight()){
+            servo.toTargetingAngle();
+        }
+
+
+
         if( armController.getYButton() ){
             candle.vBatOn();
             SmartDashboard.putNumber("Motorcycle Light State", 1);
@@ -267,7 +282,7 @@ public class ArcadeDrive extends ControlScheme {
             SmartDashboard.putNumber("Motorcycle Light State", 1);
             //limelight.ledOff(limelight);
             //limelight.setpipeline(limelight, 1.0);
-            if(allianceColor.equals("Blue")){ //don't be a sinner and use ==. use .equals();
+            if(/*allianceColor.equals("Blue")*/true ){ //don't be a sinner and use ==. use .equals();
                 hasVision = limelight.runLimeLight(drive, 2);
             }
             else{

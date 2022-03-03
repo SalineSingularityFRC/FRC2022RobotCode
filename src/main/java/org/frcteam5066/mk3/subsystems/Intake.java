@@ -88,6 +88,11 @@ public class Intake {
         SmartDashboard.putNumber("Deploying Intake from intake.java", 0);
         SmartDashboard.putNumber("Retracting Intake from intake.java", 1);
     }
+
+    public double getDeploySensorPosition(){
+        SmartDashboard.putNumber("Deploy Sensor Position", intakeDeploy.getMotorController().getSelectedSensorPosition());
+        return intakeDeploy.getMotorController().getSelectedSensorPosition();
+    }
 }
 //how are we going to deploy the intake out?
 //

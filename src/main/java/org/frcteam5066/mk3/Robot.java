@@ -95,7 +95,8 @@ public class Robot extends TimedRobot {
         //compressor.enableDigital();
         CommandScheduler.getInstance().run();
 
-        currentScheme.shootSequence(flywheel, intake);;
+        SmartDashboard.putNumber("Running Robot", 1);
+        currentScheme.shootSequence(flywheel, intake);
         currentScheme.intakeSequence(flywheel, intake);
         // currentScheme.flywheel(flywheel);           
         // currentScheme.intakeConveyer(intake);
