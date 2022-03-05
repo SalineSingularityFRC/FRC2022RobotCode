@@ -189,6 +189,9 @@ public class ArcadeDrive extends ControlScheme {
 
 
 
+
+
+
     public void shootSequence(Shooter flywheel, Intake intake) {
         if (armController.getTriggerRight() > 0.2 || armController.getRB()) {
             if (/*colorSensor.robotColor()*/ true) {
@@ -197,15 +200,20 @@ public class ArcadeDrive extends ControlScheme {
             else {
                 flywheel.barf();
             }
-            /*
+            
             if (flywheel.readyToShoot()) {
                 intake.conveyorCollect();
                 flywheel.feederOn();
-            }*/
+            }
         }
+        else{
+            flywheel.flywheelOff();
+        }
+            
     }
 
     public void intakeSequence(Shooter flywheel, Intake intake) {
+        SmartDashboard.putNumber("Deploy Output Percent", intake.getDeployPercent());
         SmartDashboard.putNumber("Intake Position", intake.getDeploySensorPosition());
         if (armController.getTriggerLeft() > 0.2) {
             if (/*colorSensor.hasBall()*/false) {
@@ -233,6 +241,7 @@ public class ArcadeDrive extends ControlScheme {
         else if(armController.getPOVUp()){
             intake.intakeRetract();
         }
+        //intake.intakeRetract();
     }
 
 

@@ -2,6 +2,9 @@ package org.frcteam5066.mk3.subsystems;
 
 import org.frcteam5066.mk3.subsystems.controllers.motorControllers.Falcon;
 import org.frcteam5066.mk3.subsystems.controllers.motorControllers.Spark;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import org.frcteam5066.mk3.subsystems.controllers.MotorController;
 
 public class Shooter {
@@ -13,7 +16,7 @@ public class Shooter {
     double kI = 0;
     double kD = 0;
     double kIz = 0;
-    double kFF = 0.000015;
+    double kFF = 0.0005;
     double kMaxOutput = 1;
     double kMinOutput = -1;
     double maxRPMflywheel2 = 6380;
@@ -52,8 +55,8 @@ public class Shooter {
  
     public void flywheelOn(){
         //flywheel2.setVelocity(maxRPMflywheel2);
-        flywheel1.setVelocity(maxRPMflywheel1);
-        lastSetVelocity = maxRPMflywheel1;
+        flywheel1.setVelocity(5000);
+        lastSetVelocity = 5000;
     }
 
     public void flywheelOn(double distance){
@@ -96,7 +99,9 @@ public class Shooter {
     }
     
     public boolean readyToShoot(){
-        return getFlywheelVelocity() >= lastSetVelocity - 30 && getFlywheelVelocity() <= lastSetVelocity + 30;
+        SmartDashboard.putNumber("current flywheel velocity", getFlywheelVelocity());
+        SmartDashboard.putNumber("Last Set Velocity", lastSetVelocity);
+        return (getFlywheelVelocity() >= lastSetVelocity - 30 && getFlywheelVelocity() <= lastSetVelocity + 30);
     }
 
     public double getFlywheelVelocity(){

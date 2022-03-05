@@ -28,7 +28,7 @@ public class Falcon implements MotorController {
         talon = new WPI_TalonFX(canID);
         this.canID = canID;
          
-        talon.configFactoryDefault();
+        //talon.configFactoryDefault();
         setRampRate(rampRate);
         setCoastMode(coast);
     }
@@ -37,7 +37,7 @@ public class Falcon implements MotorController {
         talon = new WPI_TalonFX(canID, canBusName);
         this.canID = canID;
          
-        talon.configFactoryDefault();
+        //talon.configFactoryDefault();
         
         setRampRate(rampRate);
         setCoastMode(coast);
@@ -47,7 +47,7 @@ public class Falcon implements MotorController {
         talon = new WPI_TalonFX(canID, canBusName);
         this.canID = canID;
          
-        talon.configFactoryDefault();
+        //talon.configFactoryDefault();
         talon.config_kP(0, kP);
         talon.config_kI(0, kI);
         talon.config_kD(0, kD);
@@ -59,13 +59,60 @@ public class Falcon implements MotorController {
         talon = new WPI_TalonFX(canID, canBusName);
         this.canID = canID;
          
-        talon.configFactoryDefault();
+        //talon.configFactoryDefault();
+        talon.config_kP(0, kP);
+        talon.config_kI(0, kI);
+        talon.config_kD(0, kD);
+        talon.config_kF(0, kF);
+        
+        setRampRate(rampRate);
+        setCoastMode(coast);
+    
+    }
+
+    
+
+    public Falcon(int canID, double rampRate, boolean inverted, boolean coast, String canBusName, double kP, double kI, double kD, double kF ) {
+        talon = new WPI_TalonFX(canID, canBusName);
+        this.canID = canID;
+
+        
+
+        
+
+        
+         
+        //talon.configFactoryDefault();
+        talon.setInverted(inverted);
+        //talon.configPeakOutputForward(percentOut)
+        talon.config_kP(0, kP);
+        talon.config_kI(0, kI);
+        talon.config_kD(0, kD);
+        talon.config_kF(0, kF);
+        
+        setRampRate(rampRate);
+        setCoastMode(coast);
+    }
+
+    public Falcon(int canID, double rampRate, boolean inverted, boolean coast, String canBusName, double kP, double kI, double kD, double kF, double max_out, double max_out_Rev ) {
+        talon = new WPI_TalonFX(canID, canBusName);
+        this.canID = canID;
+
+        
+         
+        //talon.configFactoryDefault();
+        talon.setInverted(inverted);
+        talon.configPeakOutputForward(max_out);
+        talon.configPeakOutputReverse(max_out_Rev);
+        talon.setNeutralMode(NeutralMode.Brake);
+        talon.setSensorPhase(false);
+
         talon.config_kP(0, kP);
         talon.config_kI(0, kI);
         talon.config_kD(0, kD);
         talon.config_kF(0, kF);
         setRampRate(rampRate);
-        setCoastMode(coast);
+        //setCoastMode(coast);
     }
 
     public int getCanID(){
@@ -124,13 +171,23 @@ public class Falcon implements MotorController {
         return rpm;
     }
 
-    public void setPosition(double position){ //position is measured in degrees
+    public void setPositionDegrees(double position){ //position is measured in degrees
         position /= 360;
         position *= 2048; //2048 is the number of ticks of the encoder (to our best estimate, most likely true)
         this.talon.set(TalonFXControlMode.Position, position); //position here is measured in encoder ticks
         SmartDashboard.putNumber("Setting Talon Position to ", position);
         SmartDashboard.putNumber("Current Falcon Position: ", talon.getSelectedSensorPosition());
         SmartDashboard.putNumber("Position Difference", talon.getSelectedSensorPosition() - position);
+        
+        
+    }
+
+    public void setPosition(double position){
+        
+        this.talon.set(TalonFXControlMode.Position, position); //position here is measured in encoder ticks
+        /*SmartDashboard.putNumber("Setting Talon Position to ", position);
+        SmartDashboard.putNumber("Current Falcon Position: ", talon.getSelectedSensorPosition());
+        SmartDashboard.putNumber("Position Difference", talon.getSelectedSensorPosition() - position);*/
         
         
     }
@@ -175,11 +232,15 @@ public class Falcon implements MotorController {
     }
 
     public double getVelocity(){
-        return this.talon.getSelectedSensorVelocity();
+        return this.talon.getSelectedSensorVelocity() * 600 / 2048;
     }
 
     public double getSelectedSensorPosition(){
         return this.talon.getSelectedSensorPosition();
+    }
+
+    public double getPower(){
+        return talon.getMotorOutputPercent();
     }
     
 }

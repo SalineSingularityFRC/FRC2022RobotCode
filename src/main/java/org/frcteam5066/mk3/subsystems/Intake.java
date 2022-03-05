@@ -14,19 +14,19 @@ public class Intake {
     Falcon intakeDeploy;
  
  
-    double kP = 0.01;
-    double kI = 1e-6;
-    double kD = 2e-5;
+    double kP = 0.02;
+    double kI = 0.0000;
+    double kD = 0.0;
     double kIz = 0;
-    double kFF = -0.075;
-    double kMaxOutput = 1;
-    double kMinOutput = -1;
+    double kFF = 0.0;
+    double kMaxOutput = .5;
+    double kMinOutput = -.5;
     double maxRPMIntake = 11000;
     // maxRPMIntakeconveyor is copied from 2021 conveyor class
     double maxRPMIntakeconveyor = -4000;
     double maxRPMFeed = 5700;
-    double deployPosition = 63400;
-    double retractPosition = 7350; //~115 degrees to the 
+    double deployPosition = 60000;
+    double retractPosition = 8350; //~115 degrees to the 
  
  
  
@@ -38,7 +38,8 @@ public class Intake {
         intakeDrive = new Spark(intakeDrivePort, true, 0.00, "IntakeDrive", false, false, kP, kI, kD, kIz, kFF, kMinOutput, kMaxOutput);
         intakeConveyor = new Spark(intakeConveyorPort, true, 0.00, "IntakeConveyor", false, false, kP, kI, kD, kIz, kFF, kMinOutput, kMaxOutput);
         //intakeDeploy = new Falcon(intakeDeployPort, 1.0, true);
-        intakeDeploy = new Falcon(intakeDeployPort, 1, false, "rio", kP, kI, kD);
+        intakeDeploy = new Falcon(intakeDeployPort, 1, false, false, "rio", kP, kI, kD, kFF, kMaxOutput, kMinOutput);
+        //intakeDeploy = new Falcon(canID, rampRate, inverted, coast, canBusName, kP, kI, kD, kF)
     }
  
     
@@ -78,6 +79,7 @@ public class Intake {
 
     public void intakeDeploy(){//bring one of the falcons to make the intake deploy, which way is it supposed to turn
         intakeDeploy.setPosition(deployPosition);
+        SmartDashboard.putNumber("Target Deploy Position", deployPosition);
         SmartDashboard.putNumber("Deploying Intake from intake.java", 1);
         SmartDashboard.putNumber("Retracting Intake from intake.java", 0);
         
@@ -85,6 +87,7 @@ public class Intake {
 
     public void intakeRetract(){//bring one of the falcons to make the intake deploy
         intakeDeploy.setPosition(retractPosition);
+        SmartDashboard.putNumber("Target Deploy Position", retractPosition);
         SmartDashboard.putNumber("Deploying Intake from intake.java", 0);
         SmartDashboard.putNumber("Retracting Intake from intake.java", 1);
     }
@@ -93,6 +96,12 @@ public class Intake {
         SmartDashboard.putNumber("Deploy Sensor Position", intakeDeploy.getSelectedSensorPosition());
         return intakeDeploy.getMotorController().getSelectedSensorPosition();
     }
+
+    public double getDeployPercent(){
+        return intakeDeploy.getPower();
+    }
+
+    
 }
 //how are we going to deploy the intake out?
 //
