@@ -18,15 +18,15 @@ public class Intake {
     double kI = 1e-6;
     double kD = 2e-5;
     double kIz = 0;
-    double kFF = -0.25;
+    double kFF = -0.075;
     double kMaxOutput = 1;
     double kMinOutput = -1;
     double maxRPMIntake = 11000;
     // maxRPMIntakeconveyor is copied from 2021 conveyor class
     double maxRPMIntakeconveyor = -4000;
     double maxRPMFeed = 5700;
-    double deployPosition = 1158;
-    double retractPosition = -52676; //~115 degrees to the 
+    double deployPosition = 63400;
+    double retractPosition = 7350; //~115 degrees to the 
  
  
  
@@ -44,27 +44,27 @@ public class Intake {
     
 
     public void intakeCollect() {
-        intakeDrive.setVelocity(maxRPMIntake);
+        intakeDrive.setSpeed(.3);
         //intakeConveyor.setVelocity(maxRPMIntakeconveyor);
     }
  
     //Use if color senser recognizes opposite team's ball
     public void intakeReject(){
-        intakeDrive.setVelocity(-maxRPMIntake);
+        intakeDrive.setSpeed(-.3);
         //intakeConveyor.setVelocity(-maxRPMIntakeconveyor);
     }
  
     public void intakeOff(){
-        intakeDrive.setVelocity(0.0);
+        intakeDrive.setSpeed(0.0);
         //intakeConveyor.setVelocity(0.0);
     }
 
     public void conveyorCollect(){
-        intakeConveyor.setSpeed(.75);
+        intakeConveyor.setSpeed(.3);
     }
 
     public void conveyorReject(){
-        intakeConveyor.setSpeed(-.75);
+        intakeConveyor.setSpeed(-.3);
     }
 
     public void conveyorOff(){

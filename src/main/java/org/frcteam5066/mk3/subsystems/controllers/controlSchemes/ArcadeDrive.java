@@ -231,7 +231,7 @@ public class ArcadeDrive extends ControlScheme {
             intake.intakeDeploy();
         }
         else if(armController.getPOVUp()){
-            intake.intakeReject();
+            intake.intakeRetract();
         }
     }
 
