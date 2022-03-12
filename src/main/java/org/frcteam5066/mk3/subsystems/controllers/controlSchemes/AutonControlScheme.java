@@ -121,7 +121,7 @@ public abstract class AutonControlScheme {
         }
 
         if( Math.abs( gyro.getAngle() - initAnglePos) > 180){
-            drive.drive(new Vector2(0, 1),1, true);
+            drive.drive(new Vector2(1, 0),1, true);
         }
         SmartDashboard.putNumber("Encoder", drive.getRotationsSpun());
 
