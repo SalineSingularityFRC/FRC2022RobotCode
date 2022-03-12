@@ -21,12 +21,13 @@ public class Shooter {
     double kMinOutput = -1;
     double maxRPMflywheel2 = 6380;
     double maxRPMflywheel1 = 6380;
+    double idealRPM = 3500; //@ 1.22 faster gearing, around the distance we want
     double flywheelkP = .03;
     double flywheelkI = 0.0;
     double flywheelkD = 0;
     double flywheelFF = 0.04766;
     double maxRPMFeed = 5700;
-    double barfRPM = 500;
+    double barfRPM = 1000;
     double gearRatio = 1.22;
 
     private static double lastSetVelocity = 0;
@@ -43,6 +44,7 @@ public class Shooter {
         flywheelFeed = new Spark(flywheelFeedPort, true, 0.00, "FlywheelFeed", false, false, kP, kI, kD, kIz, kFF, kMinOutput, kMaxOutput);
         //flywheelFeed = new Spark(portNumber, brushlessMotor, rampRate)
         //flywheel2.follow(flywheel1, true);
+        SmartDashboard.putNumber("Controllable Velocity", 0);
     }
  
     private double computeVelocity(double distance){
@@ -55,8 +57,10 @@ public class Shooter {
  
     public void flywheelOn(){
         //flywheel2.setVelocity(maxRPMflywheel2);
-        flywheel1.setVelocity(5000);
-        lastSetVelocity = 5000;
+        
+        double flywheelVelo = SmartDashboard.getNumber("Controllable Velocity", 0);
+        flywheel1.setVelocity(flywheelVelo);
+        lastSetVelocity = flywheelVelo;
     }
 
     public void flywheelOn(double distance){
@@ -101,7 +105,7 @@ public class Shooter {
     public boolean readyToShoot(){
         SmartDashboard.putNumber("current flywheel velocity", getFlywheelVelocity());
         SmartDashboard.putNumber("Last Set Velocity", lastSetVelocity);
-        return (getFlywheelVelocity() >= lastSetVelocity - 30 && getFlywheelVelocity() <= lastSetVelocity + 30);
+        return (getFlywheelVelocity() >= lastSetVelocity - 100 && getFlywheelVelocity() <= lastSetVelocity + 100);
     }
 
     public double getFlywheelVelocity(){

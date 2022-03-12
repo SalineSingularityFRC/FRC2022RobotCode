@@ -181,6 +181,8 @@ public class LimeLight{
             double heading_error = headingPID.calculate(tx.getDouble(0.0));
             double distance_error = target_distance - ty.getDouble(0.0);
 
+            SmartDashboard.putNumber("Heading Error", heading_error);
+
             
             SmartDashboard.putNumber("Distance_Error", distance_error);
             SmartDashboard.putNumber("Heading_Error", heading_error);
