@@ -15,6 +15,7 @@ public class RunAuton extends AutonControlScheme{
     SendableChooser<Boolean> doShoot = new SendableChooser<>();
     SendableChooser<Boolean> doSearch = new SendableChooser<>();
     SendableChooser<Boolean> doShoot2 = new SendableChooser<>();
+    SendableChooser<Boolean> testD = new SendableChooser<>();
 
     
 
@@ -40,11 +41,14 @@ public class RunAuton extends AutonControlScheme{
         SmartDashboard.putData(doShoot);
         SmartDashboard.putData(doSearch);
         SmartDashboard.putData(doShoot2);
+        SmartDashboard.putData(testD);
 
     }
 
     public void actuallyRunAutonTheMethod(){
         
+
+        if( testD.getSelected() ) ;
         if( doDrive.getSelected() && !driveDone() ) super.drive();
         if( doShoot.getSelected() && !aimDone() && driveDone() ) super.aim();
         if( doShoot.getSelected() && !shootDone() && aimDone() ) super.shoot();
@@ -54,7 +58,7 @@ public class RunAuton extends AutonControlScheme{
             super.resetShootDone();
         }
         
-
+        /*
         if( true && !driveDone() ) super.drive();
         if( true && !aimDone() && driveDone() ) super.aim();
         if( false && !shootDone() && aimDone() ) super.shoot();
@@ -63,6 +67,7 @@ public class RunAuton extends AutonControlScheme{
             super.resetAimDone();
             super.resetShootDone();
         }
+        */
 
     }
 

@@ -35,6 +35,8 @@ public abstract class AutonControlScheme {
     boolean aimProgress1 = false;
     boolean getBallProgress1 = false;
     boolean getBallProgress2 = false;
+    boolean testDProgress = false;
+    boolean testDProgress2 = false;
     private double initAnglePos;
 
     SendableChooser<Integer> startingPosition = new SendableChooser<>();
@@ -110,6 +112,20 @@ public abstract class AutonControlScheme {
 
     // target == 1 is vision tape, target == 2 is ball
     
+
+    public void testD(){
+        
+        if(!testDProgress){
+            initAnglePos = gyro.getAngle();
+            testDProgress = true;
+        }
+
+        if( Math.abs( gyro.getAngle() - initAnglePos) > 180){
+            drive.drive(new Vector2(0, 1),1, true);
+        }
+        SmartDashboard.putNumber("Encoder", drive.getRotationsSpun());
+
+    }
 
     public void drive(){
 
