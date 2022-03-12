@@ -106,6 +106,9 @@ public class Robot extends TimedRobot {
 
         currentScheme.candle(candle);
 
+
+        currentScheme.colorSensor();
+
         SmartDashboard.putNumber("Gyro Angle", robotContainer.getGyroAngle());
         SmartDashboard.putNumber("CAN Test", Constants.DRIVETRAIN_FRONT_LEFT_DRIVE_MOTOR);
 

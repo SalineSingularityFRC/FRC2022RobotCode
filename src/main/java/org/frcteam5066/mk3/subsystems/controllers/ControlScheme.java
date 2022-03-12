@@ -34,6 +34,7 @@ public abstract class ControlScheme {
 	public abstract void intakePneumatics(IntakePneumatics intakePneumatics);
 	public abstract void limeLightDrive(LimeLight limeLight, DrivetrainSubsystem drive);
 	public abstract void candle(CANdleSystem candle);
+	public abstract void colorSensor();
 
 	
 	

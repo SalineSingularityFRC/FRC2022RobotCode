@@ -39,11 +39,11 @@ public class ArcadeDrive extends ControlScheme {
     //ColorSensor colorSensor = new ColorSensor(); 
     MotorCycle motorCycle = new MotorCycle(7);
 
+    Servo2 servo;
+
     //HolonomicDrivetrain drive;
 
-    //ColorSensor colorSensor;
-
-    Servo2 servo;
+    ColorSensor colorSensor;
 
     //DriverStation driverStation = new DriverStation();
 
@@ -72,7 +72,7 @@ public class ArcadeDrive extends ControlScheme {
     public ArcadeDrive(int driveControllerPort, int armControllerPort) {
         driveController = new XboxController(driveControllerPort);
         armController = new XboxController(armControllerPort);
-        //colorSensor = new ColorSensor();
+        colorSensor = new ColorSensor();
         servo = new Servo2(0);
 
         
@@ -154,7 +154,7 @@ public class ArcadeDrive extends ControlScheme {
             
             if (armController.getAButton()) {
                 flywheel.flywheelReverse();
-            } else if (/*colorSensor.robotColor()*/true == false) {
+            } else if (colorSensor.robotColor()) {
                 flywheel.barf();
             } else {
                 flywheel.flywheelOn();
@@ -192,9 +192,13 @@ public class ArcadeDrive extends ControlScheme {
 
 
 
+
+
+
+
     public void shootSequence(Shooter flywheel, Intake intake) {
         if (armController.getTriggerRight() > 0.2 || armController.getRB()) {
-            if (/*colorSensor.robotColor()*/ true) {
+            if (colorSensor.robotColor()) {
                 flywheel.flywheelOn();               
             }
             else {
@@ -204,10 +208,12 @@ public class ArcadeDrive extends ControlScheme {
             if (flywheel.readyToShoot()) {
                 intake.conveyorCollect();
                 flywheel.feederOn();
+                SmartDashboard.putNumber("Feeding", 1);
             }
         }
         else{
             flywheel.flywheelOff();
+            SmartDashboard.putNumber("Feeding", 0);
         }
             
     }
@@ -216,11 +222,15 @@ public class ArcadeDrive extends ControlScheme {
         SmartDashboard.putNumber("Deploy Output Percent", intake.getDeployPercent());
         SmartDashboard.putNumber("Intake Position", intake.getDeploySensorPosition());
         if (armController.getTriggerLeft() > 0.2) {
-            if (/*colorSensor.hasBall()*/false) {
-                flywheel.feederOff();
-            }
-            else {
-                flywheel.feederOn();
+            
+            if (colorSensor.hasBall()) {
+                if (colorSensor.robotColor()) {
+                    flywheel.feederOff();
+                }
+                else {
+                    flywheel.barf();
+                    flywheel.feederOn();
+                }
             }
 
             intake.intakeCollect();
@@ -230,9 +240,11 @@ public class ArcadeDrive extends ControlScheme {
             intake.intakeReject();
         }
         else{
-            intake.conveyorOff();
+            if(!(armController.getTriggerRight() > .2)){
+                intake.conveyorOff();
+                flywheel.feederOff();
+            }
             intake.intakeOff();
-            flywheel.feederOff();
         }
         
         if(armController.getPOVDown()){
@@ -242,6 +254,11 @@ public class ArcadeDrive extends ControlScheme {
             intake.intakeRetract();
         }
         //intake.intakeRetract();
+    }
+
+    public void colorSensor(){
+        colorSensor.robotColor();
+        SmartDashboard.putNumber("Has Ball", (colorSensor.hasBall())? 1:0 );
     }
 
 
@@ -280,6 +297,8 @@ public class ArcadeDrive extends ControlScheme {
      */
 
     public void limeLightDrive(LimeLight limelight, DrivetrainSubsystem drive){
+
+        SmartDashboard.putNumber("Servo Position", servo.getServoAngle());
 
         //motorCycle.on();
         
