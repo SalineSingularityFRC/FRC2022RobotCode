@@ -48,7 +48,7 @@ public class RunAuton extends AutonControlScheme{
     public void actuallyRunAutonTheMethod(){
         
 
-        if( testD.getSelected() ) ;
+        if( testD.getSelected() ) super.testD();
         if( doDrive.getSelected() && !driveDone() ) super.drive();
         if( doShoot.getSelected() && !aimDone() && driveDone() ) super.aim();
         if( doShoot.getSelected() && !shootDone() && aimDone() ) super.shoot();
