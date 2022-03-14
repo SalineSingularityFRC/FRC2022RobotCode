@@ -37,7 +37,7 @@ public abstract class AutonControlScheme {
     boolean getBallProgress2 = false;
     boolean testDProgress = false;
     boolean testDProgress2 = false;
-    private double initAnglePos;
+    private double initAnglePos = 0;
 
     SendableChooser<Integer> startingPosition = new SendableChooser<>();
 
@@ -114,14 +114,16 @@ public abstract class AutonControlScheme {
     
 
     public void testD(){
+        SmartDashboard.putNumber("Testing D", 1);
         
         if(!testDProgress){
-            initAnglePos = gyro.getAngle();
+            resetAnglePos();
             testDProgress = true;
         }
 
-        if( Math.abs( gyro.getAngle() - initAnglePos) > 180){
-            drive.drive(new Vector2(1, 0),1, true);
+        if( Math.abs( drive.getGyroAngle() - initAnglePos) > 180){
+            drive.drive(new Vector2(1, 0), 1, true);
+            SmartDashboard.putNumber("Driving", 1);
         }
         SmartDashboard.putNumber("Encoder", drive.getRotationsSpun());
 

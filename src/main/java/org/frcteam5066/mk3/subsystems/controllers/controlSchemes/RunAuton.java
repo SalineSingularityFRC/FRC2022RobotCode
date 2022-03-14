@@ -19,23 +19,28 @@ public class RunAuton extends AutonControlScheme{
 
     
 
+    
+
 
 
     public RunAuton(LimeLight limeLight, Shooter flywheel, Intake intake, DrivetrainSubsystem drive, String color){
 
         super(limeLight, flywheel, intake, drive, color);
 
-        doDrive.setDefaultOption("Yes", true);
-        doDrive.addOption("No", false);
+        doDrive.setDefaultOption("Do Shoot", true);
+        doDrive.addOption("dont Drive", false);
 
-        doShoot.setDefaultOption("Yes", true);
-        doShoot.addOption("No", false);
+        doShoot.setDefaultOption("DO Shoot", true);
+        doShoot.addOption("DOn't Shoot", false);
 
-        doSearch.setDefaultOption("Yes", true);
-        doSearch.addOption("No", false);
+        doSearch.setDefaultOption("DO Search ", true);
+        doSearch.addOption("Don't Search", false);
 
-        doShoot2.setDefaultOption("Yes", true);
-        doShoot2.addOption("No", false);
+        doShoot2.setDefaultOption("DoShoot 2", true);
+        doShoot2.addOption("Don't Shoot 2", false);
+
+        testD.setDefaultOption("TestD", true);
+        testD.addOption("Don't TestD", false);
 
         SmartDashboard.putData(doDrive);
         SmartDashboard.putData(doShoot);
@@ -49,13 +54,15 @@ public class RunAuton extends AutonControlScheme{
         
 
         if( testD.getSelected() ) super.testD();
-        if( doDrive.getSelected() && !driveDone() ) super.drive();
-        if( doShoot.getSelected() && !aimDone() && driveDone() ) super.aim();
-        if( doShoot.getSelected() && !shootDone() && aimDone() ) super.shoot();
-        if( doShoot.getSelected() && !getBallDone() && shootDone() ) super.getBall();
-        if( doShoot2.getSelected() ){       
-            super.resetAimDone();
-            super.resetShootDone();
+        else{
+            if( doDrive.getSelected() && !driveDone() ) super.drive();
+            if( doShoot.getSelected() && !aimDone() && driveDone() ) super.aim();
+            if( doShoot.getSelected() && !shootDone() && aimDone() ) super.shoot();
+            if( doShoot.getSelected() && !getBallDone() && shootDone() ) super.getBall();
+            if( doShoot2.getSelected() ){       
+                super.resetAimDone();
+                super.resetShootDone();
+            }
         }
         
         /*
