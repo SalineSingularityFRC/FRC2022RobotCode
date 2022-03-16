@@ -111,21 +111,7 @@ public abstract class AutonControlScheme {
     }
 
     // target == 1 is vision tape, target == 2 is ball
-    
 
-    public void testD(){
-        
-        if(!testDProgress){
-            initAnglePos = gyro.getAngle();
-            testDProgress = true;
-        }
-
-        if( Math.abs( gyro.getAngle() - initAnglePos) > 180){
-            drive.drive(new Vector2(1, 0),1, true);
-        }
-        SmartDashboard.putNumber("Encoder", drive.getRotationsSpun());
-
-    }
 
     public void drive(){
 
@@ -204,6 +190,101 @@ public abstract class AutonControlScheme {
             getBallDone = true;
         }
 
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public void testD(){
+        
+        if(!testDProgress){
+            initAnglePos = gyro.getAngle();
+            testDProgress = true;
+        }
+
+        if( Math.abs( gyro.getAngle() - initAnglePos) > 180){
+            drive.drive(new Vector2(1, 0),1, true);
+        }
+        SmartDashboard.putNumber("Encoder", drive.getRotationsSpun());
+
+    }
+
+
+
+    boolean driveAndSpinProgress1 = false;
+    boolean driveAndSpinProgress2 = false;
+    boolean driveAndSpinProgress3 = false;
+
+
+    public void driveAndSpin(double distance, double angle){
+        if(!driveAndSpinProgress1){
+            initAnglePos = gyro.getAngle();
+            driveAndSpinProgress1 = true;
+        }
+
+        if( Math.abs( gyro.getAngle() - initAnglePos) > 180){
+            drive.drive(new Vector2(1, 0),1, true);
+        }
+    }
+
+    public void superAuton1(){
+
+    }
+
+    public void superAuton2(){
+
+    }
+
+    public void superAuton3(){
+
+    }
+
+    public void superAuton4(){
+
+    }
+
+    public void superAuton5(){
+
+    }
+
+    public void superAuton6(){
+        
+    }
+
+    public void superAuton7(){
+
+    }
+
+    public void superAuton8(){
+
+    }
+
+    public void superAuton9(){
+        
     }
 
 
