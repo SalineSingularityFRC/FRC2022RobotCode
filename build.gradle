@@ -78,3 +78,4 @@ deployArtifact.jarTask = jar
 wpi.java.configureExecutableTasks(jar)
 wpi.java.configureTestTasks(test)
 jar.dependsOn shadowDistZip
+

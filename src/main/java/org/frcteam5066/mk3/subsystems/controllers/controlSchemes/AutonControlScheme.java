@@ -38,6 +38,7 @@ public abstract class AutonControlScheme {
     boolean testDProgress = false;
     boolean testDProgress2 = false;
     private double initAnglePos = 0;
+    private double d = 7.5; //feet - CONVERT TO METERS LATER
 
     SendableChooser<Integer> startingPosition = new SendableChooser<>();
 
@@ -121,9 +122,14 @@ public abstract class AutonControlScheme {
             testDProgress = true;
         }
 
-        if( Math.abs( drive.getGyroAngle() - initAnglePos) > 180){
+        if( ( drive.getGyroAngle() - initAnglePos) < 180 ){
             drive.drive(new Vector2(1, 0), 1, true);
             SmartDashboard.putNumber("Driving", 1);
+            SmartDashboard.putNumber("Angle Difference", Math.abs(drive.getGyroAngle() - initAnglePos) );
+        }
+        else{
+            SmartDashboard.putNumber("Driving", 0);
+            drive.drive(new Vector2(0,0), 0, true);
         }
         SmartDashboard.putNumber("Encoder", drive.getRotationsSpun());
 
