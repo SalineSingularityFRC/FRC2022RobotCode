@@ -35,6 +35,7 @@ public class ColorSensor {
         Boolean sameColor = true; 
         Color detectedColor = m_colorSensor.getColor();
         ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
+        proximity = m_colorSensor.getProximity();
 
         if (match.color == kBlueTarget) {
             colorString = "Blue";
@@ -44,7 +45,7 @@ public class ColorSensor {
             colorString = "Unknown";
         }
 
-        if (!colorString.equalsIgnoreCase(allianceColor) && proximity < 135) {
+        if (!colorString.equalsIgnoreCase(allianceColor) && proximity > 96) {
             sameColor = false;
         }
 
@@ -56,5 +57,12 @@ public class ColorSensor {
         SmartDashboard.putBoolean("Ball color is the same as alliance color", sameColor);
 
         return sameColor;
+    }
+
+    public boolean hasBall(){
+        //AUTON TESTING MODIFY SPOT proximity is how far a thing is away from the color sensor. 
+        //The exact number to tell if a ball is in the robot may need to be adjusted
+        if(proximity > 96) return true;
+        return false;
     }
 }

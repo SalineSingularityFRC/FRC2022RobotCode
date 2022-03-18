@@ -4,17 +4,25 @@ import org.frcteam5066.common.robot.subsystems.Drivetrain;
 import org.frcteam5066.common.robot.subsystems.HolonomicDrivetrain;
 import org.frcteam5066.mk3.IntakePneumatics;
 import org.frcteam5066.mk3.LimeLight;
+import org.frcteam5066.mk3.subsystems.CANdleSystem;
 import org.frcteam5066.mk3.subsystems.ColorSensor;
 import org.frcteam5066.mk3.subsystems.DrivetrainSubsystem;
 import org.frcteam5066.mk3.subsystems.Intake;
+import org.frcteam5066.mk3.subsystems.Servo2;
 import org.frcteam5066.mk3.subsystems.Shooter;
 import org.frcteam5066.mk3.subsystems.controllers.*;
 
 import edu.wpi.first.wpilibj.smartdashboard.*;
+
+import com.ctre.phoenix.led.CANdle;
 import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.wpilibj.DriverStation;
 
 import org.frcteam5066.mk3.subsystems.controllers.XboxController;
 import org.frcteam5066.mk3.subsystems.controllers.motorControllers.MotorCycle;
+
+
 
 //Uncomment to enable gyro stuff
 //import com.kauailabs.navx.frc.AHRS;
@@ -31,7 +39,17 @@ public class ArcadeDrive extends ControlScheme {
     //ColorSensor colorSensor = new ColorSensor(); 
     MotorCycle motorCycle = new MotorCycle(7);
 
-    HolonomicDrivetrain drive;
+    Servo2 servo;
+
+    //HolonomicDrivetrain drive;
+
+    ColorSensor colorSensor;
+
+    //DriverStation driverStation = new DriverStation();
+
+    String allianceColor = DriverStation.getAlliance().toString();
+
+
 
     
 
@@ -54,6 +72,8 @@ public class ArcadeDrive extends ControlScheme {
     public ArcadeDrive(int driveControllerPort, int armControllerPort) {
         driveController = new XboxController(driveControllerPort);
         armController = new XboxController(armControllerPort);
+        colorSensor = new ColorSensor();
+        servo = new Servo2(0);
 
         
 
@@ -107,31 +127,51 @@ public class ArcadeDrive extends ControlScheme {
         else {
             intake.conveyorOff();
         }
+
+        if( armController.getPOVUp() ){
+            intake.intakeDeploy();
+            SmartDashboard.putNumber("Deploy", 1);
+            SmartDashboard.putNumber("Retract", 0);
+        }
+        else if ( armController.getPOVDown() ){
+            intake.intakeRetract();
+            SmartDashboard.putNumber("Deploy", 0);
+            SmartDashboard.putNumber("Retract", 1);
+        }
+
     }
 
     @Override
     public void flywheel(Shooter flywheel) {
+
+        SmartDashboard.putNumber("Current Velocity", flywheel.getFlywheelVelocity() + Math.random());
+
+        
+
         if (armController.getTriggerLeft() > .2) {
+
+            SmartDashboard.putNumber("Running Flywheel", 1);
             
             if (armController.getAButton()) {
-                flywheel.shooterReverse();
-            } else if (/*colorSensor.robotColor()*/true == false) {
+                flywheel.flywheelReverse();
+            } else if (colorSensor.robotColor()) {
                 flywheel.barf();
             } else {
-                flywheel.shooterOn();
+                flywheel.flywheelOn();
             }
         }
         else if (armController.getPOVLeft()) {
             flywheel.barf();
         }
-        else flywheel.shooterOff();
+        else flywheel.flywheelOff();
 
         if (armController.getTriggerRight() > .2) {
             if (armController.getAButton())
                 flywheel.feederReverse();
-            else flywheel.shoot(); // turns on feeder wheel
+            else flywheel.feederOn(); // turns on feeder wheel
         }
-        else flywheel.hold();
+        else flywheel.feederOff();
+        SmartDashboard.putNumber("Running Flywheel", 0);
     }
 
     public void intakePneumatics(IntakePneumatics intakePneumatics) {
@@ -143,7 +183,106 @@ public class ArcadeDrive extends ControlScheme {
             intakePneumatics.setOff();
         }
     }
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public void shootSequence(Shooter flywheel, Intake intake) {
+        if (armController.getTriggerRight() > 0.2 || armController.getRB()) {
+            if (colorSensor.robotColor()) {
+                flywheel.flywheelOn();               
+            }
+            else {
+                flywheel.barf();
+            }
+            
+            if (flywheel.readyToShoot()) {
+                intake.conveyorCollect();
+                flywheel.feederOn();
+                SmartDashboard.putNumber("Feeding", 1);
+            }
+        }
+        else{
+            flywheel.flywheelOff();
+            SmartDashboard.putNumber("Feeding", 0);
+        }
+            
+    }
+
+    public void intakeSequence(Shooter flywheel, Intake intake) {
+        SmartDashboard.putNumber("Deploy Output Percent", intake.getDeployPercent());
+        SmartDashboard.putNumber("Intake Position", intake.getDeploySensorPosition());
+        if (armController.getTriggerLeft() > 0.2) {
+            
+            if (colorSensor.hasBall()) {
+                if (colorSensor.robotColor()) {
+                    flywheel.feederOff();
+                }
+                else {
+                    flywheel.barf();
+                    flywheel.feederOn();
+                }
+            }
+
+            intake.intakeCollect();
+            intake.conveyorCollect();
+        } 
+        else if (armController.getLB()) {
+            intake.intakeReject();
+        }
+        else{
+            if(!(armController.getTriggerRight() > .2)){
+                intake.conveyorOff();
+                flywheel.feederOff();
+            }
+            intake.intakeOff();
+        }
+        
+        if(armController.getPOVDown()){
+            intake.intakeDeploy();
+        }
+        else if(armController.getPOVUp()){
+            intake.intakeRetract();
+        }
+        //intake.intakeRetract();
+    }
+
+    public void colorSensor(){
+        colorSensor.robotColor();
+        SmartDashboard.putNumber("Has Ball", (colorSensor.hasBall())? 1:0 );
+    }
+
+
+
+    public void candle(CANdleSystem candle){
+
+        if(armController.getPOVLeft()){
+            servo.toIntakeAngle();
+        }
+        else if(armController.getPOVRight()){
+            servo.toTargetingAngle();
+        }
+
+
+
+        if( armController.getYButton() ){
+            candle.vBatOn();
+            SmartDashboard.putNumber("Motorcycle Light State", 1);
+        }
+        else{
+            SmartDashboard.putNumber("Motorcycle Light State", 0);
+            candle.vBatOff();
+        }
+    }
 
     
 
@@ -158,13 +297,20 @@ public class ArcadeDrive extends ControlScheme {
      */
 
     public void limeLightDrive(LimeLight limelight, DrivetrainSubsystem drive){
+
+        SmartDashboard.putNumber("Servo Position", servo.getServoAngle());
+
+        //motorCycle.on();
         
         boolean runningLimelight;
         boolean hasVision;
         if (driveController.getXButton()) {
             motorCycle.off();
+            SmartDashboard.putNumber("Motorcycle Light State", 0);
             //limelight.ledOn(limelight);
             //limelight.setpipeline(limelight, 0.0);
+
+            
             hasVision = limelight.runLimeLight(drive, 1);
             runningLimelight = true;
             //limelight.ledMode.setBoolean(true);
@@ -173,14 +319,21 @@ public class ArcadeDrive extends ControlScheme {
         }
         else if (driveController.getBButton()){
             motorCycle.on();
+            SmartDashboard.putNumber("Motorcycle Light State", 1);
             //limelight.ledOff(limelight);
             //limelight.setpipeline(limelight, 1.0);
-            hasVision = limelight.runLimeLight(drive, 0);
+            if(/*allianceColor.equals("Blue")*/true ){ //don't be a sinner and use ==. use .equals();
+                hasVision = limelight.runLimeLight(drive, 2);
+            }
+            else{
+                hasVision = limelight.runLimeLight(drive, 3);
+            }
             runningLimelight = true;
         
         }
         else{
             motorCycle.off();
+            SmartDashboard.putNumber("Motorcycle Light State", 0);
             runningLimelight = false;
             hasVision = false;
             limelight.ledOff(limelight);
@@ -188,6 +341,8 @@ public class ArcadeDrive extends ControlScheme {
         SmartDashboard.putNumber("Running Limelight", runningLimelight ? 1:0);
         SmartDashboard.putNumber("Has Vision", hasVision ? 1:0);
     }
+
+    
     
 
 }

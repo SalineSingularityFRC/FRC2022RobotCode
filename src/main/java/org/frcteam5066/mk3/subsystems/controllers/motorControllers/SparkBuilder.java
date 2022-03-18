@@ -3,6 +3,7 @@ package org.frcteam5066.mk3.subsystems.controllers.motorControllers;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkMaxPIDController;
 
 import org.json.simple.*;
 import org.json.simple.parser.*;
@@ -11,7 +12,7 @@ public class SparkBuilder {
     private CANSparkMax m_motor;
 
     private CANEncoder m_encoder;
-    private CANPIDController m_pidController;
+    private SparkMaxPIDController m_pidController;
     private int portNumber;
     private boolean brushlessMotor;
     private double rampRate;

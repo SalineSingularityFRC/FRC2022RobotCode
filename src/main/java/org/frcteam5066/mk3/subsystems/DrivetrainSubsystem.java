@@ -251,6 +251,7 @@ public class DrivetrainSubsystem implements Subsystem, UpdateManager.Updatable {
         for (int i = 0; i < moduleOutputs.length; i++) {
             var module = modules[i];
             module.setTargetVelocity(moduleOutputs[i]);
+            //SmartDashboard.putNumber(Integer.toString(i), module.getTargetVelocity());
             module.updateState(dt);
         }
     }
@@ -278,4 +279,13 @@ public class DrivetrainSubsystem implements Subsystem, UpdateManager.Updatable {
             moduleAngleEntries[i].setDouble(Math.toDegrees(modules[i].getCurrentAngle()));
         }
     }
+
+    public double getRotationsSpun(){
+        return modules[0].getRotationsSpun();
+    }
+
+    public void resetRotationsZero(){
+        modules[0].resetRotationsZero();
+    }
+
 }

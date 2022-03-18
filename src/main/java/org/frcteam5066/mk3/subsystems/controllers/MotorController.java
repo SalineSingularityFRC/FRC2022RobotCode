@@ -36,6 +36,10 @@ public interface MotorController {
 
     public void setVelocity(double velocity);
 
+    public double getVelocity();
+
+    public abstract double getRotationsSpun();
+    public abstract void resetRotationsZero();
     public double getMotorRPM();
 
 
