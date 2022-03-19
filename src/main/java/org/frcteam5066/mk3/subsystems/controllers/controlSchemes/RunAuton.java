@@ -16,6 +16,7 @@ public class RunAuton extends AutonControlScheme{
     SendableChooser<Boolean> doSearch = new SendableChooser<>();
     SendableChooser<Boolean> doShoot2 = new SendableChooser<>();
     SendableChooser<Boolean> testD = new SendableChooser<>();
+    SendableChooser<Boolean> doFixedAuton = new SendableChooser<>();
 
     
 
@@ -42,18 +43,39 @@ public class RunAuton extends AutonControlScheme{
         testD.setDefaultOption("TestD", true);
         testD.addOption("Don't TestD", false);
 
+        doFixedAuton.setDefaultOption("Do Fixed Auton", true);
+        doFixedAuton.addOption("Don't do Fixed Auton", false);
+
         SmartDashboard.putData(doDrive);
         SmartDashboard.putData(doShoot);
         SmartDashboard.putData(doSearch);
         SmartDashboard.putData(doShoot2);
         SmartDashboard.putData(testD);
+        SmartDashboard.putData(doFixedAuton);
 
     }
 
     public void actuallyRunAutonTheMethod(){
         
 
-        if( /*testD.getSelected()*/ true ) super.testD();
+        if( testD.getSelected() ) super.testD();
+
+        else if (doFixedAuton.getSelected()){
+            /*
+                drive straght and pick up ball
+                aim and shoot
+                spin and drive to next ball
+                aim and shoot
+                spin and drive to player station
+                drive to previous position
+                aim and shoot
+            */
+
+            super.driveDistance(1.204);
+            
+
+        }
+
         else{
             if( doDrive.getSelected() && !driveDone() ) super.drive();
             if( doShoot.getSelected() && !aimDone() && driveDone() ) super.aim();

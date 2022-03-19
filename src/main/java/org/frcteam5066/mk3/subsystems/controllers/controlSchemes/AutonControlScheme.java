@@ -240,19 +240,7 @@ public abstract class AutonControlScheme {
 
 
 
-    public void testD(){
-        
-        if(!testDProgress){
-            initAnglePos = gyro.getAngle();
-            testDProgress = true;
-        }
-
-        if( Math.abs( gyro.getAngle() - initAnglePos) > 180){
-            drive.drive(new Vector2(1, 0),1, true);
-        }
-        SmartDashboard.putNumber("Encoder", drive.getRotationsSpun());
-
-    }
+    
 
 
 
@@ -264,7 +252,7 @@ public abstract class AutonControlScheme {
     final double wheelCirc = 0.3191858136047229930278045677412;
 
 
-    private void driveDistance(double distance){
+    public void driveDistance(double distance){
         if(!driveDistanceProgress){
             drive.resetRotationsZero();
             driveDistanceProgress = true;
