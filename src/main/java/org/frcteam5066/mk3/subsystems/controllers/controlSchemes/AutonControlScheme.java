@@ -237,17 +237,34 @@ public abstract class AutonControlScheme {
 
     boolean driveAndSpinProgress1 = false;
     boolean driveAndSpinProgress2 = false;
-    boolean driveAndSpinProgress3 = false;
+    boolean driveDistanceProgress = false;
+
+    final double spin180Distance = 2.286;
+    final double wheelCirc = 0.3191858136047229930278045677412;
 
 
-    public void driveAndSpin(double distance, double angle){
+    private void driveDistance(double distance){
+        if(!driveDistanceProgress){
+            drive.resetRotationsZero();
+            driveDistanceProgress = true;
+        }
+        
+        if( wheelCirc * drive.getRotationsSpun() < distance){
+            drive.drive(new Vector2(1,0), 1, false);
+        }
+    }
+
+    public void driveAndSpin(double distance, double angleFromNorth, double angleFromGoal){
         if(!driveAndSpinProgress1){
             initAnglePos = gyro.getAngle();
             driveAndSpinProgress1 = true;
         }
 
-        if( Math.abs( gyro.getAngle() - initAnglePos) > 180){
-            drive.drive(new Vector2(1, 0),1, true);
+        if( Math.abs( gyro.getAngle() - initAnglePos) < angleFromGoal){
+            drive.drive(new Vector2(Math.sin(angleFromNorth), Math.cos(angleFromNorth)), 1, true);
+        }
+        else {
+            driveDistance(distance - (spin180Distance * (angleFromGoal/180) ) );
         }
     }
 
