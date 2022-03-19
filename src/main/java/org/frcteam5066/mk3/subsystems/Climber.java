@@ -43,7 +43,7 @@ public class Climber {
     }
 
     public void reset () {
-        climbMotor.setSpeed(1.0);
+        climbMotor.setSpeed(-1.0);
     }
 
     
