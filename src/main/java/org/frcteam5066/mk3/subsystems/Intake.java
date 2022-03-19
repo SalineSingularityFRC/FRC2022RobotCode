@@ -46,6 +46,7 @@ public class Intake {
 
     
     public void intakeCollect() {
+        intakeDrive.setSpeed(.3);
         //intakeConveyor.setVelocity(maxRPMIntakeconveyor);
     }
  
