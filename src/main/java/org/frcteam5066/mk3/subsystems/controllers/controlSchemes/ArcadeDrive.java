@@ -206,7 +206,7 @@ public class ArcadeDrive extends ControlScheme {
 
     public void shootSequence(Shooter flywheel, Intake intake) {
         if (armController.getTriggerRight() > 0.2 || armController.getRB()) {
-            if (colorSensor.robotColor()) {
+            if (/*colorSensor.robotColor()*/ true) {
                 flywheel.flywheelOn();               
             }
             else {

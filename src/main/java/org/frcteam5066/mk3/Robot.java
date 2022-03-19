@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
 import org.frcteam5066.common.robot.UpdateManager;
 import org.frcteam5066.mk3.commands.DontDriveCommand;
 import org.frcteam5066.mk3.subsystems.CANdleSystem;
+import org.frcteam5066.mk3.subsystems.Climber;
 import org.frcteam5066.mk3.subsystems.ColorSensor;
 import org.frcteam5066.mk3.subsystems.DrivetrainSubsystem;
 import org.frcteam5066.mk3.subsystems.Intake;
@@ -37,6 +38,8 @@ public class Robot extends TimedRobot {
     int conveyorMotorPort;
 
     ControlScheme currentScheme;
+
+    Climber climber; 
     
     Shooter flywheel;
     Intake intake;
@@ -70,6 +73,8 @@ public class Robot extends TimedRobot {
         
 
         flywheel = new Shooter(61, 11, 3);
+
+        climber = new Climber(6);
 
         currentScheme = new ArcadeDrive(XBOX_PORT, XBOX_PORT + 1);
 
@@ -108,6 +113,7 @@ public class Robot extends TimedRobot {
 
         currentScheme.candle(candle);
 
+        currentScheme.climber(climber);
 
         currentScheme.colorSensor();
 
@@ -147,6 +153,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void testPeriodic() {
+        currentScheme.climber(climber);
     }
 
     @Override
