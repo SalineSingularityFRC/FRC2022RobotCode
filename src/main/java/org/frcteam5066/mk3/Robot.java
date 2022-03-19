@@ -62,6 +62,8 @@ public class Robot extends TimedRobot {
         updateManager.startLoop(5.0e-3);
 
         dontDriveCommand = new DontDriveCommand(robotContainer.getDrivetrainSubsystem());
+
+        runAuton = new RunAuton(limeLight, flywheel, intake, robotContainer.getDrivetrainSubsystem(), allianceColor);
         
         
 
@@ -106,6 +108,9 @@ public class Robot extends TimedRobot {
 
         currentScheme.candle(candle);
 
+
+        currentScheme.colorSensor();
+
         SmartDashboard.putNumber("Gyro Angle", robotContainer.getGyroAngle());
         SmartDashboard.putNumber("CAN Test", Constants.DRIVETRAIN_FRONT_LEFT_DRIVE_MOTOR);
 
@@ -124,7 +129,7 @@ public class Robot extends TimedRobot {
         }
 
         CommandScheduler.getInstance().setDefaultCommand( (Subsystem) robotContainer.getDrivetrainSubsystem(), (Command) dontDriveCommand);
-        runAuton = new RunAuton(limeLight, flywheel, intake, robotContainer.getDrivetrainSubsystem(), allianceColor);
+        
         
     }
 

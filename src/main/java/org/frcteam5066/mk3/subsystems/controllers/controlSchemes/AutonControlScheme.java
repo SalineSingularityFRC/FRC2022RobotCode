@@ -37,7 +37,8 @@ public abstract class AutonControlScheme {
     boolean getBallProgress2 = false;
     boolean testDProgress = false;
     boolean testDProgress2 = false;
-    private double initAnglePos;
+    private double initAnglePos = 0;
+    private double d = 7.5; //feet - CONVERT TO METERS LATER
 
     SendableChooser<Integer> startingPosition = new SendableChooser<>();
 
@@ -112,6 +113,26 @@ public abstract class AutonControlScheme {
 
     // target == 1 is vision tape, target == 2 is ball
 
+    public void testD(){
+        SmartDashboard.putNumber("Testing D", 1);
+        
+        if(!testDProgress){
+            resetAnglePos();
+            testDProgress = true;
+        }
+
+        if( ( drive.getGyroAngle() - initAnglePos) < 180 ){
+            drive.drive(new Vector2(1, 0), 1, true);
+            SmartDashboard.putNumber("Driving", 1);
+            SmartDashboard.putNumber("Angle Difference", Math.abs(drive.getGyroAngle() - initAnglePos) );
+        }
+        else{
+            SmartDashboard.putNumber("Driving", 0);
+            drive.drive(new Vector2(0,0), 0, true);
+        }
+        SmartDashboard.putNumber("Encoder", drive.getRotationsSpun());
+
+    }
 
     public void drive(){
 

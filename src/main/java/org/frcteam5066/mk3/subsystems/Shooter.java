@@ -12,7 +12,7 @@ public class Shooter {
     MotorController flywheel1, flywheel2, flywheelFeed;
  //motorcontroller class is the parent class(not all motor controllers are falcons)
  //specify that something is a moter controller, then later specify if it's a falcon
-    double kP = 6e-5;
+    double kP = 1e-4;
     double kI = 0;
     double kD = 0;
     double kIz = 0;
@@ -27,7 +27,7 @@ public class Shooter {
     double flywheelkD = 0;
     double flywheelFF = 0.04766;
     double maxRPMFeed = 5700;
-    double barfRPM = 1000;
+    double barfRPM = 2000;
     double gearRatio = 1.22;
 
     private static double lastSetVelocity = 0;
@@ -89,7 +89,11 @@ public class Shooter {
  
  
     public void feederOn(){
-        flywheelFeed.setVelocity(-maxRPMFeed);
+        flywheelFeed.setSpeed(-.9);
+    }
+
+    public void feederOnIntake(){
+        flywheelFeed.setSpeed(-.750);
     }
 
     public void feederReverse () {
@@ -105,7 +109,8 @@ public class Shooter {
     public boolean readyToShoot(){
         SmartDashboard.putNumber("current flywheel velocity", getFlywheelVelocity());
         SmartDashboard.putNumber("Last Set Velocity", lastSetVelocity);
-        return (getFlywheelVelocity() >= lastSetVelocity - 100 && getFlywheelVelocity() <= lastSetVelocity + 100);
+        SmartDashboard.putNumber("Is Flywheel Ready", (getFlywheelVelocity() >= lastSetVelocity - 200 && getFlywheelVelocity() <= lastSetVelocity + 200)? 1:0 );
+        return (getFlywheelVelocity() >= lastSetVelocity - 200 && getFlywheelVelocity() <= lastSetVelocity + 200);
     }
 
     public double getFlywheelVelocity(){

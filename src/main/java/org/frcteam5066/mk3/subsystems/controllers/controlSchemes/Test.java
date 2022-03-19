@@ -93,6 +93,14 @@ public class Test extends ControlScheme{
         
     }
 
+
+
+    @Override
+    public void colorSensor() {
+        // TODO Auto-generated method stub
+        
+    }
+
     
 
 }

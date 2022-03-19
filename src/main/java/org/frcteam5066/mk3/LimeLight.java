@@ -186,7 +186,7 @@ public class LimeLight{
             
             SmartDashboard.putNumber("Distance_Error", distance_error);
             SmartDashboard.putNumber("Heading_Error", heading_error);
-            drive.drive(new Vector2((driveType == 2 || driveType == 3)? 1:0, heading_error), 0, false); 
+            drive.drive(new Vector2((driveType == 2 || driveType == 3)? 1:0, 0), heading_error, false); 
             //note that vectors in this notation use (y,x) and should be used with robot oriented control
             //Not necessarily y and x but rather forward/backward and left/right
 
