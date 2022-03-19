@@ -93,7 +93,7 @@ public class Shooter {
     }
 
     public void feederOnIntake(){
-        flywheelFeed.setSpeed(-.750);
+        flywheelFeed.setSpeed(-.350);
     }
 
     public void feederReverse () {

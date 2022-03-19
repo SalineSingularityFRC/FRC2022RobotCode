@@ -62,7 +62,7 @@ public class ColorSensor {
     public boolean hasBall(){
         //AUTON TESTING MODIFY SPOT proximity is how far a thing is away from the color sensor. 
         //The exact number to tell if a ball is in the robot may need to be adjusted
-        if(proximity > 96) return true;
+        if(proximity > 110) return true;
         return false;
     }
 }
