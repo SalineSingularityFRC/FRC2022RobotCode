@@ -11,6 +11,7 @@ import org.frcteam5066.mk3.IntakePneumatics;
 
 import org.frcteam5066.mk3.LimeLight;
 import org.frcteam5066.mk3.subsystems.CANdleSystem;
+import org.frcteam5066.mk3.subsystems.Climber;
 import org.frcteam5066.mk3.subsystems.DrivetrainSubsystem;
 import org.frcteam5066.mk3.subsystems.Intake;
 import org.frcteam5066.mk3.subsystems.Shooter;
@@ -35,6 +36,9 @@ public abstract class ControlScheme {
 	public abstract void limeLightDrive(LimeLight limeLight, DrivetrainSubsystem drive);
 	public abstract void candle(CANdleSystem candle);
 	public abstract void colorSensor();
+	public abstract void climber(Climber climb);
+
+	public abstract void  resetClimber(Climber climber);
 
 	
 	
