@@ -5,6 +5,7 @@ import org.frcteam5066.common.robot.subsystems.HolonomicDrivetrain;
 import org.frcteam5066.mk3.IntakePneumatics;
 import org.frcteam5066.mk3.LimeLight;
 import org.frcteam5066.mk3.subsystems.CANdleSystem;
+import org.frcteam5066.mk3.subsystems.Climber;
 import org.frcteam5066.mk3.subsystems.ColorSensor;
 import org.frcteam5066.mk3.subsystems.DrivetrainSubsystem;
 import org.frcteam5066.mk3.subsystems.Intake;
@@ -186,12 +187,19 @@ public class ArcadeDrive extends ControlScheme {
 
 
 
+/*
 
+////////////////////////////////////////////////////////////////////
+    _____            _   __  __      _   _               _     
+    |  __ \          | | |  \/  |    | | | |             | |    
+    | |__) |___  __ _| | | \  / | ___| |_| |__   ___   __| |___ 
+    |  _  // _ \/ _` | | | |\/| |/ _ \ __| '_ \ / _ \ / _` / __|
+    | | \ \  __/ (_| | | | |  | |  __/ |_| | | | (_) | (_| \__ \
+    |_|  \_\___|\__,_|_| |_|  |_|\___|\__|_| |_|\___/ \__,_|___/
+                                                                
+////////////////////////////////////////////////////////////////////                                                        
 
-
-
-
-
+*/
 
 
 
@@ -341,6 +349,34 @@ public class ArcadeDrive extends ControlScheme {
         SmartDashboard.putNumber("Running Limelight", runningLimelight ? 1:0);
         SmartDashboard.putNumber("Has Vision", hasVision ? 1:0);
     }
+
+    
+    public void climber(Climber climb) {
+        
+        if (armController.getXButton()) {
+            climb.climb();
+        }
+
+        else if (armController.getYButton()) {
+            climb.deploy();
+        }
+
+        else {
+            climb.stop();
+        }
+
+    }
+
+    @Override
+    public void resetClimber(Climber climber) {
+        climber.reset();
+        
+    }
+
+    
+
+    
+    
 
     
     
