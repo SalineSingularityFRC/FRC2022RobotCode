@@ -28,6 +28,7 @@ public class Intake {
     double maxRPMFeed = 5700;
     double deployPosition = 60000;
     double retractPosition = 8350; //~115 degrees to the 
+    double shootingPosition = 3000;
  
  
  
@@ -86,6 +87,11 @@ public class Intake {
         SmartDashboard.putNumber("Deploying Intake from intake.java", 1);
         SmartDashboard.putNumber("Retracting Intake from intake.java", 0);
         
+    }
+
+    public void intakeShooting(){
+        intakeDeploy.setPosition(shootingPosition);
+        SmartDashboard.putNumber("Target Deploy Position", deployPosition);
     }
 
     //TODO add deploy intermediate position
