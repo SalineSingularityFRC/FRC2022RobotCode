@@ -113,6 +113,7 @@ public abstract class AutonControlScheme {
 
     // target == 1 is vision tape, target == 2 is ball
     
+    //TODO test "D" value more
 
     public void testD(){
         SmartDashboard.putNumber("Testing D", 1);
@@ -144,7 +145,7 @@ public abstract class AutonControlScheme {
             SmartDashboard.putNumber("Driving", 1);
             drive.drive(new Vector2(1, 0), 0, false);
             
-            //AUTON TESTING MODIFY SPOT the "10" below represent the amount of rotations needed to get off the tarmac
+            //Auton TESTING MODIFY SPOT the "10" below represent the amount of rotations needed to get off the tarmac
             SmartDashboard.putNumber("Wheel Rotations", drive.getRotationsSpun());
             if(drive.getRotationsSpun() >= 10){
                 drive.drive(new Vector2(0, 0),0, false);

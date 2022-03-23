@@ -25,10 +25,11 @@ public class LimeLight{
 
     public NetworkTable table;
     public NetworkTableEntry tx, ty, ta, tv, ts, tl, pipeLine, tshort, tlong, thor, tvert, getpipe, camtran, ledMode, camMode;
-//t means target(example-target x, y, )
+    //t means target(example-target x, y, )
     public double target_distance = 0.0;
 
     PIDController headingPID;
+    PIDController distancePID;
 
     CANdleSystem candle;
 
@@ -70,7 +71,9 @@ public class LimeLight{
 
         //initialize PID objects from WPILIB
         headingPID = new PIDController(.02, 0.00025, 0.0004);
-        //
+        distancePID = new PIDController(0.02, 0.00025, 0.0004);
+        //tune these
+
         //table.getEntry("pipeline").setNumber(0);
         //SmartDashboard.putNumber("Pipeline", pipeLine.getDouble(0.0));
 
@@ -149,6 +152,9 @@ public class LimeLight{
             candle.vBatOff();
         }
 
+
+        //TODO limelight contouring in gym
+
         
 
 
@@ -192,6 +198,8 @@ public class LimeLight{
             //double heading_error = -tx.getDouble(0.0) * .2;
             double heading_error = headingPID.calculate(tx.getDouble(0.0));
             double distance_error = target_distance - ty.getDouble(0.0);
+            //TODO limelight distance PID tuning 
+
 
             SmartDashboard.putNumber("Heading Error", heading_error);
 
@@ -213,10 +221,10 @@ public class LimeLight{
 //PID-adjusts a control output based on difference between a set point 
 //derivative is rate of change/predicting future, so as to not over shoot
 //integral-sum of instantaneous error over time and gives accumulated
-//offset that should've been corrected
+    //offset that should've been corrected
 //proportion- the ratio of output response to the error signal.
-//THIS IS JUST AN OPTION FOR THE INTAKE OF THE CARGO
-//FOR the interior, place a color sensor. When the sensor sees a ball 
+//This IS JUST AN OPTION FOR THE INTAKE OF THE CARGO
+//For the interior, place a color sensor. When the sensor sees a ball 
 //that doesn't match with the alliance, it spits the ball out at a slow speed so
 //it doesn't shoot in the goal. But for the exterior, use lime light
 
