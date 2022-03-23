@@ -6,6 +6,7 @@ package org.frcteam5066.mk3;
 import org.frcteam5066.common.math.Vector2;
 import org.frcteam5066.common.robot.drivers.Limelight;
 import org.frcteam5066.common.robot.drivers.Limelight.CamMode;
+import org.frcteam5066.mk3.subsystems.CANdleSystem;
 //technically we shouldn't use this but were going to anyway
 //import org.frcteam5066.common.robot.subsystems.HolonomicDrivetrain;
 import org.frcteam5066.mk3.subsystems.DrivetrainSubsystem;
@@ -29,10 +30,12 @@ public class LimeLight{
 
     PIDController headingPID;
 
+    CANdleSystem candle;
+
 
     //constructor to create the limelight and its values
     //class by: Branden Amstutz
-    public LimeLight(){
+    public LimeLight(CANdleSystem _candle){
         table = NetworkTableInstance.getDefault().getTable("limelight");
         // horizontal offset of cross hair to target
         tx = table.getEntry("tx");
@@ -70,6 +73,8 @@ public class LimeLight{
         //
         //table.getEntry("pipeline").setNumber(0);
         //SmartDashboard.putNumber("Pipeline", pipeLine.getDouble(0.0));
+
+        this.candle = _candle;
 
 
         
@@ -137,6 +142,13 @@ public class LimeLight{
 
         pipeLine.setNumber( driveType );
 
+        if(driveType == 2 || driveType == 3){
+            candle.vBatOn();
+        }
+        else{
+            candle.vBatOff();
+        }
+
         
 
 
@@ -171,7 +183,7 @@ public class LimeLight{
             double distance = 8.5; //just for lols rn, this is the max in meters
             double height = 2.042;
             
-
+            
             double velocity = Math.sqrt((-.5 * 9.807 * Math.pow( distance, 2 )) / 
                     ( Math.pow( Math.cos(Math.toRadians(60) ), 2 ) * ( height - distance * Math.tan(Math.toRadians(60)) ) ) );
             //plz never make me type that again

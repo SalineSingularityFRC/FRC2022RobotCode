@@ -85,7 +85,7 @@ public class Robot extends TimedRobot {
         //intakePneumatics = new IntakePneumatics(0, 1);
 
         //compressor = new Compressor(PneumaticsModuleType.CTREPCM);
-        limeLight = new LimeLight();
+        limeLight = new LimeLight(candle);
 
         //candle = new CANdleSystem();
         
