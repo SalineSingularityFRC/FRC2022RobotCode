@@ -127,6 +127,7 @@ public class CANdleSystem extends SubsystemBase {
                 m_toAnimate = null;
                 break;
         }
+
         System.out.println("Changed to " + m_currentAnimation.toString());
     }
 

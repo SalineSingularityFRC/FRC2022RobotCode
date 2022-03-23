@@ -242,7 +242,17 @@ public abstract class AutonControlScheme {
 
     
 
-
+    private boolean fixedDrive1Done = false;
+    private boolean fixedDrive2Done = false;
+    private boolean fixedDrive3Done = false;
+    private boolean fixedDrive4Done = false;
+    private boolean fixedShoot1Done = false;
+    private boolean fixedShoot2Done = false;
+    private boolean fixedShoot3Done = false;
+    private boolean fixedAim1Done = false;
+    private boolean fixedAim2Done = false;
+    private boolean fixedAim3Done = false;
+    
 
     boolean driveAndSpinProgress1 = false;
     boolean driveAndSpinProgress2 = false;
@@ -251,67 +261,156 @@ public abstract class AutonControlScheme {
     final double spin180Distance = 2.286;
     final double wheelCirc = 0.3191858136047229930278045677412;
 
-
-    public void driveDistance(double distance){
-        if(!driveDistanceProgress){
-            drive.resetRotationsZero();
-            driveDistanceProgress = true;
+    public boolean drive1Done(){
+        return fixedDrive1Done;
+    }
+    
+    public boolean drive2Done(){
+        return fixedDrive1Done;
+    }
+    
+    public boolean drive3Done(){
+        return fixedDrive1Done;
+    }
+    
+    public boolean drive4Done(){
+        return fixedDrive1Done;
+    }
+    
+    public boolean shoot1Done(){
+        return fixedShoot1Done;
+    }
+    
+    public boolean shoot2Done(){
+        return fixedShoot2Done;
+    }
+    
+    public boolean shoot3Done(){
+        return fixedAim1Done;
+    }
+    
+    public boolean aim1Done(){
+        return fixedAim1Done;
+    }
+    
+    public boolean aim2Done(){
+        return fixedAim2Done;
+    }
+    
+    public boolean aim3Done(){
+        return fixedAim3Done;
+    }
+    
+    private void progressFixedDrive(){
+        if( fixedDrive4Done ){
+            return;
         }
-        
-        if( wheelCirc * drive.getRotationsSpun() < distance){
-            drive.drive(new Vector2(1,0), 1, false);
+        else if( fixedDrive3Done ){
+            fixedDrive4Done = true;
+        }
+        else if( fixedDrive2Done ){
+            fixedDrive3Done = true;
+        }
+        else if( fixedDrive1Done ){
+            fixedDrive2Done = true;
+        }
+        else {
+            fixedDrive1Done = true;
         }
     }
 
-    public void driveAndSpin(double distance, double angleFromNorth, double angleFromGoal){
+    private void progressFixedShoot(){
+        if( fixedShoot3Done ){
+            return;
+        }
+        else if( fixedShoot2Done ){
+            fixedShoot3Done = true;
+        }
+        else if( fixedShoot1Done ){
+            fixedShoot2Done = true;
+        }
+        else {
+            fixedShoot1Done = true;
+        }
+    }
+
+    private void progressFixedAim(){
+        if( fixedAim3Done ){
+            return;
+        }
+        else if( fixedAim2Done ){
+            fixedAim3Done = true;
+        }
+        else if( fixedAim1Done ){
+            fixedAim2Done = true;
+        }
+        else {
+            fixedAim1Done = true;
+        }
+    }
+
+    private boolean driveDistance(double distance){
+        if(!driveDistanceProgress){
+            drive.resetRotationsZero();
+            driveDistanceProgress = true;
+            return false;
+        }
+        
+        if( wheelCirc * drive.getRotationsSpun() < distance){
+            //limeLight.runLimeLight(drive, color);
+            drive.drive(new Vector2(1,0), 1, false);
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    public void driveAndSpin(double distance, double angleFromNorth, double deltaAngle, int rotDirection){
         if(!driveAndSpinProgress1){
             initAnglePos = gyro.getAngle();
             driveAndSpinProgress1 = true;
         }
 
-        if( Math.abs( gyro.getAngle() - initAnglePos) < angleFromGoal){
-            drive.drive(new Vector2(Math.sin(angleFromNorth), Math.cos(angleFromNorth)), 1, true);
+        if( Math.abs( gyro.getAngle() - initAnglePos) < deltaAngle){
+            drive.drive(new Vector2(Math.sin(angleFromNorth), Math.cos(angleFromNorth)), 1 * rotDirection, true);
         }
+        else if (  driveDistance(distance - (spin180Distance * (deltaAngle/180) ) )  ){
+            progressFixedDrive();
+        }
+        //mayhaps have intakeCollect running for all of auton
         else {
-            driveDistance(distance - (spin180Distance * (angleFromGoal/180) ) );
+            intake.intakeCollect();
+            
         }
     }
 
-    public void superAuton1(){
+    public void fixedAim(int rotDirection){
 
-    }
-
-    public void superAuton2(){
-
-    }
-
-    public void superAuton3(){
-
-    }
-
-    public void superAuton4(){
-
-    }
-
-    public void superAuton5(){
-
-    }
-
-    public void superAuton6(){
+        //shooter.flywheelOn();
+        //intake.conveyorCollect();
         
+        if(!aimProgress1){
+            drive.drive(new Vector2(0, 0), 1 * rotDirection, false);
+
+            if( limeLight.hasVisionTarget() ) aimProgress1 = true;
+        }
+        // runLimeLight() both aims/drives towards ball and returns "true" if it is still adjusting/driving ("false" if not making adjustments)
+        else if (limeLight.runLimeLight(drive, 1)){}
+        else progressFixedAim();
+
     }
 
-    public void superAuton7(){
+    public void fixedShoot(){
+
+        if( colorSensor.hasBall() ) shooter.feederOn();
+        else{
+            shooter.feederOff();
+            shooter.flywheelOff();
+            intake.conveyorOff();
+            progressFixedShoot();
+        }
 
     }
-
-    public void superAuton8(){
-
-    }
-
-    public void superAuton9(){
-        
-    }
-
 
 }
