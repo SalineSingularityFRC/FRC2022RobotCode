@@ -240,6 +240,9 @@ public class ArcadeDrive extends ControlScheme {
                     flywheel.feederOn();
                 }
             }
+            else {
+                flywheel.feederOnIntake();
+            }
 
             intake.intakeCollect();
             intake.conveyorCollect();

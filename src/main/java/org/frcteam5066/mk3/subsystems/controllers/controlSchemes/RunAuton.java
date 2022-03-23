@@ -16,6 +16,7 @@ public class RunAuton extends AutonControlScheme{
     SendableChooser<Boolean> doSearch = new SendableChooser<>();
     SendableChooser<Boolean> doShoot2 = new SendableChooser<>();
     SendableChooser<Boolean> testD = new SendableChooser<>();
+    SendableChooser<Boolean> doFixedAuton = new SendableChooser<>();
 
     
 
@@ -42,18 +43,48 @@ public class RunAuton extends AutonControlScheme{
         testD.setDefaultOption("TestD", true);
         testD.addOption("Don't TestD", false);
 
+        doFixedAuton.setDefaultOption("Do Fixed Auton", true);
+        doFixedAuton.addOption("Don't do Fixed Auton", false);
+
         SmartDashboard.putData(doDrive);
         SmartDashboard.putData(doShoot);
         SmartDashboard.putData(doSearch);
         SmartDashboard.putData(doShoot2);
         SmartDashboard.putData(testD);
+        SmartDashboard.putData(doFixedAuton);
 
     }
 
     public void actuallyRunAutonTheMethod(){
         
 
-        if( /*testD.getSelected()*/ true ) super.testD();
+        if( testD.getSelected() ) super.testD();
+
+        else if (doFixedAuton.getSelected()){
+            /*
+                drive straght and pick up ball
+                aim and shoot
+                spin and drive to next ball
+                aim and shoot
+                spin and drive to player station
+                drive to previous position
+                aim and shoot
+                meow!
+            */
+            
+            if( !drive1Done() ) super.driveAndSpin(1.204, 0.0, 0.0, 1);
+            if( !aim1Done() ) super.fixedAim(1);
+            if( !shoot1Done() ) super.fixedShoot();
+            if( !drive2Done() ) super.driveAndSpin(3.004, 122.275644, 0.0, -1);//needs deltaAngle
+            if( !aim2Done() ) super.fixedAim(1);
+            if( !shoot2Done() ) super.fixedShoot();
+            if( !drive3Done() ) super.driveAndSpin(4.068, 79.568889, 0.0, -1);//needs deltaAngle
+            if( !drive4Done() ) super.driveAndSpin(4.068, 259.568889, 180, 1);
+            if( !aim3Done() ) super.fixedAim(-1);
+            if( !shoot3Done() ) super.fixedShoot();
+
+        }
+
         else{
             if( doDrive.getSelected() && !driveDone() ) super.drive();
             if( doShoot.getSelected() && !aimDone() && driveDone() ) super.aim();

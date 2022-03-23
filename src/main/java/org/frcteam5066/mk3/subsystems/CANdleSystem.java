@@ -44,7 +44,7 @@ public class CANdleSystem extends SubsystemBase {
         configAll.disableWhenLOS = false;
         configAll.stripType = LEDStripType.GRB;
         configAll.brightnessScalar = 0.1;
-        configAll.vBatOutputMode = VBatOutputMode.Modulated;
+        configAll.vBatOutputMode = VBatOutputMode.On;
         m_candle.configAllSettings(configAll, 100);
     }
 
@@ -60,6 +60,7 @@ public class CANdleSystem extends SubsystemBase {
             case Twinkle: changeAnimation(AnimationTypes.TwinkleOff); break;
             case TwinkleOff: changeAnimation(AnimationTypes.ColorFlow); break;
             case SetAll: changeAnimation(AnimationTypes.ColorFlow); break;
+            
         }
     }
     public void decrementAnimation() {
@@ -126,6 +127,7 @@ public class CANdleSystem extends SubsystemBase {
                 m_toAnimate = null;
                 break;
         }
+
         System.out.println("Changed to " + m_currentAnimation.toString());
     }
 
