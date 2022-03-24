@@ -14,7 +14,7 @@ public class Intake {
     Falcon intakeDeploy;
  
  
-    double kP = 0.02;
+    double kP = 0.022;
     double kI = 0.0000;
     double kD = 0.0;
     double kIz = 0;
@@ -28,7 +28,7 @@ public class Intake {
     double maxRPMFeed = 5700;
     double deployPosition = 60000;
     double retractPosition = 8350; //~115 degrees to the 
-    double shootingPosition = 3000;
+    double shootingPosition = 23000;
  
  
  

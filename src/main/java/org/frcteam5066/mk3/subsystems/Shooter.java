@@ -58,7 +58,7 @@ public class Shooter {
     public void flywheelOn(){
         //flywheel2.setVelocity(maxRPMflywheel2);
         
-        double flywheelVelo = SmartDashboard.getNumber("Controllable Velocity", 2000);
+        double flywheelVelo = SmartDashboard.getNumber("Controllable Velocity", 3500);
         flywheel1.setVelocity(flywheelVelo);
         lastSetVelocity = flywheelVelo;
     }
@@ -78,7 +78,7 @@ public class Shooter {
  
     public void flywheelReverse(){
         //flywheel2.setVelocity(-maxRPMflywheel2);
-        flywheel1.setVelocity(-maxRPMflywheel1);
+        flywheel1.setSpeed(-.5);
         lastSetVelocity = -maxRPMflywheel1;
     }
  
