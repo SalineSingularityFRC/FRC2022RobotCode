@@ -387,8 +387,8 @@ public abstract class AutonControlScheme {
 
     public void fixedAim(int rotDirection){
 
-        //shooter.flywheelOn();
-        //intake.conveyorCollect();
+        shooter.flywheelOn();
+        if( !colorSensor.hasBall() ) intake.conveyorCollect();
         
         if(!aimProgress1){
             drive.drive(new Vector2(0, 0), 1 * rotDirection, false);
@@ -402,15 +402,22 @@ public abstract class AutonControlScheme {
     }
 
     public void fixedShoot(){
-
-        if( colorSensor.hasBall() ) shooter.feederOn();
-        else{
+        if( colorSensor.hasBall() ){
+             shooter.feederOn();
+          if (shooter.readyToShoot()) {
+               intake.conveyorCollect();
+               shooter.feederOn();
+               SmartDashboard.putNumber("Feeding", 1);
+           }
+        }
+        else {
             shooter.feederOff();
             shooter.flywheelOff();
             intake.conveyorOff();
             progressFixedShoot();
         }
 
+        
     }
 
 }
