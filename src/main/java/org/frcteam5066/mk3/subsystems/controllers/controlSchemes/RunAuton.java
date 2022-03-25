@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.frcteam5066.mk3.LimeLight;
+import org.frcteam5066.mk3.subsystems.ColorSensor;
 import org.frcteam5066.mk3.subsystems.DrivetrainSubsystem;
 import org.frcteam5066.mk3.subsystems.Intake;
 import org.frcteam5066.mk3.subsystems.Shooter;
@@ -26,15 +27,15 @@ public class RunAuton extends AutonControlScheme{
 
 
 
-    public RunAuton(LimeLight limeLight, Shooter flywheel, Intake intake, DrivetrainSubsystem drive, String color){
+    public RunAuton(LimeLight limeLight, Shooter flywheel, Intake intake, DrivetrainSubsystem drive, String color, ColorSensor colorSensor){
 
-        super(limeLight, flywheel, intake, drive, color);
+        super(limeLight, flywheel, intake, drive, color, colorSensor);
 
-        doDrive.setDefaultOption("Do Shoot", true);
-        doDrive.addOption("dont Drive", false);
+        doDrive.setDefaultOption("Do Drive", true);
+        doDrive.addOption("Dont Drive", false);
 
-        doShoot.setDefaultOption("DO Shoot", true);
-        doShoot.addOption("DOn't Shoot", false);
+        doShoot.setDefaultOption("Do Shoot", true);
+        doShoot.addOption("Don't Shoot", false);
 
         doDriveReverse.setDefaultOption("Do Reverse Drive", true);
         doDriveReverse.addOption("Don't Reverse Drive", true);
@@ -68,9 +69,9 @@ public class RunAuton extends AutonControlScheme{
     public void actuallyRunAutonTheMethod(){
         
 
-        if( testD.getSelected() ) super.testD();
+        if( /*testD.getSelected()*/false  ) super.testD();
 
-        else if (doFixedAuton.getSelected()){
+        else if ( /*doFixedAuton.getSelected()*/false ){
             /*
                 drive straght and pick up ball
                 aim and shoot

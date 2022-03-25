@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
 import org.frcteam5066.common.robot.UpdateManager;
 import org.frcteam5066.mk3.commands.DontDriveCommand;
 import org.frcteam5066.mk3.subsystems.CANdleSystem;
+import org.frcteam5066.mk3.subsystems.Climber;
 import org.frcteam5066.mk3.subsystems.ColorSensor;
 import org.frcteam5066.mk3.subsystems.DrivetrainSubsystem;
 import org.frcteam5066.mk3.subsystems.Intake;
@@ -37,6 +38,10 @@ public class Robot extends TimedRobot {
     int conveyorMotorPort;
 
     ControlScheme currentScheme;
+
+    ColorSensor colorSensor;
+
+    Climber climber; 
     
     Shooter flywheel;
     Intake intake;
@@ -49,7 +54,7 @@ public class Robot extends TimedRobot {
 
     CANdleSystem candle;
 
-    private final String allianceColor = DriverStation.getAlliance().toString();
+    private String allianceColor = DriverStation.getAlliance().toString();
 
     
 
@@ -63,7 +68,7 @@ public class Robot extends TimedRobot {
 
         dontDriveCommand = new DontDriveCommand(robotContainer.getDrivetrainSubsystem());
 
-        runAuton = new RunAuton(limeLight, flywheel, intake, robotContainer.getDrivetrainSubsystem(), allianceColor);
+        
         
         
 
@@ -71,16 +76,20 @@ public class Robot extends TimedRobot {
 
         flywheel = new Shooter(61, 11, 3);
 
+        climber = new Climber(6);
+
         currentScheme = new ArcadeDrive(XBOX_PORT, XBOX_PORT + 1);
 
         intake = new Intake(15, 1, 31);
 
         candle = new CANdleSystem();
 
+        colorSensor = new ColorSensor();
+
         //intakePneumatics = new IntakePneumatics(0, 1);
 
         //compressor = new Compressor(PneumaticsModuleType.CTREPCM);
-        limeLight = new LimeLight();
+        limeLight = new LimeLight(candle);
 
         //candle = new CANdleSystem();
         
@@ -88,7 +97,7 @@ public class Robot extends TimedRobot {
 
         //runAuton = new RunAuton(limeLight, flywheel, intake, robotContainer.getDrivetrainSubsystem(), allianceColor);
         // candle.changeAnimation(AnimationTypes.TwinkleOff);
-
+        runAuton = new RunAuton(limeLight, flywheel, intake, robotContainer.getDrivetrainSubsystem(), allianceColor, colorSensor);
  
     }
 
@@ -108,6 +117,7 @@ public class Robot extends TimedRobot {
 
         currentScheme.candle(candle);
 
+        currentScheme.climber(climber);
 
         currentScheme.colorSensor();
 
@@ -120,6 +130,7 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         robotContainer.getDrivetrainSubsystem().resetRotationsZero();
+        allianceColor = DriverStation.getAlliance().toString();
         
         try {
             Thread.sleep(1000);
@@ -129,6 +140,7 @@ public class Robot extends TimedRobot {
         }
 
         CommandScheduler.getInstance().setDefaultCommand( (Subsystem) robotContainer.getDrivetrainSubsystem(), (Command) dontDriveCommand);
+        
         
         
     }
@@ -147,6 +159,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void testPeriodic() {
+        currentScheme.resetClimber(climber);
     }
 
     @Override
@@ -156,5 +169,6 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopInit() {
         CommandScheduler.getInstance().setDefaultCommand( (Subsystem) robotContainer.getDrivetrainSubsystem(), robotContainer.getDefaultCommand());
+        allianceColor = DriverStation.getAlliance().toString();
     }
 }

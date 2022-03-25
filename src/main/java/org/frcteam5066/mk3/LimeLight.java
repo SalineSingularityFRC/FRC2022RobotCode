@@ -3,9 +3,11 @@ package org.frcteam5066.mk3;
 //import java.sql.Time;
 //import java.util.Timer;
 
+
 import org.frcteam5066.common.math.Vector2;
 import org.frcteam5066.common.robot.drivers.Limelight;
 import org.frcteam5066.common.robot.drivers.Limelight.CamMode;
+import org.frcteam5066.mk3.subsystems.CANdleSystem;
 //technically we shouldn't use this but were going to anyway
 //import org.frcteam5066.common.robot.subsystems.HolonomicDrivetrain;
 import org.frcteam5066.mk3.subsystems.DrivetrainSubsystem;
@@ -24,15 +26,22 @@ public class LimeLight{
 
     public NetworkTable table;
     public NetworkTableEntry tx, ty, ta, tv, ts, tl, pipeLine, tshort, tlong, thor, tvert, getpipe, camtran, ledMode, camMode;
-//t means target(example-target x, y, )
+    //t means target(example-target x, y, )
+
     public double target_distance = 0.0;
+    //TODO Find limelight distance value
+
+
 
     PIDController headingPID;
+    PIDController distancePID;
+
+    CANdleSystem candle;
 
 
     //constructor to create the limelight and its values
     //class by: Branden Amstutz
-    public LimeLight(){
+    public LimeLight(CANdleSystem _candle){
         table = NetworkTableInstance.getDefault().getTable("limelight");
         // horizontal offset of cross hair to target
         tx = table.getEntry("tx");
@@ -67,9 +76,13 @@ public class LimeLight{
 
         //initialize PID objects from WPILIB
         headingPID = new PIDController(.02, 0.00025, 0.0004);
-        //
+        distancePID = new PIDController(0.02, 0.00, 0.00);
+        //tune these
+
         //table.getEntry("pipeline").setNumber(0);
         //SmartDashboard.putNumber("Pipeline", pipeLine.getDouble(0.0));
+
+        this.candle = _candle;
 
 
         
@@ -120,6 +133,10 @@ public class LimeLight{
         return 4.0;
     }
 
+    public void candleOff(){
+        candle.vBatOff();
+    }
+
     
     // runLimeLight returning "true" means it is still in the process of aiming
     public boolean runLimeLight( DrivetrainSubsystem drive, int driveType ){ //drivetype will be 1 for vision tracking, 2 for blue cargo, and 3 for red cargo
@@ -136,6 +153,16 @@ public class LimeLight{
         }*/
 
         pipeLine.setNumber( driveType );
+
+        if(driveType == 2 || driveType == 3){
+            candle.vBatOn();
+        }
+        else{
+            candle.vBatOff();
+        }
+
+
+        //TODO limelight contouring in gym
 
         
 
@@ -171,7 +198,7 @@ public class LimeLight{
             double distance = 8.5; //just for lols rn, this is the max in meters
             double height = 2.042;
             
-
+            
             double velocity = Math.sqrt((-.5 * 9.807 * Math.pow( distance, 2 )) / 
                     ( Math.pow( Math.cos(Math.toRadians(60) ), 2 ) * ( height - distance * Math.tan(Math.toRadians(60)) ) ) );
             //plz never make me type that again
@@ -179,7 +206,12 @@ public class LimeLight{
             
             //double heading_error = -tx.getDouble(0.0) * .2;
             double heading_error = headingPID.calculate(tx.getDouble(0.0));
+
             double distance_error = target_distance - ty.getDouble(0.0);
+            //double distance_error = distancePID.calculate(ty.getDouble(0.0));
+            //TODO limelight distance PID tuning
+
+
 
             SmartDashboard.putNumber("Heading Error", heading_error);
 
@@ -201,10 +233,10 @@ public class LimeLight{
 //PID-adjusts a control output based on difference between a set point 
 //derivative is rate of change/predicting future, so as to not over shoot
 //integral-sum of instantaneous error over time and gives accumulated
-//offset that should've been corrected
+    //offset that should've been corrected
 //proportion- the ratio of output response to the error signal.
-//THIS IS JUST AN OPTION FOR THE INTAKE OF THE CARGO
-//FOR the interior, place a color sensor. When the sensor sees a ball 
+//This IS JUST AN OPTION FOR THE INTAKE OF THE CARGO
+//For the interior, place a color sensor. When the sensor sees a ball 
 //that doesn't match with the alliance, it spits the ball out at a slow speed so
 //it doesn't shoot in the goal. But for the exterior, use lime light
 

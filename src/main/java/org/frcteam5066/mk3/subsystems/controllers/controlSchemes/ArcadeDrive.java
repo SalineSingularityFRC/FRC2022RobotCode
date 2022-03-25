@@ -38,7 +38,7 @@ public class ArcadeDrive extends ControlScheme {
     //Create all objects & a speedMode object
     XboxController driveController, armController;
     //ColorSensor colorSensor = new ColorSensor(); 
-    MotorCycle motorCycle = new MotorCycle(7);
+    //MotorCycle motorCycle = new MotorCycle(7);
 
     Servo2 servo;
 
@@ -205,22 +205,51 @@ public class ArcadeDrive extends ControlScheme {
 
 
     public void shootSequence(Shooter flywheel, Intake intake) {
-        if (armController.getTriggerRight() > 0.2 || armController.getRB()) {
-            if (colorSensor.robotColor()) {
-                flywheel.flywheelOn();               
+        SmartDashboard.putNumber("current flywheel velocity", flywheel.getFlywheelVelocity());
+        if (armController.getTriggerRight() > 0.2 ) {
+            if(colorSensor.hasBall()){
+                if (colorSensor.robotColor()) {
+                    flywheel.flywheelOn();
+                    if(armController.getTriggerLeft() > .2){
+                        intake.intakeDeploy();
+                    }
+                    else{
+                        intake.intakeShooting();
+                    }
+                }
+                else {
+                    flywheel.barf();
+                    if(flywheel.readyToShoot()){
+                        flywheel.feederOn();
+                        intake.conveyorCollect();
+                    }
+                }
+                
+                if (flywheel.readyToShoot()) {
+                    intake.conveyorCollect();
+                    flywheel.feederOn();
+                    SmartDashboard.putNumber("Feeding", 1);
+                }
             }
-            else {
-                flywheel.barf();
+            else{
+                flywheel.flywheelOn();
+                if (flywheel.readyToShoot()) {
+                    intake.conveyorCollect();
+                    flywheel.feederOn();
+                    SmartDashboard.putNumber("Feeding", 1);
+                }
             }
             
-            if (flywheel.readyToShoot()) {
-                intake.conveyorCollect();
-                flywheel.feederOn();
-                SmartDashboard.putNumber("Feeding", 1);
-            }
+        }
+        else if (armController.getRB()){
+            flywheel.barf();
+
         }
         else{
-            flywheel.flywheelOff();
+            if(!(armController.getTriggerLeft() > .2)){
+                flywheel.flywheelOff();
+            }
+            
             SmartDashboard.putNumber("Feeding", 0);
         }
             
@@ -230,6 +259,7 @@ public class ArcadeDrive extends ControlScheme {
         SmartDashboard.putNumber("Deploy Output Percent", intake.getDeployPercent());
         SmartDashboard.putNumber("Intake Position", intake.getDeploySensorPosition());
         if (armController.getTriggerLeft() > 0.2) {
+            intake.intakeDeploy();
             
             if (colorSensor.hasBall()) {
                 if (colorSensor.robotColor()) {
@@ -237,7 +267,9 @@ public class ArcadeDrive extends ControlScheme {
                 }
                 else {
                     flywheel.barf();
-                    flywheel.feederOn();
+                    if(flywheel.readyToShoot()){
+                        flywheel.feederOn();
+                    }
                 }
             }
             else {
@@ -285,14 +317,14 @@ public class ArcadeDrive extends ControlScheme {
 
 
 
-        if( armController.getYButton() ){
+        /*if( armController.getYButton() ){
             candle.vBatOn();
             SmartDashboard.putNumber("Motorcycle Light State", 1);
         }
         else{
             SmartDashboard.putNumber("Motorcycle Light State", 0);
             candle.vBatOff();
-        }
+        }*/
     }
 
     
@@ -316,7 +348,7 @@ public class ArcadeDrive extends ControlScheme {
         boolean runningLimelight;
         boolean hasVision;
         if (driveController.getXButton()) {
-            motorCycle.off();
+            //motorCycle.off();
             SmartDashboard.putNumber("Motorcycle Light State", 0);
             //limelight.ledOn(limelight);
             //limelight.setpipeline(limelight, 0.0);
@@ -329,7 +361,7 @@ public class ArcadeDrive extends ControlScheme {
             
         }
         else if (driveController.getBButton()){
-            motorCycle.on();
+            //motorCycle.on();
             SmartDashboard.putNumber("Motorcycle Light State", 1);
             //limelight.ledOff(limelight);
             //limelight.setpipeline(limelight, 1.0);
@@ -343,11 +375,11 @@ public class ArcadeDrive extends ControlScheme {
         
         }
         else{
-            motorCycle.off();
+            //motorCycle.off();
             SmartDashboard.putNumber("Motorcycle Light State", 0);
             runningLimelight = false;
             hasVision = false;
-            limelight.ledOff(limelight);
+            //limelight.ledOff(limelight);
         }
         SmartDashboard.putNumber("Running Limelight", runningLimelight ? 1:0);
         SmartDashboard.putNumber("Has Vision", hasVision ? 1:0);
@@ -355,6 +387,7 @@ public class ArcadeDrive extends ControlScheme {
 
     
     public void climber(Climber climb) {
+        SmartDashboard.putNumber("Climber Position", climb.getPosition());
         
         if (armController.getXButton()) {
             climb.climb();
@@ -370,12 +403,27 @@ public class ArcadeDrive extends ControlScheme {
 
     }
 
-    @Override
-    public void resetClimber(Climber climber) {
-        climber.reset();
+    
+    public void resetClimber(Climber climb) {
+        if (armController.getXButton()) {
+            climb.climb();
+        }
+
+        else if (armController.getYButton()) {
+            climb.reset();
+        }
+
+        else {
+            climb.stop();
+        }
         
     }
 
+
+    public ColorSensor getColorSensor(){
+        return this.colorSensor;
+        //this method was made in crunch time
+    }
     
 
     

@@ -20,10 +20,10 @@ public class Constants {
     //public static final int PIGEON_PORT = 51;
 
     // In degrees
-    public static final double DRIVETRAIN_FRONT_LEFT_ENCODER_OFFSET = Math.toRadians(49.834 + 180);
-    public static final double DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET = Math.toRadians(230.098 + 180);
-    public static final double DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET = Math.toRadians(304.805  + 180);
-    public static final double DRIVETRAIN_BACK_RIGHT_ENCODER_OFFSET = Math.toRadians(96.328 + 180 );
+    public static final double DRIVETRAIN_FRONT_LEFT_ENCODER_OFFSET = Math.toRadians(230.010);
+    public static final double DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET = Math.toRadians(225.967 - 180);
+    public static final double DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET = Math.toRadians(99.316);
+    public static final double DRIVETRAIN_BACK_RIGHT_ENCODER_OFFSET = Math.toRadians(84.375 + 180 );
 
     public static final int PRIMARY_CONTROLLER_PORT = 0;
 

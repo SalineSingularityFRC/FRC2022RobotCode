@@ -18,8 +18,11 @@ public class Servo2 {
         
     }
 
+    //TODO Test Servo Positions
+
     public void toTargetingAngle(){
-        double angleTarget = SmartDashboard.getNumber("Targeting Servo Angle", 0);
+        //double angleTarget = SmartDashboard.getNumber("Targeting Servo Angle", 0);
+        double angleTarget = targetingAngle;
         servo.setAngle(angleTarget);
     }
 

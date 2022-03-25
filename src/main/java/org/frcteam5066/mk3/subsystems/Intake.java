@@ -14,19 +14,21 @@ public class Intake {
     Falcon intakeDeploy;
  
  
-    double kP = 0.02;
+    double kP = 0.022;
     double kI = 0.0000;
     double kD = 0.0;
     double kIz = 0;
     double kFF = 0.0;
     double kMaxOutput = .5;
     double kMinOutput = -.5;
+    //TODO increase deploy speed
     double maxRPMIntake = 11000;
     // maxRPMIntakeconveyor is copied from 2021 conveyor class
     double maxRPMIntakeconveyor = -4000;
     double maxRPMFeed = 5700;
     double deployPosition = 60000;
     double retractPosition = 8350; //~115 degrees to the 
+    double shootingPosition = 23000;
  
  
  
@@ -48,6 +50,7 @@ public class Intake {
     public void intakeCollect() {
         intakeDrive.setSpeed(.3);
         //intakeConveyor.setVelocity(maxRPMIntakeconveyor);
+        //TODO Test intake collection
     }
  
     //Use if color senser recognizes opposite team's ball
@@ -85,6 +88,14 @@ public class Intake {
         SmartDashboard.putNumber("Retracting Intake from intake.java", 0);
         
     }
+
+    public void intakeShooting(){
+        intakeDeploy.setPosition(shootingPosition);
+        SmartDashboard.putNumber("Target Deploy Position", deployPosition);
+    }
+
+    //TODO add deploy intermediate position
+        //This is done so that the shooter can shoot but is high enough that it isn't so clonky 
 
     public void intakeRetract(){//bring one of the falcons to make the intake deploy
         intakeDeploy.setPosition(retractPosition);

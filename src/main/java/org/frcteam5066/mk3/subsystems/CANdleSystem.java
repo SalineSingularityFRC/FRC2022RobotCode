@@ -44,7 +44,7 @@ public class CANdleSystem extends SubsystemBase {
         configAll.disableWhenLOS = false;
         configAll.stripType = LEDStripType.GRB;
         configAll.brightnessScalar = 0.1;
-        configAll.vBatOutputMode = VBatOutputMode.On;
+        configAll.vBatOutputMode = VBatOutputMode.Modulated;
         m_candle.configAllSettings(configAll, 100);
     }
 
