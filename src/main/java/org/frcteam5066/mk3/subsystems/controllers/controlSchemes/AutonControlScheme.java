@@ -26,13 +26,16 @@ public abstract class AutonControlScheme {
     
     private boolean driveDone = false;
     private boolean aimDone = false;
+    private boolean driveReverseDone = false;
     private boolean shootDone = false;
     private boolean getBallDone = false;
     private boolean aimBeenReset = false;
     private boolean shootBeenReset = false;
     private boolean getBallBeenReset = false;
+    
 
     boolean aimProgress1 = false;
+    boolean driveReverseProgress1 = false;
     boolean getBallProgress1 = false;
     boolean getBallProgress2 = false;
     boolean testDProgress = false;
@@ -80,6 +83,10 @@ public abstract class AutonControlScheme {
 
     public boolean aimDone(){
         return aimDone;
+    }
+
+    public boolean driveReverseDone(){
+        return driveReverseDone;
     }
 
     public boolean shootDone(){
@@ -161,6 +168,25 @@ public abstract class AutonControlScheme {
         }
     }
     
+    public void driveReverse(){
+
+        if ( !driveReverseProgress1 ){
+            drive.resetRotationsZero();
+            driveReverseProgress1 = true;
+        }
+
+        SmartDashboard.putNumber("Driving Reverse", 1);
+        drive.drive(new Vector2(-1, 0), 0, false);
+
+        SmartDashboard.putNumber("Wheel Rotations", drive.getRotationsSpun());
+        if(Math.abs( drive.getRotationsSpun() ) >= 10){
+            drive.drive(new Vector2(0, 0), 0, false);
+            SmartDashboard.putNumber("Driving", 0);
+            driveReverseDone = true;
+                
+        }
+    }
+
     public void aim(){
 
         //shooter.flywheelOn();

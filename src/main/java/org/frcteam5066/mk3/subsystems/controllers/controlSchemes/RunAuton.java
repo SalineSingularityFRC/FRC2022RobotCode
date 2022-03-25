@@ -13,10 +13,12 @@ public class RunAuton extends AutonControlScheme{
     
     SendableChooser<Boolean> doDrive = new SendableChooser<>();
     SendableChooser<Boolean> doShoot = new SendableChooser<>();
+    SendableChooser<Boolean> doDriveReverse = new SendableChooser<>();
     SendableChooser<Boolean> doSearch = new SendableChooser<>();
     SendableChooser<Boolean> doShoot2 = new SendableChooser<>();
     SendableChooser<Boolean> testD = new SendableChooser<>();
     SendableChooser<Boolean> doFixedAuton = new SendableChooser<>();
+    SendableChooser<Boolean> doMainModularAuton = new SendableChooser<>();
 
     
 
@@ -34,6 +36,9 @@ public class RunAuton extends AutonControlScheme{
         doShoot.setDefaultOption("DO Shoot", true);
         doShoot.addOption("DOn't Shoot", false);
 
+        doDriveReverse.setDefaultOption("Do Reverse Drive", true);
+        doDriveReverse.addOption("Don't Reverse Drive", true);
+
         doSearch.setDefaultOption("DO Search ", true);
         doSearch.addOption("Don't Search", false);
 
@@ -46,12 +51,17 @@ public class RunAuton extends AutonControlScheme{
         doFixedAuton.setDefaultOption("Do Fixed Auton", true);
         doFixedAuton.addOption("Don't do Fixed Auton", false);
 
+        doMainModularAuton.setDefaultOption("Do Main Modular Auton", true);
+        doMainModularAuton.addOption("Don't do Main Modular Auton", false);
+
         SmartDashboard.putData(doDrive);
         SmartDashboard.putData(doShoot);
+        SmartDashboard.putData(doDriveReverse);
         SmartDashboard.putData(doSearch);
         SmartDashboard.putData(doShoot2);
         SmartDashboard.putData(testD);
         SmartDashboard.putData(doFixedAuton);
+        SmartDashboard.putData(doMainModularAuton);
 
     }
 
@@ -85,7 +95,7 @@ public class RunAuton extends AutonControlScheme{
 
         }
 
-        else{
+        else if (doMainModularAuton.getSelected() ){
             if( doDrive.getSelected() && !driveDone() ) super.drive();
             if( doShoot.getSelected() && !aimDone() && driveDone() ) super.aim();
             if( doShoot.getSelected() && !shootDone() && aimDone() ) super.shoot();
@@ -94,6 +104,13 @@ public class RunAuton extends AutonControlScheme{
                 super.resetAimDone();
                 super.resetShootDone();
             }
+        }
+
+        else{
+            if( doDrive.getSelected() && !driveDone() ) super.drive();
+            if( doShoot.getSelected() && !aimDone() && driveDone() ) super.aim();
+            if( doDriveReverse.getSelected() && !driveReverseDone() && aimDone() ) super.driveReverse();
+
         }
         
         /*
