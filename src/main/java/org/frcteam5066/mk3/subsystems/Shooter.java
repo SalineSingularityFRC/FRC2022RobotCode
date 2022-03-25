@@ -44,7 +44,7 @@ public class Shooter {
         flywheelFeed = new Spark(flywheelFeedPort, true, 0.00, "FlywheelFeed", false, false, kP, kI, kD, kIz, kFF, kMinOutput, kMaxOutput);
         //flywheelFeed = new Spark(portNumber, brushlessMotor, rampRate)
         //flywheel2.follow(flywheel1, true);
-        SmartDashboard.putNumber("Controllable Velocity", 0);
+        SmartDashboard.putNumber("Controllable Velocity", 3500);
     }
  
     private double computeVelocity(double distance){
@@ -103,6 +103,7 @@ public class Shooter {
     public void barf() {
         flywheel1.setVelocity(barfRPM);
         lastSetVelocity = barfRPM;
+        SmartDashboard.putNumber("Barfing", 1);
         //flywheel2.setVelocity(barfRPM);
     }
     

@@ -205,6 +205,7 @@ public class ArcadeDrive extends ControlScheme {
 
 
     public void shootSequence(Shooter flywheel, Intake intake) {
+        SmartDashboard.putNumber("current flywheel velocity", flywheel.getFlywheelVelocity());
         if (armController.getTriggerRight() > 0.2 ) {
             if(colorSensor.hasBall()){
                 if (colorSensor.robotColor()) {
@@ -218,6 +219,10 @@ public class ArcadeDrive extends ControlScheme {
                 }
                 else {
                     flywheel.barf();
+                    if(flywheel.readyToShoot()){
+                        flywheel.feederOn();
+                        intake.conveyorCollect();
+                    }
                 }
                 
                 if (flywheel.readyToShoot()) {
@@ -238,9 +243,13 @@ public class ArcadeDrive extends ControlScheme {
         }
         else if (armController.getRB()){
             flywheel.barf();
+
         }
         else{
-            flywheel.flywheelOff();
+            if(!(armController.getTriggerLeft() > .2)){
+                flywheel.flywheelOff();
+            }
+            
             SmartDashboard.putNumber("Feeding", 0);
         }
             
@@ -258,7 +267,9 @@ public class ArcadeDrive extends ControlScheme {
                 }
                 else {
                     flywheel.barf();
-                    flywheel.feederOn();
+                    if(flywheel.readyToShoot()){
+                        flywheel.feederOn();
+                    }
                 }
             }
             else {
@@ -408,6 +419,11 @@ public class ArcadeDrive extends ControlScheme {
         
     }
 
+
+    public ColorSensor getColorSensor(){
+        return this.colorSensor;
+        //this method was made in crunch time
+    }
     
 
     

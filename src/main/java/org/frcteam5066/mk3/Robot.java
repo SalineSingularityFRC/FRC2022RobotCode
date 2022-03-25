@@ -39,6 +39,8 @@ public class Robot extends TimedRobot {
 
     ControlScheme currentScheme;
 
+    ColorSensor colorSensor;
+
     Climber climber; 
     
     Shooter flywheel;
@@ -52,7 +54,7 @@ public class Robot extends TimedRobot {
 
     CANdleSystem candle;
 
-    private final String allianceColor = DriverStation.getAlliance().toString();
+    private String allianceColor = DriverStation.getAlliance().toString();
 
     
 
@@ -66,7 +68,7 @@ public class Robot extends TimedRobot {
 
         dontDriveCommand = new DontDriveCommand(robotContainer.getDrivetrainSubsystem());
 
-        runAuton = new RunAuton(limeLight, flywheel, intake, robotContainer.getDrivetrainSubsystem(), allianceColor);
+        
         
         
 
@@ -82,6 +84,8 @@ public class Robot extends TimedRobot {
 
         candle = new CANdleSystem();
 
+        colorSensor = new ColorSensor();
+
         //intakePneumatics = new IntakePneumatics(0, 1);
 
         //compressor = new Compressor(PneumaticsModuleType.CTREPCM);
@@ -93,7 +97,7 @@ public class Robot extends TimedRobot {
 
         //runAuton = new RunAuton(limeLight, flywheel, intake, robotContainer.getDrivetrainSubsystem(), allianceColor);
         // candle.changeAnimation(AnimationTypes.TwinkleOff);
-
+        runAuton = new RunAuton(limeLight, flywheel, intake, robotContainer.getDrivetrainSubsystem(), allianceColor, colorSensor);
  
     }
 
@@ -126,6 +130,7 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         robotContainer.getDrivetrainSubsystem().resetRotationsZero();
+        allianceColor = DriverStation.getAlliance().toString();
         
         try {
             Thread.sleep(1000);
@@ -135,6 +140,7 @@ public class Robot extends TimedRobot {
         }
 
         CommandScheduler.getInstance().setDefaultCommand( (Subsystem) robotContainer.getDrivetrainSubsystem(), (Command) dontDriveCommand);
+        
         
         
     }
@@ -163,5 +169,6 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopInit() {
         CommandScheduler.getInstance().setDefaultCommand( (Subsystem) robotContainer.getDrivetrainSubsystem(), robotContainer.getDefaultCommand());
+        allianceColor = DriverStation.getAlliance().toString();
     }
 }

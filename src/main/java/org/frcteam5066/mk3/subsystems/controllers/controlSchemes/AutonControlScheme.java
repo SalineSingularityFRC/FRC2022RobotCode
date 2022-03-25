@@ -42,7 +42,7 @@ public abstract class AutonControlScheme {
 
     SendableChooser<Integer> startingPosition = new SendableChooser<>();
 
-    public AutonControlScheme(LimeLight limeLight, Shooter shooter, Intake intake, DrivetrainSubsystem _drive, String color){
+    public AutonControlScheme(LimeLight limeLight, Shooter shooter, Intake intake, DrivetrainSubsystem _drive, String color, ColorSensor colorSensor){
         
         drive = _drive;
 
@@ -57,6 +57,8 @@ public abstract class AutonControlScheme {
         this.limeLight = limeLight;
         this.shooter = shooter;
         this.intake = intake;
+        this.colorSensor = colorSensor;
+        
         //this.position = startingPosition.getSelected();
         this.position = 1;
         if(color.equals("Blue")) this.color = 2;
@@ -140,14 +142,14 @@ public abstract class AutonControlScheme {
 
         SmartDashboard.putNumber("Drive Done", driveDone ? 1:0);
 
-        if(position == 1){
+        if(true){
 
             SmartDashboard.putNumber("Driving", 1);
             drive.drive(new Vector2(1, 0), 0, false);
             
             //Auton TESTING MODIFY SPOT the "10" below represent the amount of rotations needed to get off the tarmac
             SmartDashboard.putNumber("Wheel Rotations", drive.getRotationsSpun());
-            if(drive.getRotationsSpun() >= 10){
+            if(Math.abs(drive.getRotationsSpun()) >= 10){
                 drive.drive(new Vector2(0, 0),0, false);
                 SmartDashboard.putNumber("Driving", 0);
                 driveDone = true;
@@ -370,11 +372,11 @@ public abstract class AutonControlScheme {
 
     public void driveAndSpin(double distance, double angleFromNorth, double deltaAngle, int rotDirection){
         if(!driveAndSpinProgress1){
-            initAnglePos = gyro.getAngle();
+            initAnglePos = drive.getGyroAngle();
             driveAndSpinProgress1 = true;
         }
 
-        if( Math.abs( gyro.getAngle() - initAnglePos) < deltaAngle){
+        if( Math.abs( drive.getGyroAngle() - initAnglePos) > deltaAngle){
             drive.drive(new Vector2(Math.sin(angleFromNorth), Math.cos(angleFromNorth)), 1 * rotDirection, true);
         }
         else if (  driveDistance(distance - (spin180Distance * (deltaAngle/180) ) )  ){
