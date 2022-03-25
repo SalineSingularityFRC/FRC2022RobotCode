@@ -3,6 +3,7 @@ package org.frcteam5066.mk3;
 //import java.sql.Time;
 //import java.util.Timer;
 
+
 import org.frcteam5066.common.math.Vector2;
 import org.frcteam5066.common.robot.drivers.Limelight;
 import org.frcteam5066.common.robot.drivers.Limelight.CamMode;
@@ -26,7 +27,11 @@ public class LimeLight{
     public NetworkTable table;
     public NetworkTableEntry tx, ty, ta, tv, ts, tl, pipeLine, tshort, tlong, thor, tvert, getpipe, camtran, ledMode, camMode;
     //t means target(example-target x, y, )
+
     public double target_distance = 0.0;
+    //TODO Find limelight distance value
+
+
 
     PIDController headingPID;
     PIDController distancePID;
@@ -71,7 +76,7 @@ public class LimeLight{
 
         //initialize PID objects from WPILIB
         headingPID = new PIDController(.02, 0.00025, 0.0004);
-        distancePID = new PIDController(0.02, 0.00025, 0.0004);
+        distancePID = new PIDController(0.02, 0.00, 0.00);
         //tune these
 
         //table.getEntry("pipeline").setNumber(0);
@@ -126,6 +131,10 @@ public class LimeLight{
     //@TODO actually get limelight distance tuning correct
     public double getDistance(){
         return 4.0;
+    }
+
+    public void candleOff(){
+        candle.vBatOff();
     }
 
     
@@ -197,8 +206,11 @@ public class LimeLight{
             
             //double heading_error = -tx.getDouble(0.0) * .2;
             double heading_error = headingPID.calculate(tx.getDouble(0.0));
+
             double distance_error = target_distance - ty.getDouble(0.0);
-            //TODO limelight distance PID tuning 
+            //double distance_error = distancePID.calculate(ty.getDouble(0.0));
+            //TODO limelight distance PID tuning
+
 
 
             SmartDashboard.putNumber("Heading Error", heading_error);

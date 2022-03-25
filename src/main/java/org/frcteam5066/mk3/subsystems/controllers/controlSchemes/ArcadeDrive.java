@@ -38,7 +38,7 @@ public class ArcadeDrive extends ControlScheme {
     //Create all objects & a speedMode object
     XboxController driveController, armController;
     //ColorSensor colorSensor = new ColorSensor(); 
-    MotorCycle motorCycle = new MotorCycle(7);
+    //MotorCycle motorCycle = new MotorCycle(7);
 
     Servo2 servo;
 
@@ -348,7 +348,7 @@ public class ArcadeDrive extends ControlScheme {
         boolean runningLimelight;
         boolean hasVision;
         if (driveController.getXButton()) {
-            motorCycle.off();
+            //motorCycle.off();
             SmartDashboard.putNumber("Motorcycle Light State", 0);
             //limelight.ledOn(limelight);
             //limelight.setpipeline(limelight, 0.0);
@@ -361,7 +361,7 @@ public class ArcadeDrive extends ControlScheme {
             
         }
         else if (driveController.getBButton()){
-            motorCycle.on();
+            //motorCycle.on();
             SmartDashboard.putNumber("Motorcycle Light State", 1);
             //limelight.ledOff(limelight);
             //limelight.setpipeline(limelight, 1.0);
@@ -375,11 +375,11 @@ public class ArcadeDrive extends ControlScheme {
         
         }
         else{
-            motorCycle.off();
+            //motorCycle.off();
             SmartDashboard.putNumber("Motorcycle Light State", 0);
             runningLimelight = false;
             hasVision = false;
-            limelight.ledOff(limelight);
+            //limelight.ledOff(limelight);
         }
         SmartDashboard.putNumber("Running Limelight", runningLimelight ? 1:0);
         SmartDashboard.putNumber("Has Vision", hasVision ? 1:0);
