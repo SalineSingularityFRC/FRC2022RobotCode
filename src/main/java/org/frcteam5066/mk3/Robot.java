@@ -68,7 +68,7 @@ public class Robot extends TimedRobot {
 
         dontDriveCommand = new DontDriveCommand(robotContainer.getDrivetrainSubsystem());
 
-        
+        allianceColor = DriverStation.getAlliance().toString();
         
         
 

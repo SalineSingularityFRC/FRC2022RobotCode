@@ -381,6 +381,7 @@ public class ArcadeDrive extends ControlScheme {
             SmartDashboard.putNumber("Motorcycle Light State", 0);
             runningLimelight = false;
             hasVision = false;
+            limelight.candleOff();
             //limelight.ledOff(limelight);
         }
         SmartDashboard.putNumber("Running Limelight", runningLimelight ? 1:0);

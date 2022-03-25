@@ -3,6 +3,9 @@ package org.frcteam5066.mk3.subsystems.controllers.controlSchemes;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import java.sql.Time;
+import java.time.*;
+
 import org.frcteam5066.common.math.Vector2;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI.Port;
@@ -24,23 +27,25 @@ public abstract class AutonControlScheme {
     protected static int color;
     protected static int rotationDirection; //1 is clockwise, -1 is counter-clockwise
     
-    private boolean driveDone = false;
-    private boolean aimDone = false;
-    private boolean driveReverseDone = false;
-    private boolean shootDone = false;
-    private boolean getBallDone = false;
-    private boolean aimBeenReset = false;
-    private boolean shootBeenReset = false;
-    private boolean getBallBeenReset = false;
+    private boolean driveDone;
+    private boolean aimDone;
+    private boolean driveReverseDone;
+    private boolean shootDone;
+    private boolean getBallDone;
+    private boolean aimBeenReset;
+    private boolean shootBeenReset;
+    private boolean getBallBeenReset;
     
 
-    boolean aimProgress1 = false;
-    boolean driveReverseProgress1 = false;
-    boolean getBallProgress1 = false;
-    boolean getBallProgress2 = false;
-    boolean testDProgress = false;
-    boolean testDProgress2 = false;
-    private double initAnglePos = 0;
+    boolean aimProgress1;
+    boolean driveReverseProgress1;
+    boolean shootProgress1;
+    long shootStartTime;
+    boolean getBallProgress1;
+    boolean getBallProgress2;
+    boolean testDProgress;
+    boolean testDProgress2;
+    private double initAnglePos;
     private double d = 7.5; //feet - CONVERT TO METERS LATER
 
     SendableChooser<Integer> startingPosition = new SendableChooser<>();
@@ -68,6 +73,28 @@ public abstract class AutonControlScheme {
         else this.color = 3;
         if(position < 3) rotationDirection = 1;
         else rotationDirection = -1;
+
+
+    driveDone = false;
+    aimDone = false;
+    driveReverseDone = false;
+    shootDone = false;
+    getBallDone = false;
+    aimBeenReset = false;
+    shootBeenReset = false;
+    getBallBeenReset = false;
+    
+
+    aimProgress1 = false;
+    driveReverseProgress1 = false;
+    shootProgress1 = false;
+    shootStartTime = 0;
+    getBallProgress1 = false;
+    getBallProgress2 = false;
+    testDProgress = false;
+    testDProgress2 = false;
+    initAnglePos = 0;
+
     }
 
     private static boolean hasCargoTarget(){
@@ -216,8 +243,8 @@ public abstract class AutonControlScheme {
 
     public void aim(){
 
-        //shooter.flywheelOn();
-        //intake.conveyorCollect();
+        shooter.flywheelOn();
+        intake.conveyorCollect();
         
         if(!aimProgress1){
             drive.drive(new Vector2(0, 0), 1 * rotationDirection, false);
@@ -232,7 +259,12 @@ public abstract class AutonControlScheme {
     
     public void shoot(){
 
-        if( colorSensor.hasBall() ) shooter.feederOn();
+        if(!aimProgress1){
+            shootStartTime = System.currentTimeMillis();
+            aimProgress1 = true;
+        }
+
+        if( System.currentTimeMillis() - shootStartTime < 5000 ) shooter.feederOn();
         else{
             shooter.feederOff();
             shooter.flywheelOff();
