@@ -96,7 +96,7 @@ public class RunAuton extends AutonControlScheme{
 
         }
 
-        else if (doMainModularAuton.getSelected() ){
+        else if ( /*doMainModularAuton.getSelected()*/false ){
             if( doDrive.getSelected() && !driveDone() ) super.drive();
             if( doShoot.getSelected() && !aimDone() && driveDone() ) super.aim();
             if( doShoot.getSelected() && !shootDone() && aimDone() ) super.shoot();

@@ -153,6 +153,7 @@ public class LimeLight{
         }*/
 
         pipeLine.setNumber( driveType );
+        SmartDashboard.putNumber("Pipe", driveType);
 
         if(driveType == 2 || driveType == 3){
             candle.vBatOn();

@@ -363,10 +363,12 @@ public class ArcadeDrive extends ControlScheme {
         else if (driveController.getBButton()){
             //motorCycle.on();
             SmartDashboard.putNumber("Motorcycle Light State", 1);
+            SmartDashboard.putNumber("Limelight Running", 1);
             //limelight.ledOff(limelight);
             //limelight.setpipeline(limelight, 1.0);
             if(/*allianceColor.equals("Blue")*/true ){ //don't be a sinner and use ==. use .equals();
                 hasVision = limelight.runLimeLight(drive, 2);
+                SmartDashboard.putNumber("Limelight Running", 1);
             }
             else{
                 hasVision = limelight.runLimeLight(drive, 3);
