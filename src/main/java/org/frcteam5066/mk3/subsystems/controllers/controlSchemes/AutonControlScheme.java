@@ -20,7 +20,7 @@ public abstract class AutonControlScheme {
     protected static Shooter shooter;
     protected static Intake intake;
     protected static ColorSensor colorSensor;
-    protected static int position = 1;
+    protected static int position = 2;
     protected static int color;
     protected static int rotationDirection; //1 is clockwise, -1 is counter-clockwise
     
