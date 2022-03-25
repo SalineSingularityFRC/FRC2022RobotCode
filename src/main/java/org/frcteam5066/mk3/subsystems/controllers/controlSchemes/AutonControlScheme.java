@@ -20,7 +20,7 @@ public abstract class AutonControlScheme {
     protected static Shooter shooter;
     protected static Intake intake;
     protected static ColorSensor colorSensor;
-    protected static int position = 1;
+    protected static int position = 2;
     protected static int color;
     protected static int rotationDirection; //1 is clockwise, -1 is counter-clockwise
     
@@ -149,7 +149,7 @@ public abstract class AutonControlScheme {
 
         SmartDashboard.putNumber("Drive Done", driveDone ? 1:0);
 
-        if(true){
+        if(position == 1){
 
             SmartDashboard.putNumber("Driving", 1);
             drive.drive(new Vector2(1, 0), 0, false);
@@ -166,9 +166,32 @@ public abstract class AutonControlScheme {
 
         else if(position != 1){
         // runLimeLight() both aims/drives towards ball and returns "true" if it is still adjusting/driving ("false" if not making adjustments)
-            if( limeLight.runLimeLight(drive, color) ){}
+            if( limeLight.runLimeLight(drive, color) ){
+
+                intake.intakeDeploy();
+            
+                if (colorSensor.hasBall()) {
+                    if (colorSensor.robotColor()) {
+                        shooter.feederOff();
+                    }
+                    else {
+                        shooter.barf();
+                        if(shooter.readyToShoot()){
+                            shooter.feederOn();
+                        }
+                    }
+                }
+                else {
+                    shooter.feederOnIntake();
+                }
+    
+                intake.intakeCollect();
+                intake.conveyorCollect();
+
+            }
             else driveDone = true;
 
+            
         }
     }
     
