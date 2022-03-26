@@ -114,7 +114,10 @@ public class ArcadeDrive extends ControlScheme {
         if(armController.getLB()){
             if(armController.getAButton())
                 intake.intakeReject();
-            else intake.intakeCollect();
+            else {
+                intake.intakeCollect();
+                intake.intakeCompress();
+            }
         }
         else{
             intake.intakeOff();
@@ -187,6 +190,10 @@ public class ArcadeDrive extends ControlScheme {
 
 
 
+
+
+
+    //Methods above are not used
 /*
 
 ////////////////////////////////////////////////////////////////////
@@ -277,6 +284,7 @@ public class ArcadeDrive extends ControlScheme {
             }
 
             intake.intakeCollect();
+            intake.intakeCompress();
             intake.conveyorCollect();
         } 
         else if (armController.getLB()) {

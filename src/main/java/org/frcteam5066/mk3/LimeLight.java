@@ -157,6 +157,7 @@ public class LimeLight{
 
         if(driveType == 2 || driveType == 3){
             candle.vBatOn();
+            
         }
         else{
             candle.vBatOff();

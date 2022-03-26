@@ -176,7 +176,7 @@ public abstract class AutonControlScheme {
 
         SmartDashboard.putNumber("Drive Done", driveDone ? 1:0);
 
-        if(position == 1){
+        if(/*position == 1*/ false){
 
             SmartDashboard.putNumber("Driving", 1);
             drive.drive(new Vector2(1, 0), 0, false);
@@ -191,11 +191,12 @@ public abstract class AutonControlScheme {
             }
         }   
 
-        else if(position != 1){
+        else if(/*position != 1*/ true){
         // runLimeLight() both aims/drives towards ball and returns "true" if it is still adjusting/driving ("false" if not making adjustments)
-            if( limeLight.runLimeLight(drive, color) ){
-
-                intake.intakeDeploy();
+        intake.intakeDeploy();  
+        SmartDashboard.putNumber("Auton Deploying Intake", 1);  
+        SmartDashboard.putNumber("Color", color);        
+        if( limeLight.runLimeLight(drive, color) ){
             
                 if (colorSensor.hasBall()) {
                     if (colorSensor.robotColor()) {

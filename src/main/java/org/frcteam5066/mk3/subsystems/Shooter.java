@@ -21,7 +21,7 @@ public class Shooter {
     double kMinOutput = -1;
     double maxRPMflywheel2 = 6380;
     double maxRPMflywheel1 = 6380;
-    double idealRPM = 3500; //@ 1.22 faster gearing, around the distance we want
+    double idealRPM = 3000; //@ 1.22 faster gearing, around the distance we want
     double flywheelkP = .03;
     double flywheelkI = 0.0;
     double flywheelkD = 0;

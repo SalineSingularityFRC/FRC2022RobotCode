@@ -108,7 +108,8 @@ public class RunAuton extends AutonControlScheme{
         }
 
         else{
-            if( doDrive.getSelected() && !driveDone() ) super.drive();
+            SmartDashboard.putNumber("Driving Done Here", driveDone()? 1:0);
+            if( /*doDrive.getSelected()*/true && !driveDone() ) super.drive();
             if( doShoot.getSelected() && !aimDone() && driveDone() ) super.aim();
             if( doShoot.getSelected() && !shootDone() && aimDone() ) super.shoot();
             if( doDriveReverse.getSelected() && !driveReverseDone() && shootDone() ) super.driveReverse();

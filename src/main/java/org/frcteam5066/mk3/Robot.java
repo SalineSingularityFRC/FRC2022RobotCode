@@ -160,6 +160,7 @@ public class Robot extends TimedRobot {
     @Override
     public void testPeriodic() {
         currentScheme.resetClimber(climber);
+        currentScheme.candle(candle);
     }
 
     @Override

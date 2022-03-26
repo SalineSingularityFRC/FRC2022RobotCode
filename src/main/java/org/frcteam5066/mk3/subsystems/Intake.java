@@ -29,6 +29,7 @@ public class Intake {
     double deployPosition = 60000;
     double retractPosition = 8350; //~115 degrees to the 
     double shootingPosition = 23000;
+    double intakeCompressPosition = 70000;
  
  
  
@@ -111,6 +112,10 @@ public class Intake {
 
     public double getDeployPercent(){
         return intakeDeploy.getPower();
+    }
+
+    public void intakeCompress(){
+        intakeDeploy.setPosition(intakeCompressPosition);
     }
 
     
