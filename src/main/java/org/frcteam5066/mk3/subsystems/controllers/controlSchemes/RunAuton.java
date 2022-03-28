@@ -68,6 +68,7 @@ public class RunAuton extends AutonControlScheme{
 
     public void actuallyRunAutonTheMethod(){
         
+        
 
         if( /*testD.getSelected()*/false  ) super.testD();
 
@@ -97,11 +98,11 @@ public class RunAuton extends AutonControlScheme{
         }
 
         else if ( /*doMainModularAuton.getSelected()*/false ){
-            if( doDrive.getSelected() && !driveDone() ) super.drive();
-            if( doShoot.getSelected() && !aimDone() && driveDone() ) super.aim();
-            if( doShoot.getSelected() && !shootDone() && aimDone() ) super.shoot();
-            if( doShoot.getSelected() && !getBallDone() && shootDone() ) super.getBall();
-            if( doShoot2.getSelected() ){       
+            if( /*doDrive.getSelected()*/ true && !driveDone() ) super.drive();
+            if( /*doShoot.getSelected()*/ true && !aimDone() && driveDone() ) super.aim();
+            if( /*doShoot.getSelected()*/ true && !shootDone() && aimDone() ) super.shoot();
+            if( /*doShoot.getSelected()*/false && !getBallDone() && shootDone() ) super.getBall();
+            if( false && doShoot2.getSelected() ){       
                 super.resetAimDone();
                 super.resetShootDone();
             }
@@ -109,10 +110,11 @@ public class RunAuton extends AutonControlScheme{
 
         else{
             SmartDashboard.putNumber("Driving Done Here", driveDone()? 1:0);
-            if( /*doDrive.getSelected()*/true && !driveDone() ) super.drive();
-            if( doShoot.getSelected() && !aimDone() && driveDone() ) super.aim();
-            if( doShoot.getSelected() && !shootDone() && aimDone() ) super.shoot();
-            if( doDriveReverse.getSelected() && !driveReverseDone() && shootDone() ) super.driveReverse();
+            if(!autonBarfDone() ) super.autonBarf();
+            if( /*doDrive.getSelected()*/false && !driveDone() && autonBarfDone() ) super.drive();
+            if( /*doShoot.getSelected()*/ false && !aimDone() && driveDone() ) super.aim();
+            if( /*doShoot.getSelected()*/ false && !shootDone() && aimDone() ) super.shoot();
+            if( /*doDriveReverse.getSelected()*/true && !driveReverseDone() && autonBarfDone() ) super.driveReverse();
 
         }
         

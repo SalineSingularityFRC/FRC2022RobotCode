@@ -76,7 +76,10 @@ public class LimeLight{
 
         //initialize PID objects from WPILIB
         headingPID = new PIDController(.02, 0.00025, 0.0004);
-        distancePID = new PIDController(0.02, 0.00, 0.00);
+        distancePID = new PIDController(0.1, 0.00, 0.00);
+        distancePID.setSetpoint(0);
+        distancePID.setTolerance(.5);
+        
         //tune these
 
         //table.getEntry("pipeline").setNumber(0);
@@ -156,7 +159,7 @@ public class LimeLight{
         SmartDashboard.putNumber("Pipe", driveType);
 
         if(driveType == 2 || driveType == 3){
-            candle.vBatOn();
+            //candle.vBatOn();
             
         }
         else{
@@ -209,9 +212,39 @@ public class LimeLight{
             //double heading_error = -tx.getDouble(0.0) * .2;
             double heading_error = headingPID.calculate(tx.getDouble(0.0));
 
-            double distance_error = target_distance - ty.getDouble(0.0);
-            //double distance_error = distancePID.calculate(ty.getDouble(0.0));
+            //double distance_error = target_distance - ty.getDouble(0.0);
+
+            double distance_error = distancePID.calculate(ty.getDouble(0.0));
+            
+            SmartDashboard.putNumber("Target Y", ty.getDouble(0.0));
             //TODO limelight distance PID tuning
+            double vertDistance = 0;
+
+
+
+            if(driveType == 2 || driveType == 3){
+                vertDistance = 1;
+            }
+            else{
+                vertDistance = distance_error;
+            }
+
+            
+
+            if(heading_error > .3){
+                heading_error = .3;
+            }
+            else if (heading_error < -.3){
+                heading_error = -.3;
+            }
+
+            if(distance_error > .3){
+                distance_error = .3;
+            }
+            else if (distance_error < -.3){
+                distance_error = -.3;
+            }
+            
 
 
 
@@ -220,7 +253,7 @@ public class LimeLight{
             
             SmartDashboard.putNumber("Distance_Error", distance_error);
             SmartDashboard.putNumber("Heading_Error", heading_error);
-            drive.drive(new Vector2((driveType == 2 || driveType == 3)? 1:0, 0), heading_error, false); 
+            drive.drive(new Vector2(vertDistance, 0), heading_error, false); 
             //note that vectors in this notation use (y,x) and should be used with robot oriented control
             //Not necessarily y and x but rather forward/backward and left/right
 
