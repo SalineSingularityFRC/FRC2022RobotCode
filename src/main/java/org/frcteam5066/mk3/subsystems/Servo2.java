@@ -13,7 +13,7 @@ public class Servo2 {
 
     public Servo2(int channel){
         servo = new Servo(channel);
-        SmartDashboard.putNumber("Targeting Servo Angle", 0);
+        SmartDashboard.putNumber("Targeting Servo Angle", 37);
         SmartDashboard.putNumber("Intake Servo Angle", 112);
         
     }
@@ -24,11 +24,13 @@ public class Servo2 {
         //double angleTarget = SmartDashboard.getNumber("Targeting Servo Angle", 0);
         double angleTarget = targetingAngle;
         servo.setAngle(angleTarget);
+        SmartDashboard.putNumber("Servo Position", servo.getAngle());
     }
 
     public void toIntakeAngle(){
         double angleIntake = intakeAngle;
         servo.setAngle(angleIntake);
+        SmartDashboard.putNumber("Servo Position", servo.getAngle());
     }
 
     public double getServoAngle(){

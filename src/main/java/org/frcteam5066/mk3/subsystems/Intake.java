@@ -13,14 +13,21 @@ public class Intake {
     MotorController intakeDrive, intakeConveyor;
     Falcon intakeDeploy;
  
- 
+    
+    /**
+     * kp: .022
+     * kI: 0
+     * kD: 0
+     * kMax: .5
+     */
+
     double kP = 0.022;
     double kI = 0.0000;
     double kD = 0.0;
     double kIz = 0;
     double kFF = 0.0;
-    double kMaxOutput = .5;
-    double kMinOutput = -.5;
+    double kMaxOutput = 1.0;
+    double kMinOutput = -1.0;
     //TODO increase deploy speed
     double maxRPMIntake = 11000;
     // maxRPMIntakeconveyor is copied from 2021 conveyor class
@@ -29,7 +36,10 @@ public class Intake {
     double deployPosition = 60000;
     double retractPosition = 8350; //~115 degrees to the 
     double shootingPosition = 23000;
-    double intakeCompressPosition = 70000;
+    double intakeCompressPosition = 72000;
+    double intakeCompressPopsition2;
+    double intakePosition;
+    boolean isIntakeDeployed;
  
  
  
@@ -43,6 +53,7 @@ public class Intake {
         //intakeDeploy = new Falcon(intakeDeployPort, 1.0, true);
         intakeDeploy = new Falcon(intakeDeployPort, 1, false, false, "rio", kP, kI, kD, kFF, kMaxOutput, kMinOutput);
         //intakeDeploy = new Falcon(canID, rampRate, inverted, coast, canBusName, kP, kI, kD, kF)
+        intakePosition = 0;
     }
  
     
@@ -84,15 +95,19 @@ public class Intake {
 
     public void intakeDeploy(){//bring one of the falcons to make the intake deploy, which way is it supposed to turn
         intakeDeploy.setPosition(deployPosition);
-        SmartDashboard.putNumber("Target Deploy Position", deployPosition);
-        SmartDashboard.putNumber("Deploying Intake from intake.java", 1);
-        SmartDashboard.putNumber("Retracting Intake from intake.java", 0);
+        intakePosition = deployPosition;
+        isIntakeDeployed = true;
+        //SmartDashboard.putNumber("Target Deploy Position", deployPosition);
+        //SmartDashboard.putNumber("Deploying Intake from intake.java", 1);
+        //SmartDashboard.putNumber("Retracting Intake from intake.java", 0);
         
     }
 
     public void intakeShooting(){
         intakeDeploy.setPosition(shootingPosition);
-        SmartDashboard.putNumber("Target Deploy Position", deployPosition);
+        intakePosition = shootingPosition;
+        isIntakeDeployed = false;
+        //SmartDashboard.putNumber("Target Deploy Position", deployPosition);
     }
 
     //TODO add deploy intermediate position
@@ -100,13 +115,15 @@ public class Intake {
 
     public void intakeRetract(){//bring one of the falcons to make the intake deploy
         intakeDeploy.setPosition(retractPosition);
+        intakePosition = retractPosition;
+        isIntakeDeployed = false;
         SmartDashboard.putNumber("Target Deploy Position", retractPosition);
         SmartDashboard.putNumber("Deploying Intake from intake.java", 0);
         SmartDashboard.putNumber("Retracting Intake from intake.java", 1);
     }
 
     public double getDeploySensorPosition(){
-        SmartDashboard.putNumber("Deploy Sensor Position", intakeDeploy.getSelectedSensorPosition());
+        //SmartDashboard.putNumber("Deploy Sensor Position", intakeDeploy.getSelectedSensorPosition());
         return intakeDeploy.getMotorController().getSelectedSensorPosition();
     }
 
@@ -116,6 +133,12 @@ public class Intake {
 
     public void intakeCompress(){
         intakeDeploy.setPosition(intakeCompressPosition);
+        isIntakeDeployed = true;
+
+    }
+
+    public boolean isDeployed(){
+        return isIntakeDeployed;
     }
 
     

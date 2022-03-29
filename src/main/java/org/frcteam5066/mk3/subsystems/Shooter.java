@@ -27,7 +27,7 @@ public class Shooter {
     double flywheelkD = 0;
     double flywheelFF = 0.04766;
     double maxRPMFeed = 5700;
-    double barfRPM = 2000;
+    double barfRPM = 1500;
     double gearRatio = 1.22;
 
     private static double lastSetVelocity = 0;
@@ -58,7 +58,8 @@ public class Shooter {
     public void flywheelOn(){
         //flywheel2.setVelocity(maxRPMflywheel2);
         
-        double flywheelVelo = SmartDashboard.getNumber("Controllable Velocity", 3500);
+        //double flywheelVelo = SmartDashboard.getNumber("Controllable Velocity", 3350);
+        double flywheelVelo = 3500;
         flywheel1.setVelocity(flywheelVelo);
         lastSetVelocity = flywheelVelo;
     }
@@ -110,7 +111,7 @@ public class Shooter {
     public boolean readyToShoot(){
         SmartDashboard.putNumber("current flywheel velocity", getFlywheelVelocity());
         SmartDashboard.putNumber("Last Set Velocity", lastSetVelocity);
-        SmartDashboard.putNumber("Is Flywheel Ready", (getFlywheelVelocity() >= lastSetVelocity - 200 && getFlywheelVelocity() <= lastSetVelocity + 200)? 1:0 );
+        //SmartDashboard.putNumber("Is Flywheel Ready", (getFlywheelVelocity() >= lastSetVelocity - 200 && getFlywheelVelocity() <= lastSetVelocity + 200)? 1:0 );
         return (getFlywheelVelocity() >= lastSetVelocity - 200 && getFlywheelVelocity() <= lastSetVelocity + 200);
     }
 

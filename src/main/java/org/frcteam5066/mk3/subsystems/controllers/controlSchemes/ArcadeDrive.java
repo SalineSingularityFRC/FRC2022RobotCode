@@ -116,7 +116,7 @@ public class ArcadeDrive extends ControlScheme {
                 intake.intakeReject();
             else {
                 intake.intakeCollect();
-                intake.intakeCompress();
+                
             }
         }
         else{
@@ -215,7 +215,7 @@ public class ArcadeDrive extends ControlScheme {
         SmartDashboard.putNumber("current flywheel velocity", flywheel.getFlywheelVelocity());
         if (armController.getTriggerRight() > 0.2 ) {
             if(colorSensor.hasBall()){
-                if (colorSensor.robotColor()) {
+                if (/*colorSensor.robotColor()*/ true) {
                     flywheel.flywheelOn();
                     if(armController.getTriggerLeft() > .2){
                         intake.intakeDeploy();
@@ -250,6 +250,12 @@ public class ArcadeDrive extends ControlScheme {
         }
         else if (armController.getRB()){
             flywheel.barf();
+            if (flywheel.readyToShoot()) {
+                intake.conveyorCollect();
+                flywheel.feederOn();
+
+                
+            }
 
         }
         else{
@@ -259,17 +265,27 @@ public class ArcadeDrive extends ControlScheme {
             
             SmartDashboard.putNumber("Feeding", 0);
         }
+
+        if(intake.isDeployed()){
+            if(armController.getAButton()){
+                intake.intakeCompress();
+            }
+            else{
+                intake.intakeDeploy();
+            }
+        }
             
     }
 
     public void intakeSequence(Shooter flywheel, Intake intake) {
-        SmartDashboard.putNumber("Deploy Output Percent", intake.getDeployPercent());
-        SmartDashboard.putNumber("Intake Position", intake.getDeploySensorPosition());
+        //SmartDashboard.putNumber("Deploy Output Percent", intake.getDeployPercent());
+        //SmartDashboard.putNumber("Intake Position", intake.getDeploySensorPosition());
         if (armController.getTriggerLeft() > 0.2) {
             intake.intakeDeploy();
             
+            
             if (colorSensor.hasBall()) {
-                if (colorSensor.robotColor()) {
+                /*if (colorSensor.robotColor()) {
                     flywheel.feederOff();
                 }
                 else {
@@ -277,21 +293,24 @@ public class ArcadeDrive extends ControlScheme {
                     if(flywheel.readyToShoot()){
                         flywheel.feederOn();
                     }
-                }
+                }*/
+                flywheel.feederOff();
             }
             else {
                 flywheel.feederOnIntake();
             }
 
+            
+
             intake.intakeCollect();
-            intake.intakeCompress();
+            
             intake.conveyorCollect();
         } 
         else if (armController.getLB()) {
             intake.intakeReject();
         }
         else{
-            if(!(armController.getTriggerRight() > .2)){
+            if(!(armController.getTriggerRight() > .2 || armController.getRB())){
                 intake.conveyorOff();
                 flywheel.feederOff();
             }
@@ -305,6 +324,15 @@ public class ArcadeDrive extends ControlScheme {
             intake.intakeRetract();
         }
         //intake.intakeRetract();
+
+        if(intake.isDeployed()){
+            if(armController.getAButton()){
+                intake.intakeCompress();
+            }
+            else{
+                intake.intakeDeploy();
+            }
+        }
     }
 
     public void colorSensor(){

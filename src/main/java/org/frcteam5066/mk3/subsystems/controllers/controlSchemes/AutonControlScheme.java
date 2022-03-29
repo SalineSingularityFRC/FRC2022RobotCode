@@ -27,6 +27,7 @@ public abstract class AutonControlScheme {
     protected static int color;
     protected static int rotationDirection; //1 is clockwise, -1 is counter-clockwise
     
+    private boolean autonBarfDone;
     private boolean driveDone;
     private boolean aimDone;
     private boolean driveReverseDone;
@@ -36,7 +37,9 @@ public abstract class AutonControlScheme {
     private boolean shootBeenReset;
     private boolean getBallBeenReset;
     
-
+    boolean autonBarfProgress;
+    boolean driveProgress;
+    long barfStartTime;
     boolean aimProgress1;
     boolean driveProgress;
     boolean driveReverseProgress1;
@@ -75,7 +78,7 @@ public abstract class AutonControlScheme {
         if(position < 3) rotationDirection = 1;
         else rotationDirection = -1;
 
-
+    autonBarfDone = false;
     driveDone = false;
     aimDone = false;
     driveReverseDone = false;
@@ -85,7 +88,9 @@ public abstract class AutonControlScheme {
     shootBeenReset = false;
     getBallBeenReset = false;
     
-
+    autonBarfProgress = false;
+    driveProgress = false;
+    barfStartTime = 0;
     aimProgress1 = false;
     driveProgress = false;
     driveReverseProgress1 = false;
@@ -106,6 +111,10 @@ public abstract class AutonControlScheme {
 
     private void resetAnglePos(){
         initAnglePos = drive.getGyroAngle();
+    }
+
+    public boolean autonBarfDone(){
+        return autonBarfDone;
     }
 
     public boolean driveDone(){
@@ -174,14 +183,64 @@ public abstract class AutonControlScheme {
 
     }
 
+    public void autonBarf(){
+        SmartDashboard.putNumber("Auton Barf Progress", (autonBarfProgress)? 1:0);
+        SmartDashboard.putNumber("Auton Barf Done", (autonBarfDone)? 1:0);
+        SmartDashboard.putNumber("Current System Time", System.currentTimeMillis());
+        if(!autonBarfProgress){
+            intake.intakeShooting();
+            //barfStartTime = System.currentTimeMillis();
+            autonBarfProgress = true;
+        }
+        
+
+        /*
+        if(/*System.currentTimeMillis() - barfStartTime > 3 !colorSensor.hasBall() ){
+            autonBarfDone = true;
+        }
+        */
+        
+        else{
+            shooter.barf();
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                
+                e.printStackTrace();
+            }
+            
+            intake.conveyorCollect();
+            shooter.feederOn();
+            
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            autonBarfDone = true;
+        }
+
+
+    }
+
     public void drive(){
 
-        SmartDashboard.putNumber("Drive Done", driveDone ? 1:0);
+        
 
         if(/*position == 1*/ true){
+            if( !driveProgress ){
+                drive.resetWheelAngles();
+                intake.intakeDeploy();
+                driveProgress = true;
+            }
 
+            intake.conveyorCollect();
+            intake.intakeCollect();
+
+            SmartDashboard.putNumber("Drive Done", driveDone ? 1:0);
             SmartDashboard.putNumber("Driving", 1);
-            drive.drive(new Vector2(1, 0), 0, false);
+            drive.drive(new Vector2(.3, 0), 0, false);
             
             if(!driveProgress){
                 intake.intakeDeploy();
@@ -238,15 +297,16 @@ public abstract class AutonControlScheme {
     public void driveReverse(){
 
         if ( !driveReverseProgress1 ){
-            drive.resetRotationsZero();
+            drive.resetWheelAngles();
             driveReverseProgress1 = true;
+            SmartDashboard.putNumber("Wheel rotations have been reset", 1);
         }
 
         SmartDashboard.putNumber("Driving Reverse", 1);
-        drive.drive(new Vector2(-1, 0), 0, false);
+        drive.drive(new Vector2(-.3, 0), 0, false);
 
         SmartDashboard.putNumber("Wheel Rotations", drive.getRotationsSpun());
-        if(Math.abs( drive.getRotationsSpun() ) >= 10){
+        if(Math.abs( drive.getRotationsSpun() ) >= 5){
             drive.drive(new Vector2(0, 0), 0, false);
             SmartDashboard.putNumber("Driving", 0);
             driveReverseDone = true;
@@ -257,10 +317,11 @@ public abstract class AutonControlScheme {
     public void aim(){
 
         shooter.flywheelOn();
+        intake.intakeDeploy();
         intake.conveyorCollect();
         
         if(!aimProgress1){
-            drive.drive(new Vector2(0, 0), 1 * rotationDirection, false);
+            drive.drive(new Vector2(0, 0), .3 * rotationDirection, false);
 
             if( limeLight.hasVisionTarget() ) aimProgress1 = true;
         }
@@ -271,6 +332,10 @@ public abstract class AutonControlScheme {
             try {
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
+<<<<<<< HEAD
+=======
+                // TODO Auto-generated catch block
+>>>>>>> 7ccf0f3c3c5d214a5bb45f8680da2cd2e8e4c0bd
                 e.printStackTrace();
             }
 
@@ -281,7 +346,35 @@ public abstract class AutonControlScheme {
     }
     
     public void shoot(){
+        
+        if(!aimProgress1){
+            intake.intakeShooting();
+            aimProgress1 = true;
+        }
+        
+        else{
+            shooter.flywheelOn();
+            try {
+                Thread.sleep(1500);
+            } catch (InterruptedException e) {
+                
+                e.printStackTrace();
+            }
+            
+            intake.conveyorCollect();
+            shooter.feederOn();
+            
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            driveDone = true;
+        }
 
+        
+        /*
         if(!aimProgress1){
             shootStartTime = System.currentTimeMillis();
             aimProgress1 = true;
@@ -294,7 +387,7 @@ public abstract class AutonControlScheme {
             intake.conveyorOff();
             shootDone = true;
         }
-
+        */
     }
 
     public void getBall(){
