@@ -41,7 +41,6 @@ public abstract class AutonControlScheme {
     boolean driveProgress;
     long barfStartTime;
     boolean aimProgress1;
-    boolean driveProgress;
     boolean driveReverseProgress1;
     boolean shootProgress1;
     long shootStartTime;
@@ -229,15 +228,7 @@ public abstract class AutonControlScheme {
         
 
         if(/*position == 1*/ true){
-            if( !driveProgress ){
-                drive.resetWheelAngles();
-                intake.intakeDeploy();
-                driveProgress = true;
-            }
-
-            intake.conveyorCollect();
-            intake.intakeCollect();
-
+            
             SmartDashboard.putNumber("Drive Done", driveDone ? 1:0);
             SmartDashboard.putNumber("Driving", 1);
             drive.drive(new Vector2(.3, 0), 0, false);
@@ -332,10 +323,7 @@ public abstract class AutonControlScheme {
             try {
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
-<<<<<<< HEAD
-=======
-                // TODO Auto-generated catch block
->>>>>>> 7ccf0f3c3c5d214a5bb45f8680da2cd2e8e4c0bd
+                
                 e.printStackTrace();
             }
 

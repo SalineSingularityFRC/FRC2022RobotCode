@@ -8,6 +8,7 @@ import org.frcteam5066.common.robot.input.Axis;
 import org.frcteam5066.common.robot.input.XboxController;
 import org.frcteam5066.common.robot.subsystems.Drivetrain;
 
+
 public class RobotContainer {
     private final XboxController primaryController = new XboxController(Constants.PRIMARY_CONTROLLER_PORT);
 
@@ -20,7 +21,7 @@ public class RobotContainer {
         primaryController.getLeftXAxis().setInverted(true);
         primaryController.getRightXAxis().setInverted(true);
 
-        defaultDrive = new DriveCommand(drivetrainSubsystem, getDriveForwardAxis(), getDriveStrafeAxis(), getDriveRotationAxis());
+        defaultDrive = new DriveCommand(drivetrainSubsystem, getDriveForwardAxis(), getDriveStrafeAxis(), getDriveRotationAxis(), primaryController, 0.3);
 
         CommandScheduler.getInstance().setDefaultCommand(drivetrainSubsystem, defaultDrive);
         
