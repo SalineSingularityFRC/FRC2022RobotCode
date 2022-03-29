@@ -38,6 +38,7 @@ public abstract class AutonControlScheme {
     
 
     boolean aimProgress1;
+    boolean driveProgress;
     boolean driveReverseProgress1;
     boolean shootProgress1;
     long shootStartTime;
@@ -86,6 +87,7 @@ public abstract class AutonControlScheme {
     
 
     aimProgress1 = false;
+    driveProgress = false;
     driveReverseProgress1 = false;
     shootProgress1 = false;
     shootStartTime = 0;
@@ -176,14 +178,23 @@ public abstract class AutonControlScheme {
 
         SmartDashboard.putNumber("Drive Done", driveDone ? 1:0);
 
-        if(/*position == 1*/ false){
+        if(/*position == 1*/ true){
 
             SmartDashboard.putNumber("Driving", 1);
             drive.drive(new Vector2(1, 0), 0, false);
             
+            if(!driveProgress){
+                intake.intakeDeploy();
+                drive.resetWheelAngles();
+                driveProgress = true;
+            }
+
+            intake.conveyorCollect();
+            intake.intakeCollect();
+
             //Auton TESTING MODIFY SPOT the "10" below represent the amount of rotations needed to get off the tarmac
             SmartDashboard.putNumber("Wheel Rotations", drive.getRotationsSpun());
-            if(Math.abs(drive.getRotationsSpun()) >= 10){
+            if(Math.abs(drive.getRotationsSpun()) >= 6){
                 drive.drive(new Vector2(0, 0),0, false);
                 SmartDashboard.putNumber("Driving", 0);
                 driveDone = true;
@@ -191,7 +202,7 @@ public abstract class AutonControlScheme {
             }
         }   
 
-        else if(/*position != 1*/ true){
+        else if(/*position != 1*/ false){
         // runLimeLight() both aims/drives towards ball and returns "true" if it is still adjusting/driving ("false" if not making adjustments)
         intake.intakeDeploy();  
         SmartDashboard.putNumber("Auton Deploying Intake", 1);  
@@ -221,6 +232,7 @@ public abstract class AutonControlScheme {
 
             
         }
+        
     }
     
     public void driveReverse(){
@@ -253,8 +265,18 @@ public abstract class AutonControlScheme {
             if( limeLight.hasVisionTarget() ) aimProgress1 = true;
         }
         // runLimeLight() both aims/drives towards ball and returns "true" if it is still adjusting/driving ("false" if not making adjustments)
-        else if (limeLight.runLimeLight(drive, 1)){}
-        else aimDone = true;
+        else {
+            limeLight.runLimeLight(drive, 1);
+
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            aimDone = true;
+        }
+        
 
     }
     
