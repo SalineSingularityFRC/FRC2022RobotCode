@@ -38,25 +38,25 @@ public class DriveCommand extends CommandBase {
             drivetrainSubsystem.drive(new Vector2(reducedSpeed, 0), rotation.get(true), true);
         }
         else if(controller.getDPadButton( Direction.RIGHT).get() ){
-            drivetrainSubsystem.drive(new Vector2(0, reducedSpeed), rotation.get(true), true);
+            drivetrainSubsystem.drive(new Vector2(0, -reducedSpeed), rotation.get(true), true);
         }
         else if(controller.getDPadButton( Direction.DOWN).get() ){
             drivetrainSubsystem.drive(new Vector2(-reducedSpeed, 0), rotation.get(true), true);
         }
         else if(controller.getDPadButton( Direction.LEFT).get() ){
-            drivetrainSubsystem.drive(new Vector2(0, -reducedSpeed), rotation.get(true), true);
+            drivetrainSubsystem.drive(new Vector2(0, reducedSpeed), rotation.get(true), true);
         }
         else if(controller.getDPadButton( Direction.UPRIGHT).get() ){
-            drivetrainSubsystem.drive(new Vector2(reducedSpeed, reducedSpeed), rotation.get(true), true);
+            drivetrainSubsystem.drive(new Vector2(reducedSpeed, -reducedSpeed), rotation.get(true), true);
         }
         else if(controller.getDPadButton( Direction.DOWNRIGHT).get() ){
-            drivetrainSubsystem.drive(new Vector2(-reducedSpeed, reducedSpeed), rotation.get(true), true);
-        }
-        else if(controller.getDPadButton( Direction.DOWNLEFT).get() ){
             drivetrainSubsystem.drive(new Vector2(-reducedSpeed, -reducedSpeed), rotation.get(true), true);
         }
+        else if(controller.getDPadButton( Direction.DOWNLEFT).get() ){
+            drivetrainSubsystem.drive(new Vector2(-reducedSpeed, reducedSpeed), rotation.get(true), true);
+        }
         else if(controller.getDPadButton( Direction.UPLEFT).get() ){
-            drivetrainSubsystem.drive(new Vector2(reducedSpeed, -reducedSpeed), rotation.get(true), true);
+            drivetrainSubsystem.drive(new Vector2(reducedSpeed, reducedSpeed), rotation.get(true), true);
         }
         else{
             drivetrainSubsystem.drive(new Vector2(forward.get(true), strafe.get(true)), rotation.get(true), true);

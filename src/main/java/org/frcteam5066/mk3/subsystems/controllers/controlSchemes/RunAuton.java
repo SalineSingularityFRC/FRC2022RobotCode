@@ -97,10 +97,10 @@ public class RunAuton extends AutonControlScheme{
 
         }
 
-        else if ( /*doMainModularAuton.getSelected()*/false ){
+        else if ( /*doMainModularAuton.getSelected()*/true ){
             if( /*doDrive.getSelected()*/ true && !driveDone() ) super.drive();
-            if( /*doShoot.getSelected()*/ true && !aimDone() && driveDone() ) super.aim();
-            if( /*doShoot.getSelected()*/ true && !shootDone() && aimDone() ) super.shoot();
+            if( /*doShoot.getSelected()*/ false && !aimDone() && driveDone() ) super.aim();
+            if( /*doShoot.getSelected()*/ false && !shootDone() && aimDone() ) super.shoot();
             if( /*doShoot.getSelected()*/false && !getBallDone() && shootDone() ) super.getBall();
             if( false && doShoot2.getSelected() ){       
                 super.resetAimDone();

@@ -21,7 +21,7 @@ public class RobotContainer {
         primaryController.getLeftXAxis().setInverted(true);
         primaryController.getRightXAxis().setInverted(true);
 
-        defaultDrive = new DriveCommand(drivetrainSubsystem, getDriveForwardAxis(), getDriveStrafeAxis(), getDriveRotationAxis(), primaryController, 0.3);
+        defaultDrive = new DriveCommand(drivetrainSubsystem, getDriveForwardAxis(), getDriveStrafeAxis(), getDriveRotationAxis(), primaryController, 0.2);
 
         CommandScheduler.getInstance().setDefaultCommand(drivetrainSubsystem, defaultDrive);
         

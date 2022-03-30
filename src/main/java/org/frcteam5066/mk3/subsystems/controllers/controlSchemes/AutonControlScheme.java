@@ -39,6 +39,7 @@ public abstract class AutonControlScheme {
     
     boolean autonBarfProgress;
     boolean driveProgress;
+    boolean driveProgress2;
     long barfStartTime;
     boolean aimProgress1;
     boolean driveReverseProgress1;
@@ -89,6 +90,7 @@ public abstract class AutonControlScheme {
     
     autonBarfProgress = false;
     driveProgress = false;
+    driveProgress2 = false;
     barfStartTime = 0;
     aimProgress1 = false;
     driveProgress = false;
@@ -225,23 +227,35 @@ public abstract class AutonControlScheme {
 
     public void drive(){
 
-        
-
         if(/*position == 1*/ true){
             
             SmartDashboard.putNumber("Drive Done", driveDone ? 1:0);
             SmartDashboard.putNumber("Driving", 1);
-            drive.drive(new Vector2(.3, 0), 0, false);
+            
             
             if(!driveProgress){
                 intake.intakeDeploy();
                 drive.resetWheelAngles();
                 driveProgress = true;
+
+            }
+            
+            if(!driveProgress2){
+                
+                try {
+                    Thread.sleep(250);
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+                driveProgress2 = true;
             }
 
             intake.conveyorCollect();
             intake.intakeCollect();
-
+            drive.drive(new Vector2(.3, 0), 0, false);
+            
             //Auton TESTING MODIFY SPOT the "10" below represent the amount of rotations needed to get off the tarmac
             SmartDashboard.putNumber("Wheel Rotations", drive.getRotationsSpun());
             if(Math.abs(drive.getRotationsSpun()) >= 6){
@@ -289,9 +303,12 @@ public abstract class AutonControlScheme {
 
         if ( !driveReverseProgress1 ){
             drive.resetWheelAngles();
+            intake.intakeDeploy();
             driveReverseProgress1 = true;
             SmartDashboard.putNumber("Wheel rotations have been reset", 1);
         }
+
+        intake.intakeCollect();
 
         SmartDashboard.putNumber("Driving Reverse", 1);
         drive.drive(new Vector2(-.3, 0), 0, false);
