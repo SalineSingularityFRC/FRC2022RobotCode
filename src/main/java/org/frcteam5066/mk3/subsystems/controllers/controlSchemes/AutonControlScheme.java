@@ -227,6 +227,8 @@ public abstract class AutonControlScheme {
 
     public void drive(){
 
+        intake.setCeaseIntake(false);
+
         if(/*position == 1*/ true){
             
             SmartDashboard.putNumber("Drive Done", driveDone ? 1:0);
@@ -240,30 +242,42 @@ public abstract class AutonControlScheme {
 
             }
             
-            if(!driveProgress2){
-                
+            
+            intake.conveyorCollect();
+            intake.intakeCollect();
+
+            try {
+                Thread.sleep(750);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+            drive.drive(new Vector2(.3, 0), 0, false);
+            
+            //Auton TESTING MODIFY SPOT the "10" below represent the amount of rotations needed to get off the tarmac
+            SmartDashboard.putNumber("Wheel Rotations", drive.getRotationsSpun());
+            
+            
+            if(Math.abs(drive.getRotationsSpun()) >= 3.5){
+                drive.drive(new Vector2(0, 0),0, false);
+                SmartDashboard.putNumber("Driving", 0);
+
+                /*
                 try {
-                    Thread.sleep(250);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
 
-                driveProgress2 = true;
-            }
-
-            intake.conveyorCollect();
-            intake.intakeCollect();
-            drive.drive(new Vector2(.3, 0), 0, false);
-            
-            //Auton TESTING MODIFY SPOT the "10" below represent the amount of rotations needed to get off the tarmac
-            SmartDashboard.putNumber("Wheel Rotations", drive.getRotationsSpun());
-            if(Math.abs(drive.getRotationsSpun()) >= 6){
-                drive.drive(new Vector2(0, 0),0, false);
-                SmartDashboard.putNumber("Driving", 0);
+                //intake.setCeaseIntake(true);
+                intake.intakeOff();
+                */
                 driveDone = true;
                 
             }
+            
         }   
 
         else if(/*position != 1*/ false){
@@ -325,15 +339,17 @@ public abstract class AutonControlScheme {
     public void aim(){
 
         shooter.flywheelOn();
-        intake.intakeDeploy();
+        intake.intakeCollect();
         intake.conveyorCollect();
         
         if(!aimProgress1){
             drive.drive(new Vector2(0, 0), .3 * rotationDirection, false);
 
             if( limeLight.hasVisionTarget() ) aimProgress1 = true;
+            aimDone = true;
         }
         // runLimeLight() both aims/drives towards ball and returns "true" if it is still adjusting/driving ("false" if not making adjustments)
+        /*
         else {
             limeLight.runLimeLight(drive, 1);
 
@@ -344,8 +360,9 @@ public abstract class AutonControlScheme {
                 e.printStackTrace();
             }
 
-            aimDone = true;
+            //aimDone = true;
         }
+        */
         
 
     }
