@@ -69,20 +69,10 @@ public class RunAuton extends AutonControlScheme{
     public void actuallyRunAutonTheMethod(){
         
         
-
         if( /*testD.getSelected()*/false  ) super.testD();
 
+        
         else if ( /*doFixedAuton.getSelected()*/false ){
-            /*
-                drive straght and pick up ball
-                aim and shoot
-                spin and drive to next ball
-                aim and shoot
-                spin and drive to player station
-                drive to previous position
-                aim and shoot
-                meow!
-            */
             
             if( !drive1Done() ) super.driveAndSpin(1.204, 0.0, 0.0, 1);
             if( !aim1Done() ) super.fixedAim(-1);
@@ -97,10 +87,13 @@ public class RunAuton extends AutonControlScheme{
 
         }
 
-        else if ( /*doMainModularAuton.getSelected()*/false ){
+        // **IMPORTANT** Somewhere else in the code, intake and conveyer are being set to Off while auton is running
+
+
+        else if ( /*doMainModularAuton.getSelected()*/true ){
             if( /*doDrive.getSelected()*/ true && !driveDone() ) super.drive();
             if( /*doShoot.getSelected()*/ true && !aimDone() && driveDone() ) super.aim();
-            if( /*doShoot.getSelected()*/ true && !shootDone() && aimDone() ) super.shoot();
+            if( /*doShoot.getSelected()*/ false && !shootDone() && aimDone() ) super.shoot();
             if( /*doShoot.getSelected()*/false && !getBallDone() && shootDone() ) super.getBall();
             if( false && doShoot2.getSelected() ){       
                 super.resetAimDone();
@@ -108,26 +101,16 @@ public class RunAuton extends AutonControlScheme{
             }
         }
 
+        else if(false){
+            super.drive();
+        }
+
         else{
             SmartDashboard.putNumber("Driving Done Here", driveDone()? 1:0);
             if(!autonBarfDone() ) super.autonBarf();
-            if( /*doDrive.getSelected()*/false && !driveDone() && autonBarfDone() ) super.drive();
-            if( /*doShoot.getSelected()*/ false && !aimDone() && driveDone() ) super.aim();
-            if( /*doShoot.getSelected()*/ false && !shootDone() && aimDone() ) super.shoot();
             if( /*doDriveReverse.getSelected()*/true && !driveReverseDone() && autonBarfDone() ) super.driveReverse();
 
         }
-        
-        /*
-        if( true && !driveDone() ) super.drive();
-        if( true && !aimDone() && driveDone() ) super.aim();
-        if( false && !shootDone() && aimDone() ) super.shoot();
-        if( false && !getBallDone() && shootDone() ) super.getBall();
-        if( false ){       
-            super.resetAimDone();
-            super.resetShootDone();
-        }
-        */
 
     }
 

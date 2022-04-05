@@ -39,6 +39,7 @@ public abstract class AutonControlScheme {
     
     boolean autonBarfProgress;
     boolean driveProgress;
+    boolean driveProgress2;
     long barfStartTime;
     boolean aimProgress1;
     boolean driveReverseProgress1;
@@ -89,8 +90,10 @@ public abstract class AutonControlScheme {
     
     autonBarfProgress = false;
     driveProgress = false;
+    driveProgress2 = false;
     barfStartTime = 0;
     aimProgress1 = false;
+    driveProgress = false;
     driveReverseProgress1 = false;
     shootProgress1 = false;
     shootStartTime = 0;
@@ -224,30 +227,57 @@ public abstract class AutonControlScheme {
 
     public void drive(){
 
-        
+        intake.setCeaseIntake(false);
 
         if(/*position == 1*/ true){
-            if( !driveProgress ){
-                drive.resetWheelAngles();
+            
+            SmartDashboard.putNumber("Drive Done", driveDone ? 1:0);
+            SmartDashboard.putNumber("Driving", 1);
+            
+            
+            if(!driveProgress){
                 intake.intakeDeploy();
+                drive.resetWheelAngles();
                 driveProgress = true;
-            }
 
+            }
+            
+            
             intake.conveyorCollect();
             intake.intakeCollect();
 
-            SmartDashboard.putNumber("Drive Done", driveDone ? 1:0);
-            SmartDashboard.putNumber("Driving", 1);
+            try {
+                Thread.sleep(750);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
             drive.drive(new Vector2(.3, 0), 0, false);
             
             //Auton TESTING MODIFY SPOT the "10" below represent the amount of rotations needed to get off the tarmac
             SmartDashboard.putNumber("Wheel Rotations", drive.getRotationsSpun());
-            if(Math.abs(drive.getRotationsSpun()) >= 6){
+            
+            
+            if(Math.abs(drive.getRotationsSpun()) >= 3.5){
                 drive.drive(new Vector2(0, 0),0, false);
                 SmartDashboard.putNumber("Driving", 0);
+
+                /*
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+                //intake.setCeaseIntake(true);
+                intake.intakeOff();
+                */
                 driveDone = true;
                 
             }
+            
         }   
 
         else if(/*position != 1*/ false){
@@ -280,15 +310,19 @@ public abstract class AutonControlScheme {
 
             
         }
+        
     }
     
     public void driveReverse(){
 
         if ( !driveReverseProgress1 ){
             drive.resetWheelAngles();
+            intake.intakeDeploy();
             driveReverseProgress1 = true;
             SmartDashboard.putNumber("Wheel rotations have been reset", 1);
         }
+
+        intake.intakeCollect();
 
         SmartDashboard.putNumber("Driving Reverse", 1);
         drive.drive(new Vector2(-.3, 0), 0, false);
@@ -305,27 +339,30 @@ public abstract class AutonControlScheme {
     public void aim(){
 
         shooter.flywheelOn();
-        intake.intakeDeploy();
+        intake.intakeCollect();
         intake.conveyorCollect();
         
         if(!aimProgress1){
             drive.drive(new Vector2(0, 0), .3 * rotationDirection, false);
 
             if( limeLight.hasVisionTarget() ) aimProgress1 = true;
+            aimDone = true;
         }
         // runLimeLight() both aims/drives towards ball and returns "true" if it is still adjusting/driving ("false" if not making adjustments)
+        /*
         else {
             limeLight.runLimeLight(drive, 1);
 
             try {
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
+                
                 e.printStackTrace();
             }
 
-            aimDone = true;
+            //aimDone = true;
         }
+        */
         
 
     }

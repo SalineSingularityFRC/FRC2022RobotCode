@@ -112,6 +112,8 @@ public class Robot extends TimedRobot {
         // currentScheme.flywheel(flywheel);           
         // currentScheme.intakeConveyer(intake);
         //currentScheme.intakePneumatics(intakePneumatics);
+
+        intake.setCeaseIntake(true);
         
         currentScheme.limeLightDrive(limeLight, robotContainer.getDrivetrainSubsystem());
 

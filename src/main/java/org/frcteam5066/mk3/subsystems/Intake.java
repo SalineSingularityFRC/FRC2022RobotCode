@@ -40,6 +40,7 @@ public class Intake {
     double intakeCompressPopsition2;
     double intakePosition;
     boolean isIntakeDeployed;
+    private boolean ceaseIntake;
  
  
  
@@ -58,7 +59,10 @@ public class Intake {
  
     
 
-    
+    public void setCeaseIntake(boolean set){
+        ceaseIntake = set;
+    }
+
     public void intakeCollect() {
         intakeDrive.setSpeed(.3);
         //intakeConveyor.setVelocity(maxRPMIntakeconveyor);
@@ -72,7 +76,7 @@ public class Intake {
     }
  
     public void intakeOff(){
-        intakeDrive.setSpeed(0.0);
+        if (ceaseIntake) intakeDrive.setSpeed(0.0);
         //intakeConveyor.setVelocity(0.0);
     }
 
@@ -85,7 +89,7 @@ public class Intake {
     }
 
     public void conveyorOff(){
-        intakeConveyor.setSpeed(0.0);
+        if(ceaseIntake) intakeConveyor.setSpeed(0.0);
     }
 
     //this method must be run iteratively (NOT COMPLETE)
