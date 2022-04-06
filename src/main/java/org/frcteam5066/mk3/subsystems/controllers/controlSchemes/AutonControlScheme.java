@@ -184,7 +184,8 @@ public abstract class AutonControlScheme {
 
     }
 
-    public void autonBarf(){
+    public void 
+    autonBarf(){
         SmartDashboard.putNumber("Auton Barf Progress", (autonBarfProgress)? 1:0);
         SmartDashboard.putNumber("Auton Barf Done", (autonBarfDone)? 1:0);
         SmartDashboard.putNumber("Current System Time", System.currentTimeMillis());
