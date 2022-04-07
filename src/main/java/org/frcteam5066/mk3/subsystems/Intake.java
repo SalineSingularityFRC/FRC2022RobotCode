@@ -33,7 +33,7 @@ public class Intake {
     // maxRPMIntakeconveyor is copied from 2021 conveyor class
     double maxRPMIntakeconveyor = -4000;
     double maxRPMFeed = 5700;
-    double deployPosition = 60000;
+    double deployPosition = 61500;
     double retractPosition = 8350; //~115 degrees to the 
     double shootingPosition = 23000;
     double intakeCompressPosition = 72000;
@@ -64,14 +64,14 @@ public class Intake {
     }
 
     public void intakeCollect() {
-        intakeDrive.setSpeed(.3);
+        intakeDrive.setSpeed(.5);
         //intakeConveyor.setVelocity(maxRPMIntakeconveyor);
         //TODO Test intake collection
     }
  
     //Use if color senser recognizes opposite team's ball
     public void intakeReject(){
-        intakeDrive.setSpeed(-.3);
+        intakeDrive.setSpeed(-.5);
         //intakeConveyor.setVelocity(-maxRPMIntakeconveyor);
     }
  

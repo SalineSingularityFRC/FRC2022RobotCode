@@ -223,7 +223,7 @@ public class LimeLight{
 
 
             if(driveType == 2 || driveType == 3){
-                vertDistance = 1;
+                vertDistance = .8;
             }
             else{
                 vertDistance = distance_error;
