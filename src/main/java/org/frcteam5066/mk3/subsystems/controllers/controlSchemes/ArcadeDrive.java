@@ -40,7 +40,7 @@ public class ArcadeDrive extends ControlScheme {
     //ColorSensor colorSensor = new ColorSensor(); 
     //MotorCycle motorCycle = new MotorCycle(7);
 
-    Servo2 servo;
+    //Servo2 servo;
 
     //HolonomicDrivetrain drive;
 
@@ -74,7 +74,7 @@ public class ArcadeDrive extends ControlScheme {
         driveController = new XboxController(driveControllerPort);
         armController = new XboxController(armControllerPort);
         colorSensor = new ColorSensor();
-        servo = new Servo2(0);
+        //servo = new Servo2(0);
 
         
 
@@ -298,6 +298,8 @@ public class ArcadeDrive extends ControlScheme {
                         flywheel.feederOn();
                     }
                 }*/
+                
+                
                 flywheel.feederOff();
             }
             else {
@@ -349,10 +351,10 @@ public class ArcadeDrive extends ControlScheme {
     public void candle(CANdleSystem candle){
 
         if(armController.getPOVLeft()){
-            servo.toIntakeAngle();
+            //servo.toIntakeAngle();
         }
         else if(armController.getPOVRight()){
-            servo.toTargetingAngle();
+            //servo.toTargetingAngle();
         }
 
 
@@ -383,7 +385,7 @@ public class ArcadeDrive extends ControlScheme {
 
     public void limeLightDrive(LimeLight limelight, DrivetrainSubsystem drive){
 
-        SmartDashboard.putNumber("Servo Position", servo.getServoAngle());
+        //SmartDashboard.putNumber("Servo Position", servo.getServoAngle());
 
         //motorCycle.on();
         

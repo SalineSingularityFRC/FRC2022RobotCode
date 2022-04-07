@@ -31,6 +31,8 @@ public class LimeLight{
     public double target_distance = 0.0;
     //TODO Find limelight distance value
 
+    Servo2 servo;
+
 
 
     PIDController headingPID;
@@ -79,6 +81,8 @@ public class LimeLight{
         distancePID = new PIDController(0.1, 0.00, 0.00);
         distancePID.setSetpoint(0);
         distancePID.setTolerance(.5);
+
+        servo = new Servo2(0);
         
         //tune these
 
@@ -160,10 +164,11 @@ public class LimeLight{
 
         if(driveType == 2 || driveType == 3){
             //candle.vBatOn();
-            
+            servo.toIntakeAngle();
         }
         else{
             candle.vBatOff();
+            servo.toTargetingAngle();
         }
 
 
