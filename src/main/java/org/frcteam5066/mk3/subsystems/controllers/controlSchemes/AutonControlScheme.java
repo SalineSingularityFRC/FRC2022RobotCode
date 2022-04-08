@@ -7,7 +7,11 @@ import java.sql.Time;
 import java.time.*;
 
 import org.frcteam5066.common.math.Vector2;
+import org.frcteam5066.common.robot.drivers.Limelight;
+
 import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI.Port;
 import org.frcteam5066.mk3.LimeLight;
 import org.frcteam5066.mk3.subsystems.ColorSensor;
@@ -42,6 +46,7 @@ public abstract class AutonControlScheme {
     boolean driveProgress2;
     long barfStartTime;
     boolean aimProgress1;
+    boolean aimProgress2;
     boolean driveReverseProgress1;
     boolean shootProgress1;
     long shootStartTime;
@@ -73,8 +78,6 @@ public abstract class AutonControlScheme {
         
         //this.position = startingPosition.getSelected();
         this.position = 1;
-        if(color.equals("Blue")) this.color = 2;
-        else this.color = 3;
         if(position < 3) rotationDirection = 1;
         else rotationDirection = -1;
 
@@ -93,6 +96,7 @@ public abstract class AutonControlScheme {
     driveProgress2 = false;
     barfStartTime = 0;
     aimProgress1 = false;
+    aimProgress2 = false;
     driveProgress = false;
     driveReverseProgress1 = false;
     shootProgress1 = false;
@@ -163,6 +167,11 @@ public abstract class AutonControlScheme {
     
     //TODO test "D" value more
 
+    private int getColor(){
+        if(DriverStation.getAlliance().toString().equals("Blue")) return 2;
+        else return 3;
+    }
+
     public void testD(){
         SmartDashboard.putNumber("Testing D", 1);
         
@@ -184,8 +193,7 @@ public abstract class AutonControlScheme {
 
     }
 
-    public void 
-    autonBarf(){
+    public void autonBarf(){
         SmartDashboard.putNumber("Auton Barf Progress", (autonBarfProgress)? 1:0);
         SmartDashboard.putNumber("Auton Barf Done", (autonBarfDone)? 1:0);
         SmartDashboard.putNumber("Current System Time", System.currentTimeMillis());
@@ -230,87 +238,43 @@ public abstract class AutonControlScheme {
 
         intake.setCeaseIntake(false);
 
-        if(/*position == 1*/ true){
-            
-            SmartDashboard.putNumber("Drive Done", driveDone ? 1:0);
-            SmartDashboard.putNumber("Driving", 1);
+        SmartDashboard.putNumber("Drive Done", driveDone ? 1:0);
+        SmartDashboard.putNumber("Driving", 1);
             
             
-            if(!driveProgress){
-                intake.intakeDeploy();
-                drive.resetWheelAngles();
+        if(!driveProgress){
+            intake.intakeDeploy();
+            drive.resetWheelAngles();
+             try {
+                Thread.sleep(1500);
+                } catch (InterruptedException e) {
+                    
+                    e.printStackTrace();
+                }
                 driveProgress = true;
 
-            }
+        }
             
             
             intake.conveyorCollect();
             intake.intakeCollect();
-
-            try {
-                Thread.sleep(750);
-            } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-
-            drive.drive(new Vector2(.3, 0), 0, false);
-            
-            //Auton TESTING MODIFY SPOT the "10" below represent the amount of rotations needed to get off the tarmac
             SmartDashboard.putNumber("Wheel Rotations", drive.getRotationsSpun());
-            
-            
+            /*
+            if(!limeLight.runLimeLight( drive, getColor() )){
+
+            }
+            else driveDone = true;
+            */
+            drive.drive(new Vector2(.7, 0),0, false);
             if(Math.abs(drive.getRotationsSpun()) >= 3.5){
-                drive.drive(new Vector2(0, 0),0, false);
+                
                 SmartDashboard.putNumber("Driving", 0);
+                drive.drive(new Vector2(0, 0), 0, false);
 
-                /*
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-
-                //intake.setCeaseIntake(true);
-                intake.intakeOff();
-                */
                 driveDone = true;
                 
             }
             
-        }   
-
-        else if(/*position != 1*/ false){
-        // runLimeLight() both aims/drives towards ball and returns "true" if it is still adjusting/driving ("false" if not making adjustments)
-        intake.intakeDeploy();  
-        SmartDashboard.putNumber("Auton Deploying Intake", 1);  
-        SmartDashboard.putNumber("Color", color);        
-        if( limeLight.runLimeLight(drive, color) ){
-            
-                if (colorSensor.hasBall()) {
-                    if (colorSensor.robotColor()) {
-                        shooter.feederOff();
-                    }
-                    else {
-                        shooter.barf();
-                        if(shooter.readyToShoot()){
-                            shooter.feederOn();
-                        }
-                    }
-                }
-                else {
-                    shooter.feederOnIntake();
-                }
-    
-                intake.intakeCollect();
-                intake.conveyorCollect();
-
-            }
-            else driveDone = true;
-
-            
-        }
         
     }
     
@@ -342,15 +306,23 @@ public abstract class AutonControlScheme {
         shooter.flywheelOn();
         intake.intakeCollect();
         intake.conveyorCollect();
-        
         if(!aimProgress1){
+            resetAnglePos();
+        }
+
+        if(!aimProgress2){
             drive.drive(new Vector2(0, 0), .3 * rotationDirection, false);
 
-            if( limeLight.hasVisionTarget() ) aimProgress1 = true;
-            aimDone = true;
+            if(  Math.abs(  drive.getGyroAngle() - initAnglePos ) > 180  ){
+                drive.drive(new Vector2(0, 0), 0.0, false);
+                aimProgress2 = true;
+            }
+            
         }
+        //else aimDone = true;
+
         // runLimeLight() both aims/drives towards ball and returns "true" if it is still adjusting/driving ("false" if not making adjustments)
-        /*
+        
         else {
             limeLight.runLimeLight(drive, 1);
 
@@ -361,9 +333,9 @@ public abstract class AutonControlScheme {
                 e.printStackTrace();
             }
 
-            //aimDone = true;
+            aimDone = true;
         }
-        */
+        
         
 
     }
@@ -636,7 +608,7 @@ public abstract class AutonControlScheme {
         }
         else {
             shooter.feederOff();
-            shooter.flywheelOff();
+            //shooter.flywheelOff();
             intake.conveyorOff();
             progressFixedShoot();
         }

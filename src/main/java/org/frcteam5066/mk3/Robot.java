@@ -154,6 +154,7 @@ public class Robot extends TimedRobot {
         //CommandScheduler.getInstance().setDefaultCommand(subsystem, defaultCommand);
 
         runAuton.actuallyRunAutonTheMethod();
+        intake.setCeaseIntake(false);
     }
 
     @Override
