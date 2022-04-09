@@ -64,14 +64,14 @@ public class Intake {
     }
 
     public void intakeCollect() {
-        intakeDrive.setSpeed(.3);
+        intakeDrive.setSpeed(.5);
         //intakeConveyor.setVelocity(maxRPMIntakeconveyor);
         //TODO Test intake collection
     }
  
     //Use if color senser recognizes opposite team's ball
     public void intakeReject(){
-        intakeDrive.setSpeed(-.3);
+        intakeDrive.setSpeed(-.5);
         //intakeConveyor.setVelocity(-maxRPMIntakeconveyor);
     }
  

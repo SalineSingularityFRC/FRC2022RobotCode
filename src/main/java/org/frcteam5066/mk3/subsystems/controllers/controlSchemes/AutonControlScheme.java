@@ -19,6 +19,8 @@ import org.frcteam5066.mk3.subsystems.DrivetrainSubsystem;
 import org.frcteam5066.mk3.subsystems.Shooter;
 import org.frcteam5066.mk3.subsystems.Intake;
 
+import org.frcteam5066.common.math.Rotation2;
+
 public abstract class AutonControlScheme {
 
     protected static AHRS gyro;
@@ -297,6 +299,12 @@ public abstract class AutonControlScheme {
             drive.drive(new Vector2(0, 0), 0, false);
             SmartDashboard.putNumber("Driving", 0);
             driveReverseDone = true;
+
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
                 
         }
     }
@@ -307,13 +315,15 @@ public abstract class AutonControlScheme {
         intake.intakeCollect();
         intake.conveyorCollect();
         if(!aimProgress1){
-            resetAnglePos();
+            drive.resetGyroAngle(Rotation2.ZERO);
+            aimProgress1 = true;
         }
 
         if(!aimProgress2){
             drive.drive(new Vector2(0, 0), .3 * rotationDirection, false);
+            SmartDashboard.putNumber("gyro angle", drive.getGyroAngle());
 
-            if(  Math.abs(  drive.getGyroAngle() - initAnglePos ) > 180  ){
+            if(  Math.abs(  drive.getGyroAngle() ) > 180  ){
                 drive.drive(new Vector2(0, 0), 0.0, false);
                 aimProgress2 = true;
             }
@@ -324,6 +334,7 @@ public abstract class AutonControlScheme {
         // runLimeLight() both aims/drives towards ball and returns "true" if it is still adjusting/driving ("false" if not making adjustments)
         
         else {
+            SmartDashboard.putNumber("Auton Aiming", 1);
             limeLight.runLimeLight(drive, 1);
 
             try {
@@ -341,48 +352,22 @@ public abstract class AutonControlScheme {
     }
     
     public void shoot(){
-        
-        if(!aimProgress1){
-            intake.intakeShooting();
-            aimProgress1 = true;
-        }
-        
-        else{
-            shooter.flywheelOn();
-            try {
-                Thread.sleep(1500);
-            } catch (InterruptedException e) {
-                
-                e.printStackTrace();
-            }
-            
-            intake.conveyorCollect();
-            shooter.feederOn();
-            
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            driveDone = true;
-        }
 
-        
-        /*
-        if(!aimProgress1){
-            shootStartTime = System.currentTimeMillis();
-            aimProgress1 = true;
-        }
-
-        if( System.currentTimeMillis() - shootStartTime < 5000 ) shooter.feederOn();
-        else{
-            shooter.feederOff();
-            shooter.flywheelOff();
+        if( limeLight.runLimeLight(drive, 1) ){ //returns true if the limelight is still adjusting
+            intake.setCeaseIntake(true);
+            intake.intakeOff();
             intake.conveyorOff();
-            shootDone = true;
+            shooter.flywheelOn();
+
         }
-        */
+        else{
+            intake.setCeaseIntake(false);
+            shooter.flywheelOn();
+            if(shooter.readyToShoot()){
+                shooter.feederOn();
+                intake.conveyorCollect();
+            }
+        }
     }
 
     public void getBall(){

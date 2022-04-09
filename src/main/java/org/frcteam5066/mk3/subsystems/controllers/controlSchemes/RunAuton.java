@@ -67,6 +67,7 @@ public class RunAuton extends AutonControlScheme{
     }
 
     public void actuallyRunAutonTheMethod(){
+        double time = (System.currentTimeMillis() - startTime) / 1000.0;
         
         
         if( /*testD.getSelected()*/false  ) super.testD();
@@ -90,7 +91,7 @@ public class RunAuton extends AutonControlScheme{
         // **IMPORTANT** Somewhere else in the code, intake and conveyer are being set to Off while auton is running
 
 
-        else if ( /*doMainModularAuton.getSelected()*/true ){
+        else if ( /*doMainModularAuton.getSelected()*/false ){
             if( /*doDrive.getSelected()*/ true && !driveDone() ) super.drive();
             if( /*doShoot.getSelected()*/ true && !aimDone() && driveDone() ) super.aim();
             if( /*doShoot.getSelected()*/ false && !shootDone() && aimDone() ) super.shoot();
@@ -102,13 +103,14 @@ public class RunAuton extends AutonControlScheme{
         }
 
         else if(false){
-            super.drive();
+            if(!driveReverseDone() ) super.driveReverse();
+            if(!shootDone() && driveReverseDone() ) super.shoot();
         }
 
         else{
             SmartDashboard.putNumber("Driving Done Here", driveDone()? 1:0);
             if(!autonBarfDone() ) super.autonBarf();
-            if( /*doDriveReverse.getSelected()*/true && !driveReverseDone() && autonBarfDone() ) super.driveReverse();
+            if(!driveReverseDone() && autonBarfDone() ) super.driveReverse();
 
         }
 

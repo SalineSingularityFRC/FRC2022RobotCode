@@ -230,6 +230,7 @@ public class ArcadeDrive extends ControlScheme {
                 }
                 else {
                     flywheel.barf();
+                    intake.intakeShooting();
                     if(flywheel.readyToShoot()){
                         flywheel.feederOn();
                         intake.conveyorCollect();
@@ -254,6 +255,7 @@ public class ArcadeDrive extends ControlScheme {
         }
         else if (armController.getRB()){
             flywheel.barf();
+            intake.intakeShooting();
             if (flywheel.readyToShoot()) {
                 intake.conveyorCollect();
                 flywheel.feederOn();

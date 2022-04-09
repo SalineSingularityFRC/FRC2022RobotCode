@@ -20,7 +20,7 @@ public class Climber {
     // maxRPMIntakeconveyor is copied from 2021 conveyor class
     double maxRPMIntakeconveyor = -4000;
     double maxRPMFeed = 5700;
-    double deployPosition = 240000;
+    double deployPosition = 312761.000000;
     double retractPosition = 8350; //~115 degrees to the 
 
 
@@ -34,7 +34,7 @@ public class Climber {
     }
 
     public void climb () {
-        climbMotor.setSpeed(-.60);
+        climbMotor.setSpeed(-.70);
 
     }
 
@@ -43,7 +43,7 @@ public class Climber {
     }
 
     public void reset () {
-        climbMotor.setSpeed(.60);
+        climbMotor.setSpeed(.70);
     }
 
     public double getPosition(){
