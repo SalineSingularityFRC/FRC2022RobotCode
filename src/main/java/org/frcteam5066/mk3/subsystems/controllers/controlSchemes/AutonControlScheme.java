@@ -58,6 +58,7 @@ public abstract class AutonControlScheme {
     boolean testDProgress2;
     private double initAnglePos;
     private double d = 7.5; //feet - CONVERT TO METERS LATER
+    double startTime ;
 
     SendableChooser<Integer> startingPosition = new SendableChooser<>();
 
@@ -109,6 +110,7 @@ public abstract class AutonControlScheme {
     testDProgress2 = false;
     initAnglePos = 0;
 
+    startTime = System.currentTimeMillis() / 1000.0;
     }
 
     private static boolean hasCargoTarget(){
@@ -201,36 +203,26 @@ public abstract class AutonControlScheme {
         SmartDashboard.putNumber("Current System Time", System.currentTimeMillis());
         if(!autonBarfProgress){
             intake.intakeShooting();
-            //barfStartTime = System.currentTimeMillis();
             autonBarfProgress = true;
+            startTime = System.currentTimeMillis() / 1000.0;
         }
-        
-
-        /*
-        if(/*System.currentTimeMillis() - barfStartTime > 3 !colorSensor.hasBall() ){
-            autonBarfDone = true;
-        }
-        */
         
         else{
-            shooter.barf();
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                
-                e.printStackTrace();
+            shooter.setCeaseFlywheel(false);
+            double time = System.currentTimeMillis() / 1000.0 - startTime;
+            SmartDashboard.putNumber("Auton Time", time);
+            if (time < 2) {
+                shooter.barf();
+
             }
-            
-            intake.conveyorCollect();
-            shooter.feederOn();
-            
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+            else if (time < 5) {
+                intake.conveyorCollect();
+                shooter.feederOn();
+
             }
-            autonBarfDone = true;
+            else {
+                autonBarfDone = true;
+            }
         }
 
 
@@ -247,17 +239,15 @@ public abstract class AutonControlScheme {
         if(!driveProgress){
             intake.intakeDeploy();
             drive.resetWheelAngles();
-             try {
-                Thread.sleep(1500);
-                } catch (InterruptedException e) {
-                    
-                    e.printStackTrace();
-                }
+            startTime = System.currentTimeMillis() / 1000.0;
                 driveProgress = true;
 
         }
-            
-            
+        double time = System.currentTimeMillis() / 1000.0 - startTime;
+        SmartDashboard.putNumber("Auton Time", time);
+        if (time < 1.5) {
+            // Do nothing
+        } else {
             intake.conveyorCollect();
             intake.intakeCollect();
             SmartDashboard.putNumber("Wheel Rotations", drive.getRotationsSpun());
@@ -276,6 +266,10 @@ public abstract class AutonControlScheme {
                 driveDone = true;
                 
             }
+        }
+            
+            
+            
             
         
     }
@@ -287,7 +281,10 @@ public abstract class AutonControlScheme {
             intake.intakeDeploy();
             driveReverseProgress1 = true;
             SmartDashboard.putNumber("Wheel rotations have been reset", 1);
+            startTime = System.currentTimeMillis() / 1000.0;
         }
+        double time = System.currentTimeMillis() / 1000.0 - startTime;
+        SmartDashboard.putNumber("Auton Time", time);
 
         intake.intakeCollect();
 
@@ -299,12 +296,6 @@ public abstract class AutonControlScheme {
             drive.drive(new Vector2(0, 0), 0, false);
             SmartDashboard.putNumber("Driving", 0);
             driveReverseDone = true;
-
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
                 
         }
     }
@@ -326,6 +317,7 @@ public abstract class AutonControlScheme {
             if(  Math.abs(  drive.getGyroAngle() ) > 180  ){
                 drive.drive(new Vector2(0, 0), 0.0, false);
                 aimProgress2 = true;
+                startTime = System.currentTimeMillis() / 1000.0;
             }
             
         }
@@ -334,17 +326,16 @@ public abstract class AutonControlScheme {
         // runLimeLight() both aims/drives towards ball and returns "true" if it is still adjusting/driving ("false" if not making adjustments)
         
         else {
-            SmartDashboard.putNumber("Auton Aiming", 1);
-            limeLight.runLimeLight(drive, 1);
+            double time = System.currentTimeMillis() / 1000.0 - startTime;
+            SmartDashboard.putNumber("Auton Time", time);
+            if (time < 3) {
+                SmartDashboard.putNumber("Auton Aiming", 1);
+                limeLight.runLimeLight(drive, 1);
 
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                
-                e.printStackTrace();
+            } else {
+                aimDone = true;
             }
 
-            aimDone = true;
         }
         
         
@@ -352,9 +343,16 @@ public abstract class AutonControlScheme {
     }
     
     public void shoot(){
-
-        if( limeLight.runLimeLight(drive, 1) ){ //returns true if the limelight is still adjusting
+        
+        if(!shootProgress1){
+            startTime = System.currentTimeMillis() / 1000.0;
+            shootProgress1 = true;
+        }
+        double time = System.currentTimeMillis() / 1000.0 - startTime;
+        if( time < 2 ){ 
+            limeLight.runLimeLight(drive, 1);
             intake.setCeaseIntake(true);
+            shooter.setCeaseFlywheel(false);
             intake.intakeOff();
             intake.conveyorOff();
             shooter.flywheelOn();

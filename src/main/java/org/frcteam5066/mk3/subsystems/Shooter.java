@@ -29,6 +29,7 @@ public class Shooter {
     double maxRPMFeed = 5700;
     double barfRPM = 1500;
     double gearRatio = 1.22;
+    boolean ceaseFlywheel = false;
 
     private static double lastSetVelocity = 0;
 
@@ -54,7 +55,11 @@ public class Shooter {
         return velocity;
         
     }
- 
+    
+    public void setCeaseFlywheel(boolean set){
+        ceaseFlywheel = set;
+    }
+
     public void flywheelOn(){
         //flywheel2.setVelocity(maxRPMflywheel2);
         
@@ -73,8 +78,10 @@ public class Shooter {
  
      public void flywheelOff(){
         //flywheel2.setVelocity(0.0);
-        flywheel1.setSpeed(0.0);
-        lastSetVelocity = 0;
+        if(ceaseFlywheel){
+            flywheel1.setSpeed(0.0);
+            lastSetVelocity = 0;
+        }
     }
  
  
@@ -86,7 +93,7 @@ public class Shooter {
  
  
     public void feederOff(){
-        flywheelFeed.setVelocity(0.0);
+        if(ceaseFlywheel) flywheelFeed.setVelocity(0.0);
     }
  
  

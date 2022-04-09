@@ -106,6 +106,8 @@ public class Robot extends TimedRobot {
         //compressor.enableDigital();
         CommandScheduler.getInstance().run();
 
+        /*
+
         SmartDashboard.putNumber("Running Robot", 1);
         currentScheme.shootSequence(flywheel, intake);
         currentScheme.intakeSequence(flywheel, intake);
@@ -114,6 +116,7 @@ public class Robot extends TimedRobot {
         //currentScheme.intakePneumatics(intakePneumatics);
 
         intake.setCeaseIntake(true);
+        flywheel.setCeaseFlywheel(true);
         
         currentScheme.limeLightDrive(limeLight, robotContainer.getDrivetrainSubsystem());
 
@@ -124,7 +127,7 @@ public class Robot extends TimedRobot {
         currentScheme.colorSensor();
 
         SmartDashboard.putNumber("Gyro Angle", robotContainer.getGyroAngle());
-        SmartDashboard.putNumber("CAN Test", Constants.DRIVETRAIN_FRONT_LEFT_DRIVE_MOTOR);
+        SmartDashboard.putNumber("CAN Test", Constants.DRIVETRAIN_FRONT_LEFT_DRIVE_MOTOR);*/
 
         
     }
@@ -154,7 +157,6 @@ public class Robot extends TimedRobot {
         //CommandScheduler.getInstance().setDefaultCommand(subsystem, defaultCommand);
 
         runAuton.actuallyRunAutonTheMethod();
-        intake.setCeaseIntake(false);
     }
 
     @Override
@@ -175,5 +177,32 @@ public class Robot extends TimedRobot {
     public void teleopInit() {
         CommandScheduler.getInstance().setDefaultCommand( (Subsystem) robotContainer.getDrivetrainSubsystem(), robotContainer.getDefaultCommand());
         allianceColor = DriverStation.getAlliance().toString();
+    }
+
+    @Override
+    public void teleopPeriodic(){
+        //compressor.enableDigital();
+        CommandScheduler.getInstance().run();
+
+        SmartDashboard.putNumber("Running Robot", 1);
+        currentScheme.shootSequence(flywheel, intake);
+        currentScheme.intakeSequence(flywheel, intake);
+        // currentScheme.flywheel(flywheel);           
+        // currentScheme.intakeConveyer(intake);
+        //currentScheme.intakePneumatics(intakePneumatics);
+
+        intake.setCeaseIntake(true);
+        flywheel.setCeaseFlywheel(true);
+        
+        currentScheme.limeLightDrive(limeLight, robotContainer.getDrivetrainSubsystem());
+
+        currentScheme.candle(candle);
+
+        currentScheme.climber(climber);
+
+        currentScheme.colorSensor();
+
+        SmartDashboard.putNumber("Gyro Angle", robotContainer.getGyroAngle());
+        SmartDashboard.putNumber("CAN Test", Constants.DRIVETRAIN_FRONT_LEFT_DRIVE_MOTOR);
     }
 }

@@ -67,7 +67,6 @@ public class RunAuton extends AutonControlScheme{
     }
 
     public void actuallyRunAutonTheMethod(){
-        double time = (System.currentTimeMillis() - startTime) / 1000.0;
         
         
         if( /*testD.getSelected()*/false  ) super.testD();
@@ -109,6 +108,9 @@ public class RunAuton extends AutonControlScheme{
 
         else{
             SmartDashboard.putNumber("Driving Done Here", driveDone()? 1:0);
+            /*if (time < 1) {
+                super.autonBarf();
+            }*/
             if(!autonBarfDone() ) super.autonBarf();
             if(!driveReverseDone() && autonBarfDone() ) super.driveReverse();
 
