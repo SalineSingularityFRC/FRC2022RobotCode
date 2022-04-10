@@ -80,7 +80,8 @@ public class LimeLight{
         headingPID = new PIDController(.02, 0.00025, 0.0004);
         distancePID = new PIDController(0.1, 0.00, 0.00);
         distancePID.setSetpoint(0);
-        distancePID.setTolerance(.5);
+        distancePID.setTolerance(.35);
+        headingPID.setTolerance(.35);
 
         servo = new Servo2(0);
         
@@ -200,7 +201,7 @@ public class LimeLight{
 
     
         
-        if(hasVision == 1.0 && !(tx.getDouble(0.0) <= 0.1 && tx.getDouble(0.0) >= -0.1)){
+        if(hasVision == 1.0 && !(tx.getDouble(0.0) <= 0.07 && tx.getDouble(0.0) >= -0.07)){
             
             double left_comand = 0.0;
             double right_comand = 0.0;

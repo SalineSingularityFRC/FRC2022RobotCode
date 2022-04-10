@@ -117,7 +117,12 @@ public class Test extends ControlScheme{
         // TODO Auto-generated method stub
         
     }
-
-    
-
+/*
+    public void setPodEncoders(){
+        public static double DRIVETRAIN_FRONT_LEFT_ENCODER_OFFSET = Math.toRadians(73.037      );
+        public static double DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET = Math.toRadians(17.051   );
+        public static double DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET = Math.toRadians(356.396     );
+        public static double DRIVETRAIN_BACK_RIGHT_ENCODER_OFFSET = Math.toRadians(222.891    );
+    }
+*/
 }

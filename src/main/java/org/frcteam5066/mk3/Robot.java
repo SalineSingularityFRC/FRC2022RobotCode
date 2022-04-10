@@ -105,6 +105,8 @@ public class Robot extends TimedRobot {
     public void robotPeriodic() {
         //compressor.enableDigital();
         CommandScheduler.getInstance().run();
+        
+        currentScheme.limeLightDrive(limeLight, robotContainer.getDrivetrainSubsystem());
 
         /*
 
